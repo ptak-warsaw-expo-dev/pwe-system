@@ -3,7 +3,7 @@
  * Plugin Name: PWE System
  * Plugin URI: https://github.com/ptak-warsaw-expo-dev/pwe-system
  * Description: Central system for PWE tools and modules, including administration, integrations, data management and automation.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Requires PHP: 7.4
  * Author: PWE Web Developers
  * Co-author: Anton Melnychuk, Piotr Krupniewski, Jakub Choła
