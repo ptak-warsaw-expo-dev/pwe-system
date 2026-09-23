@@ -2,10 +2,6 @@
 
 Centralna wtyczka systemowa dla stron PWE. Zbiera wspólne narzędzia administracyjne, API, shortcody i moduły techniczne, które wcześniej były rozproszone pomiędzy kilka wtyczek.
 
-## Wersja
-
-**1.2.0**
-
 ## Wymagania
 
 - WordPress
