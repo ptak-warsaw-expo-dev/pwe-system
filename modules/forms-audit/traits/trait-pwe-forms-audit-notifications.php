@@ -115,19 +115,18 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
                     $comparison_value
                 );
 
-                $has_resend = (
-                    $resend_success === '1' ||
-                    $resend_url !== ''
-                );
-                $has_sent = $this->has_sent_notification($entry_id);
-                $has_error = $this->has_notification_error($entry_id);
+                $delivery_state = $this->get_notification_delivery_state($form, $entry_id);
+                $has_audit_resend = ($resend_success === '1' || $resend_url !== '');
+                $has_resend = !empty($delivery_state['resend']) || $has_audit_resend;
+                $has_sent = !empty($delivery_state['sent']);
+                $has_error = $this->has_active_notification_error($form, $entry_id);
                 $has_active_notifications = $this->form_has_active_notifications($form);
 
-                $notification_status = $has_resend
-                    ? 'resend'
-                    : ($has_sent ? 'sent' : ($has_error ? 'error' : ($has_active_notifications ? 'missing' : 'none_configured')));
+                $notification_status = $has_sent
+                    ? 'sent'
+                    : ($has_error ? 'error' : ($has_active_notifications ? 'missing' : 'none_configured'));
 
-                $effective_comparison = (!$has_sent && !$has_resend)
+                $effective_comparison = (!$has_sent && !$has_audit_resend)
                     ? 'unsent'
                     : $comparison;
 
@@ -135,11 +134,14 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
                     continue;
                 }
 
-                if (
-                    $notification_filter !== '' &&
-                    $notification_status !== $notification_filter
-                ) {
-                    continue;
+                if ($notification_filter !== '') {
+                    if ($notification_filter === 'resend') {
+                        if (!$has_resend) {
+                            continue;
+                        }
+                    } elseif ($notification_status !== $notification_filter) {
+                        continue;
+                    }
                 }
 
                 $notifications_for_resend = $this->get_resend_notifications_for_entry(
@@ -544,6 +546,10 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
             }
         }
 
+        if ($sent > 0 && method_exists($this, 'clear_audit_session_cache')) {
+            $this->clear_audit_session_cache();
+        }
+
         wp_send_json_success([
             'sent'   => $sent,
             'failed' => $failed,
@@ -555,7 +561,7 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
     private function add_admin_notifications_to_unsent_match($form, $entry, $match) {
         $entry_id = absint($entry['id'] ?? 0);
 
-        if (!$entry_id || $this->has_sent_notification($entry_id)) {
+        if (!$entry_id || $this->has_sent_notification($entry_id, $form)) {
             return $match;
         }
 
@@ -701,47 +707,12 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
             ];
         }
 
-        // No historical send was found: determine the language from the entry source URL.
-        $source_url = (string) ($entry['source_url'] ?? '');
-        $source_lang = $this->detect_language_from_source_url($source_url);
-        $language_matches = $this->get_notifications_for_language($form, $source_lang);
-
-        if (!empty($language_matches)) {
-            $ids = array_values(array_filter(array_map(
-                static function($notification) {
-                    return (string) ($notification['id'] ?? '');
-                },
-                $language_matches
-            )));
-
-            $names = array_values(array_filter(array_map(
-                static function($notification) {
-                    return (string) ($notification['name'] ?? '');
-                },
-                $language_matches
-            )));
-
-            return $this->add_admin_notifications_to_unsent_match(
-                $form,
-                $entry,
-                [
-                    'id'               => $ids[0] ?? '',
-                    'ids'              => $ids,
-                    'name'             => implode(' + ', $names),
-                    'names'            => $names,
-                    'source'           => 'source_url',
-                    'lang'             => $source_lang,
-                    'ambiguous'        => false,
-                    'candidates'       => $names,
-                    'multi_send'       => true,
-                ]
-            );
-        }
-
-        // Historical entries created before notification logging:
-        // fall back to the older recipient/conditional-logic inference only when
-        // no language-based notification could be resolved.
-        $candidates = [];
+        // No historical send was found. Reconstruct what Gravity Forms should
+        // have sent from the CURRENT form configuration for this exact entry.
+        // This is more reliable than guessing from the URL or notification name:
+        // fields such as `location`, `lang`, patron type, etc. are already encoded
+        // in each notification's conditionalLogic.
+        $current_matches = [];
 
         foreach ($notifications as $notification_id => $notification) {
             if (empty($notification['isActive'])) {
@@ -752,43 +723,118 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
                 continue;
             }
 
+            // Resend notifications are intentionally inactive/handled by the Resend
+            // module and are not part of the original form_submission send set.
+            if ($this->notification_name_is_resend((string) ($notification['name'] ?? ''))) {
+                continue;
+            }
+
             if (!$this->notification_conditional_logic_passes($notification, $form, $entry)) {
                 continue;
             }
 
-            $recipients = $this->resolve_notification_recipients($notification, $form, $entry);
+            $notification_id = (string) $notification_id;
 
-            if ($entry_email === '' || !$this->recipient_array_contains($recipients, $entry_email)) {
+            if ($notification_id === '') {
                 continue;
             }
 
-            $candidates[(string) $notification_id] = (string) ($notification['name'] ?? ('Powiadomienie ' . $notification_id));
+            $current_matches[$notification_id] = [
+                'id'   => $notification_id,
+                'name' => (string) ($notification['name'] ?? ('Powiadomienie ' . $notification_id)),
+            ];
         }
 
-        if (count($candidates) === 1) {
-            $id = (string) array_key_first($candidates);
+        if (!empty($current_matches)) {
+            $current_matches = array_values($current_matches);
+            $ids = array_values(array_filter(array_map(
+                static function($notification) {
+                    return (string) ($notification['id'] ?? '');
+                },
+                $current_matches
+            )));
+            $names = array_values(array_filter(array_map(
+                static function($notification) {
+                    return (string) ($notification['name'] ?? '');
+                },
+                $current_matches
+            )));
 
-            return $this->add_admin_notifications_to_unsent_match(
-                $form,
-                $entry,
-                [
-                    'id' => $id,
-                    'ids' => [$id],
-                    'name' => $candidates[$id],
-                    'names' => [$candidates[$id]],
-                    'source' => 'inferred',
-                    'ambiguous' => false,
-                    'candidates' => $candidates,
-                ]
-            );
+            return [
+                'id'         => $ids[0] ?? '',
+                'ids'        => $ids,
+                'name'       => implode(' + ', $names),
+                'names'      => $names,
+                'source'     => 'conditional_logic',
+                'ambiguous'  => false,
+                'candidates' => $names,
+                'multi_send' => count($ids) > 1,
+            ];
+        }
+
+        // Last-resort compatibility fallback for very old forms without useful
+        // conditional logic. Prefer the `lang` field from the entry itself, then
+        // fall back to the historical source-URL convention.
+        $entry_lang = strtoupper($this->get_entry_named_value($form, $entry, ['lang']));
+
+        if ($entry_lang === '') {
+            $entry_lang = $this->detect_language_from_source_url((string) ($entry['source_url'] ?? ''));
+        }
+
+        $language_matches = $this->get_notifications_for_language($form, $entry_lang, $entry);
+        $resolved_lang = $entry_lang;
+        $fallback_lang = '';
+
+        // Some sites collect more languages than they have notification templates for.
+        // If the entry language has no matching active notification, use the EN
+        // notification set as a deliberate fallback. Conditional logic is evaluated
+        // against a temporary copy of the entry where only `lang` is overridden;
+        // fields such as `location`, patron, etc. keep their real values.
+        if (empty($language_matches) && $entry_lang !== 'EN') {
+            $fallback_entry = $this->get_entry_with_language_override($form, $entry, 'EN');
+            $language_matches = $this->get_notifications_for_language($form, 'EN', $fallback_entry);
+
+            if (!empty($language_matches)) {
+                $resolved_lang = 'EN';
+                $fallback_lang = 'EN';
+            }
+        }
+
+        if (!empty($language_matches)) {
+            $ids = array_values(array_filter(array_map(
+                static function($notification) {
+                    return (string) ($notification['id'] ?? '');
+                },
+                $language_matches
+            )));
+            $names = array_values(array_filter(array_map(
+                static function($notification) {
+                    return (string) ($notification['name'] ?? '');
+                },
+                $language_matches
+            )));
+
+            return [
+                'id'            => $ids[0] ?? '',
+                'ids'           => $ids,
+                'name'          => implode(' + ', $names),
+                'names'         => $names,
+                'source'        => $fallback_lang !== '' ? 'entry_lang_fallback_en' : 'entry_lang',
+                'lang'          => $resolved_lang,
+                'original_lang' => $entry_lang,
+                'fallback_lang' => $fallback_lang,
+                'ambiguous'     => false,
+                'candidates'    => $names,
+                'multi_send'    => count($ids) > 1,
+            ];
         }
 
         return [
             'id' => '',
             'name' => '',
-            'source' => empty($candidates) ? 'none' : 'inferred',
-            'ambiguous' => count($candidates) > 1,
-            'candidates' => $candidates,
+            'source' => 'none',
+            'ambiguous' => false,
+            'candidates' => [],
         ];
     }
 
@@ -1088,6 +1134,14 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
         foreach ($notifications as $notification_id => $notification) {
             $notification_id = (string) $notification_id;
             $name = trim((string) ($notification['name'] ?? ''));
+            $is_resend = $this->notification_name_is_resend($name);
+
+            // Inactive ordinary notifications must not affect delivery status.
+            // Resend notifications are the exception: the Resend module intentionally
+            // sends them while they can remain disabled in Gravity Forms.
+            if (empty($notification['isActive']) && !$is_resend) {
+                continue;
+            }
 
             $matches_id = (
                 $notification_id !== '' &&
@@ -1113,26 +1167,123 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
     }
 
 
-    private function has_sent_notification($entry_id) {
+    private function notification_name_is_resend($name) {
+        return (bool) preg_match('/(?:resend|reserd)/i', (string) $name);
+    }
+
+
+    private function get_notification_delivery_state($form, $entry_id) {
+        $entry_id = absint($entry_id);
+        $form_id = absint($form['id'] ?? 0);
+        $cache_key = $form_id . ':' . $entry_id;
+
+        if (!$entry_id || !is_array($form)) {
+            return [
+                'sent'         => false,
+                'resend'       => false,
+                'sent_names'   => [],
+                'resend_names' => [],
+            ];
+        }
+
+        if (isset($this->notification_delivery_cache[$cache_key])) {
+            return $this->notification_delivery_cache[$cache_key];
+        }
+
+        $sent_names = [];
+        $resend_names = [];
+
+        // Count only CURRENTLY ACTIVE notifications. Historical success notes for
+        // notifications that have since been disabled must not affect the audit.
+        foreach ($this->get_notifications_from_gf_notes($form, $entry_id) as $notification) {
+            $name = trim((string) ($notification['name'] ?? ''));
+
+            if ($this->notification_name_is_resend($name)) {
+                $resend_names[] = $name;
+            } else {
+                $sent_names[] = $name;
+            }
+        }
+
+        // The standalone Resend module deliberately sends notifications whose name
+        // contains "resend" even when they are inactive in Gravity Forms. Detect its
+        // explicit sent markers as the primary source, including legacy PWE Multilang
+        // markers so historical resends remain visible after migration.
+        $notifications = $form['notifications'] ?? [];
+
+        if (is_array($notifications)) {
+            foreach ($notifications as $notification_id => $notification) {
+                $name = trim((string) ($notification['name'] ?? ''));
+
+                if (!$this->notification_name_is_resend($name)) {
+                    continue;
+                }
+
+                $key = (string) ($notification['id'] ?? $notification_id ?? $name);
+
+                if ($key === '') {
+                    $key = $name;
+                }
+
+                $hash = md5($key);
+                $system_sent = gform_get_meta($entry_id, '_pwe_system_resend_sent_' . $hash);
+                $legacy_sent = gform_get_meta($entry_id, '_pwe_multilang_resend_sent_' . $hash);
+
+                if ($system_sent || $legacy_sent) {
+                    $resend_names[] = $name !== '' ? $name : ('Resend ' . $key);
+                }
+            }
+        }
+
+        // Resends sent from the audit tool itself are stored as dedicated metadata.
+        // Treat them as a repair, never as proof that the original notification was sent.
+        $resend_success = (string) gform_get_meta($entry_id, 'pwe_qr_resend_success');
+        $resend_url = (string) gform_get_meta($entry_id, 'pwe_qr_resend_code_url');
+        $stored_resend_names = gform_get_meta($entry_id, 'pwe_qr_resend_notification_names');
+
+        if (!is_array($stored_resend_names)) {
+            $stored_resend_names = [];
+        }
+
+        if ($resend_success === '1' || $resend_url !== '') {
+            $resend_names = array_merge(
+                $resend_names,
+                array_values(array_filter(array_map('strval', $stored_resend_names)))
+            );
+
+            // Older audit resends may not have stored names. The resend metadata is
+            // still explicit proof of a repair send.
+            if (empty($resend_names)) {
+                $resend_names[] = 'Resend';
+            }
+        }
+
+        $state = [
+            'sent'         => !empty($sent_names),
+            'resend'       => !empty($resend_names),
+            'sent_names'   => array_values(array_unique($sent_names)),
+            'resend_names' => array_values(array_unique($resend_names)),
+        ];
+
+        $this->notification_delivery_cache[$cache_key] = $state;
+
+        return $state;
+    }
+
+
+    private function has_sent_notification($entry_id, $form = null) {
         $entry_id = absint($entry_id);
 
         if (!$entry_id) {
             return false;
         }
 
-        if (array_key_exists($entry_id, $this->notification_sent_cache)) {
-            return $this->notification_sent_cache[$entry_id];
+        if (is_array($form)) {
+            $state = $this->get_notification_delivery_state($form, $entry_id);
+            return !empty($state['sent']);
         }
 
-        // pwe_qr_notification_history is written before wp_mail(), so it proves only
-        // that Gravity Forms attempted a notification. It is not proof of delivery.
-        $resend_success = (string) gform_get_meta($entry_id, 'pwe_qr_resend_success');
-
-        if ($resend_success === '1') {
-            $this->notification_sent_cache[$entry_id] = true;
-            return true;
-        }
-
+        // Compatibility fallback for internal calls without form context.
         if (class_exists('GFAPI') && method_exists('GFAPI', 'get_notes')) {
             $success_notes = GFAPI::get_notes([
                 'entry_id'  => $entry_id,
@@ -1140,19 +1291,61 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
                 'sub_type'  => 'success',
             ]);
 
-            if (is_array($success_notes) && !empty($success_notes)) {
-                $this->notification_sent_cache[$entry_id] = true;
-                return true;
-            }
+            return is_array($success_notes) && !empty($success_notes);
         }
-
-        $this->notification_sent_cache[$entry_id] = false;
 
         return false;
     }
 
 
-    private function get_notifications_for_language($form, $lang) {
+    private function has_resend_notification($form, $entry_id) {
+        $state = $this->get_notification_delivery_state($form, $entry_id);
+        return !empty($state['resend']);
+    }
+
+
+    private function has_active_notification_error($form, $entry_id) {
+        return !empty($this->get_failed_notifications_from_gf_notes($form, $entry_id));
+    }
+
+
+    private function get_entry_with_language_override($form, $entry, $lang) {
+        if (!is_array($entry)) {
+            return [];
+        }
+
+        $lang = strtolower(trim((string) $lang));
+
+        if ($lang === '') {
+            return $entry;
+        }
+
+        $overridden = $entry;
+        $overridden['lang'] = $lang;
+
+        foreach (($form['fields'] ?? []) as $field) {
+            if (!is_object($field) && !is_array($field)) {
+                continue;
+            }
+
+            $field_id = trim((string) $this->get_form_field_property($field, 'id'));
+            $labels = [
+                strtolower(trim((string) $this->get_form_field_property($field, 'adminLabel'))),
+                strtolower(trim((string) $this->get_form_field_property($field, 'label'))),
+                strtolower(trim((string) $this->get_form_field_property($field, 'inputName'))),
+            ];
+
+            if ($field_id !== '' && in_array('lang', $labels, true)) {
+                $overridden[$field_id] = $lang;
+                break;
+            }
+        }
+
+        return $overridden;
+    }
+
+
+    private function get_notifications_for_language($form, $lang, $entry = null) {
         $lang = strtoupper(trim((string) $lang));
         $notifications = $form['notifications'] ?? [];
         $matches = [];
@@ -1166,9 +1359,21 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
                 continue;
             }
 
+            if (!empty($notification['event']) && $notification['event'] !== 'form_submission') {
+                continue;
+            }
+
             $name = trim((string) ($notification['name'] ?? ''));
 
             if (!preg_match('/(?:-|–|—)\s*' . preg_quote($lang, '/') . '\s*$/iu', $name)) {
+                continue;
+            }
+
+            // Language is only the first selector. Notifications can additionally
+            // depend on entry values such as `location`, `lang`, patron type, etc.
+            // Apply Gravity Forms conditional logic for this exact entry before the
+            // notification is displayed or proposed for resend.
+            if (is_array($entry) && !$this->notification_conditional_logic_passes($notification, $form, $entry)) {
                 continue;
             }
 
@@ -1218,7 +1423,11 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
         foreach ($history as $row) {
             $notification_id = (string) ($row['id'] ?? '');
 
-            if ($notification_id === '' || !isset($notifications[$notification_id])) {
+            if (
+                $notification_id === '' ||
+                !isset($notifications[$notification_id]) ||
+                empty($notifications[$notification_id]['isActive'])
+            ) {
                 continue;
             }
 
@@ -1231,7 +1440,11 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
         foreach ($this->get_notifications_from_gf_notes($form, $entry_id) as $notification) {
             $notification_id = (string) ($notification['id'] ?? '');
 
-            if ($notification_id === '' || !isset($notifications[$notification_id])) {
+            if (
+                $notification_id === '' ||
+                !isset($notifications[$notification_id]) ||
+                empty($notifications[$notification_id]['isActive'])
+            ) {
                 continue;
             }
 
@@ -1309,6 +1522,10 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
                 ? $match['ids']
                 : [(string) ($match['id'] ?? '')];
 
+            $entry_for_match = !empty($match['fallback_lang'])
+                ? $this->get_entry_with_language_override($form, $entry, (string) $match['fallback_lang'])
+                : $entry;
+
             foreach ($ids as $notification_id) {
                 $notification_id = (string) $notification_id;
 
@@ -1322,10 +1539,12 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
                     continue;
                 }
 
-                // This notification was already resolved unambiguously by the audit
-                // for this exact entry. Do not reject it by running conditional logic
-                // a second time here, because older entries can no longer reproduce
-                // the original submission context perfectly.
+                // The final resend proposal must always honour the notification's
+                // current Gravity Forms conditional logic for this exact entry.
+                if (!$this->notification_conditional_logic_passes($notification, $form, $entry_for_match)) {
+                    continue;
+                }
+
                 $result[$notification_id] = [
                     'id'   => $notification_id,
                     'name' => (string) ($notification['name'] ?? ('Powiadomienie ' . $notification_id)),
@@ -1335,7 +1554,13 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
 
         // For entries where NOTHING was ever sent, also include matching active
         // Admin Notification(s). This is intentionally limited to admin notifications;
-        // we still do not resend every active notification in the form.
+        // we still do not resend every active notification in the form. When the
+        // user language falls back to EN, evaluate those admin notifications with
+        // the same temporary EN language override.
+        $entry_for_admin = !empty($match['fallback_lang'])
+            ? $this->get_entry_with_language_override($form, $entry, (string) $match['fallback_lang'])
+            : $entry;
+
         foreach (($form['notifications'] ?? []) as $notification_id => $notification) {
             if (empty($notification['isActive'])) {
                 continue;
@@ -1347,7 +1572,7 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
                 continue;
             }
 
-            if (!$this->notification_conditional_logic_passes($notification, $form, $entry)) {
+            if (!$this->notification_conditional_logic_passes($notification, $form, $entry_for_admin)) {
                 continue;
             }
 
@@ -1371,7 +1596,7 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
         // be resolved by recipient/current configuration.
         $source_url = (string) ($entry['source_url'] ?? '');
         $lang = $this->detect_language_from_source_url($source_url);
-        $notifications = $this->get_notifications_for_language($form, $lang);
+        $notifications = $this->get_notifications_for_language($form, $lang, $entry);
 
         foreach ($notifications as $notification) {
             $notification_id = (string) ($notification['id'] ?? '');
@@ -1415,16 +1640,23 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
             return [];
         }
 
+        // A successful repair resend is a terminal repair state. Do not offer the
+        // same entry for another automatic resend merely because the original send
+        // remains classified as missing.
+        if ($this->has_resend_notification($form, $entry_id)) {
+            return [];
+        }
+
         // If the original send failed, use the EXACT notification(s) that Gravity Forms
         // recorded as failed for this entry. This is especially important for legacy
         // qr-code forms whose notification names do not follow the new naming convention.
         $failed_notifications = $this->get_failed_notifications_from_gf_notes($form, $entry_id);
 
-        if (!empty($failed_notifications) && !$this->has_sent_notification($entry_id)) {
+        if (!empty($failed_notifications) && !$this->has_sent_notification($entry_id, $form)) {
             return $failed_notifications;
         }
 
-        $has_sent = $this->has_sent_notification($entry_id);
+        $has_sent = $this->has_sent_notification($entry_id, $form);
 
         if (!$has_sent) {
             return $this->get_never_sent_notifications_for_entry($form, $entry);
@@ -1446,7 +1678,10 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
         }
 
         foreach ($notifications as $notification) {
-            if (!empty($notification['isActive'])) {
+            if (
+                !empty($notification['isActive']) &&
+                !$this->notification_name_is_resend((string) ($notification['name'] ?? ''))
+            ) {
                 return true;
             }
         }
@@ -1455,49 +1690,54 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
     }
 
 
-    private function get_available_notifications($form) {
-        $available = [];
-        $notifications = $form['notifications'] ?? [];
-
-        if (!is_array($notifications)) {
-            return $available;
-        }
-
-        foreach ($notifications as $notification_id => $notification) {
-            if (empty($notification['isActive'])) {
-                continue;
-            }
-
-            $available[(string) $notification_id] = [
-                'id'   => (string) $notification_id,
-                'name' => (string) ($notification['name'] ?? ('Powiadomienie ' . $notification_id)),
-            ];
-        }
-
-        return $available;
-    }
-
-
     private function notification_conditional_logic_passes($notification, $form, $entry) {
-        $logic = $notification['conditionalLogic'] ?? null;
+        $logic = $notification['conditionalLogic']
+            ?? $notification['notification_conditional_logic_object']
+            ?? null;
+
+        // Gravity Forms / older PWE form writers may persist the object as JSON.
+        if (is_string($logic) && $logic !== '') {
+            $decoded = json_decode($logic, true);
+
+            if (is_array($decoded)) {
+                $logic = $decoded;
+            }
+        }
 
         if (empty($logic) || empty($logic['rules']) || !is_array($logic['rules'])) {
             return true;
         }
 
+        // Resolve semantic PWE rule names (e.g. "lang", "location") to the
+        // actual Gravity Forms field IDs before asking Gravity Forms to evaluate
+        // the rule. This mirrors the form writer but also supports older forms.
+        $logic = $this->normalize_notification_conditional_logic($logic, $form);
+        $entry_for_logic = $this->hydrate_notification_conditional_entry($form, $entry, $logic);
+
+        // Prefer Gravity Forms' own evaluator. It understands its operators and
+        // field/input IDs better than a hand-written approximation ever will.
         if (class_exists('GFCommon') && method_exists('GFCommon', 'evaluate_conditional_logic')) {
-            return (bool) GFCommon::evaluate_conditional_logic($logic, $form, $entry);
+            return (bool) GFCommon::evaluate_conditional_logic($logic, $form, $entry_for_logic);
         }
 
+        // Compatibility fallback when GFCommon is unavailable.
         $results = [];
 
         foreach ($logic['rules'] as $rule) {
-            $field_id = (string) ($rule['fieldId'] ?? '');
-            $actual = (string) ($entry[$field_id] ?? '');
-            $expected = (string) ($rule['value'] ?? '');
-            $operator = (string) ($rule['operator'] ?? 'is');
+            if (!is_array($rule)) {
+                continue;
+            }
+
+            $field_id = trim((string) ($rule['fieldId'] ?? $rule['field'] ?? ''));
+            $actual = $this->get_notification_logic_rule_value($form, $entry_for_logic, $field_id);
+            $expected = trim((string) ($rule['value'] ?? ''));
+            $operator = trim((string) ($rule['operator'] ?? 'is'));
 
             $results[] = $this->compare_rule_value($actual, $operator, $expected);
+        }
+
+        if (empty($results)) {
+            return true;
         }
 
         $matched = (($logic['logicType'] ?? 'all') === 'any')
@@ -1505,6 +1745,289 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
             : !in_array(false, $results, true);
 
         return (($logic['actionType'] ?? 'show') === 'hide') ? !$matched : $matched;
+    }
+
+
+    private function normalize_notification_conditional_logic($logic, $form) {
+        if (!is_array($logic) || empty($logic['rules']) || !is_array($logic['rules'])) {
+            return $logic;
+        }
+
+        foreach ($logic['rules'] as $index => $rule) {
+            if (!is_array($rule)) {
+                continue;
+            }
+
+            $field_id = trim((string) ($rule['fieldId'] ?? ''));
+            $semantic = trim((string) ($rule['field'] ?? ''));
+
+            // Some historical PWE definitions stored the semantic name directly
+            // in fieldId. Treat a non-numeric ID the same way as `field`.
+            if ($semantic === '' && $field_id !== '' && !is_numeric(str_replace('.', '', $field_id))) {
+                $semantic = $field_id;
+            }
+
+            if ($semantic !== '') {
+                $resolved = $this->find_form_field_id_by_name($form, $semantic);
+
+                if ($resolved !== '') {
+                    $logic['rules'][$index]['fieldId'] = $resolved;
+                    unset($logic['rules'][$index]['field']);
+                }
+            }
+        }
+
+        return $logic;
+    }
+
+
+    private function hydrate_notification_conditional_entry($form, $entry, $logic) {
+        if (!is_array($entry)) {
+            return [];
+        }
+
+        $hydrated = $entry;
+        $entry_id = absint($entry['id'] ?? 0);
+
+        foreach (($logic['rules'] ?? []) as $rule) {
+            if (!is_array($rule)) {
+                continue;
+            }
+
+            $field_id = trim((string) ($rule['fieldId'] ?? $rule['field'] ?? ''));
+
+            if ($field_id === '') {
+                continue;
+            }
+
+            $current = $hydrated[$field_id] ?? '';
+
+            if (is_scalar($current) && trim((string) $current) !== '') {
+                continue;
+            }
+
+            $names = $this->get_form_field_names_by_id($form, $field_id);
+
+            // If the rule still uses a semantic name, include it directly.
+            if (!is_numeric(str_replace('.', '', $field_id))) {
+                $names[] = $field_id;
+            }
+
+            $names = array_values(array_unique(array_filter(array_map('strval', $names))));
+            $value = '';
+
+            foreach ($names as $name) {
+                $lower = strtolower(trim($name));
+
+                if ($lower !== '' && array_key_exists($lower, $entry) && is_scalar($entry[$lower])) {
+                    $candidate = trim((string) $entry[$lower]);
+
+                    if ($candidate !== '') {
+                        $value = $candidate;
+                        break;
+                    }
+                }
+
+                if ($entry_id) {
+                    $candidate = gform_get_meta($entry_id, $name);
+
+                    if (is_scalar($candidate) && trim((string) $candidate) !== '') {
+                        $value = trim((string) $candidate);
+                        break;
+                    }
+                }
+            }
+
+            if ($value !== '') {
+                $hydrated[$field_id] = $value;
+            }
+        }
+
+        return $hydrated;
+    }
+
+
+    private function find_form_field_id_by_name($form, $name) {
+        $needle = strtolower(trim((string) $name));
+
+        if ($needle === '') {
+            return '';
+        }
+
+        foreach (($form['fields'] ?? []) as $field) {
+            if (!is_object($field) && !is_array($field)) {
+                continue;
+            }
+
+            $field_id = trim((string) $this->get_form_field_property($field, 'id'));
+            $labels = [
+                strtolower(trim((string) $this->get_form_field_property($field, 'adminLabel'))),
+                strtolower(trim((string) $this->get_form_field_property($field, 'label'))),
+                strtolower(trim((string) $this->get_form_field_property($field, 'inputName'))),
+            ];
+
+            if ($field_id !== '' && in_array($needle, $labels, true)) {
+                return $field_id;
+            }
+        }
+
+        return '';
+    }
+
+
+    private function get_form_field_names_by_id($form, $field_id) {
+        $field_id = trim((string) $field_id);
+        $base_id = preg_replace('/\..*$/', '', $field_id);
+        $names = [];
+
+        foreach (($form['fields'] ?? []) as $field) {
+            if (!is_object($field) && !is_array($field)) {
+                continue;
+            }
+
+            $candidate_id = trim((string) $this->get_form_field_property($field, 'id'));
+
+            if ($candidate_id === '' || $candidate_id !== $base_id) {
+                continue;
+            }
+
+            foreach (['adminLabel', 'inputName', 'label'] as $property) {
+                $name = trim((string) $this->get_form_field_property($field, $property));
+
+                if ($name !== '') {
+                    $names[] = $name;
+                }
+            }
+
+            break;
+        }
+
+        return array_values(array_unique($names));
+    }
+
+    private function get_entry_named_value($form, $entry, $names) {
+        if (!is_array($entry)) {
+            return '';
+        }
+
+        $normalised_names = array_values(array_unique(array_filter(array_map(
+            static function($name) {
+                return strtolower(trim((string) $name));
+            },
+            (array) $names
+        ))));
+
+        if (empty($normalised_names)) {
+            return '';
+        }
+
+        // Some integrations put semantic keys directly on the entry array.
+        foreach ($normalised_names as $name) {
+            if (array_key_exists($name, $entry) && is_scalar($entry[$name])) {
+                return trim((string) $entry[$name]);
+            }
+        }
+
+        foreach (($form['fields'] ?? []) as $field) {
+            if (!is_object($field) && !is_array($field)) {
+                continue;
+            }
+
+            $field_id = (string) $this->get_form_field_property($field, 'id');
+            $labels = [
+                strtolower(trim((string) $this->get_form_field_property($field, 'adminLabel'))),
+                strtolower(trim((string) $this->get_form_field_property($field, 'label'))),
+                strtolower(trim((string) $this->get_form_field_property($field, 'inputName'))),
+            ];
+
+            if ($field_id === '' || !array_intersect($normalised_names, $labels)) {
+                continue;
+            }
+
+            $value = $entry[$field_id] ?? '';
+
+            if (is_scalar($value) && trim((string) $value) !== '') {
+                return trim((string) $value);
+            }
+        }
+
+        // Compatibility fallback for entries where a selector really is entry meta.
+        $entry_id = absint($entry['id'] ?? 0);
+
+        if ($entry_id) {
+            foreach ($normalised_names as $name) {
+                $value = gform_get_meta($entry_id, $name);
+
+                if (is_scalar($value) && trim((string) $value) !== '') {
+                    return trim((string) $value);
+                }
+            }
+        }
+
+        return '';
+    }
+
+
+    private function get_notification_logic_rule_value($form, $entry, $field_id) {
+        $field_id = trim((string) $field_id);
+
+        if ($field_id === '' || !is_array($entry)) {
+            return '';
+        }
+
+        if (array_key_exists($field_id, $entry)) {
+            $value = $entry[$field_id];
+
+            if (is_array($value)) {
+                $value = implode(',', array_map('strval', $value));
+            }
+
+            if (is_scalar($value) && trim((string) $value) !== '') {
+                return trim((string) $value);
+            }
+        }
+
+        $names = $this->get_form_field_names_by_id($form, $field_id);
+
+        if (!is_numeric(str_replace('.', '', $field_id))) {
+            $names[] = $field_id;
+        }
+
+        if (!empty($names)) {
+            $named_value = $this->get_entry_named_value($form, $entry, $names);
+
+            if ($named_value !== '') {
+                return $named_value;
+            }
+        }
+
+        $entry_id = absint($entry['id'] ?? 0);
+
+        if ($entry_id) {
+            foreach ($names as $name) {
+                $meta_value = gform_get_meta($entry_id, $name);
+
+                if (is_scalar($meta_value) && trim((string) $meta_value) !== '') {
+                    return trim((string) $meta_value);
+                }
+            }
+
+            $meta_value = gform_get_meta($entry_id, $field_id);
+
+            if (is_scalar($meta_value)) {
+                return trim((string) $meta_value);
+            }
+        }
+
+        return '';
+    }
+
+    private function get_form_field_property($field, $property) {
+        if (is_array($field)) {
+            return $field[$property] ?? '';
+        }
+
+        return is_object($field) ? ($field->{$property} ?? '') : '';
     }
 
 
@@ -1568,12 +2091,20 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
 
 
     private function compare_rule_value($actual, $operator, $expected) {
+        $actual = trim((string) $actual);
+        $expected = trim((string) $expected);
+        $operator = strtolower(trim((string) $operator));
+
         switch ($operator) {
             case 'isnot':
+            case 'is_not':
+            case '!=':
                 return $actual !== $expected;
             case '>':
+            case 'greater_than':
                 return (float) $actual > (float) $expected;
             case '<':
+            case 'less_than':
                 return (float) $actual < (float) $expected;
             case 'contains':
                 return strpos($actual, $expected) !== false;
@@ -1582,6 +2113,8 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
             case 'ends_with':
                 return $expected === '' || substr($actual, -strlen($expected)) === $expected;
             case 'is':
+            case '=':
+            case '==':
             default:
                 return $actual === $expected;
         }

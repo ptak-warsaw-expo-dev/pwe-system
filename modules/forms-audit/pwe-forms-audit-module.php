@@ -24,6 +24,13 @@ class PWE_System_Forms_Audit_Tool {
 
         private $notification_sent_cache = [];
         private $notification_error_cache = [];
+        private $notification_delivery_cache = [];
+
+        /** @var array|null */
+        private $audit_session_rows = null;
+
+        /** @var string */
+        private $audit_session_cache_key = '';
 
         /** @var PWE_QR_Generator */
         private $qr;
@@ -39,6 +46,9 @@ class PWE_System_Forms_Audit_Tool {
         add_action('admin_post_pwe_qr_export_mismatches', [$this, 'export_mismatches_csv']);
         add_action('wp_ajax_pwe_qr_resend_notifications', [$this, 'ajax_resend_notifications']);
         add_action('wp_ajax_pwe_qr_bulk_language_preview', [$this, 'ajax_bulk_language_preview']);
+        add_action('wp_ajax_pwe_system_forms_audit_load', [$this, 'ajax_load_audit']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_assets']);
+        add_action('pwe_system_forms_audit_cache_invalidate', [$this, 'clear_audit_session_cache']);
     }
 
 
@@ -80,16 +90,94 @@ class PWE_System_Forms_Audit_Tool {
             return;
         }
 
-        $forms = GFAPI::get_forms(true, false, 'title', 'ASC');
-
         $this->render_styles();
-        $this->render_forms_table($forms);
 
-        // Additional QR maintenance tools live inside the audit page.
+        // Additional maintenance tools are lightweight and can be available immediately.
         do_action('pwe_system_forms_audit_tools');
 
-        $this->render_entries_table($forms);
+        echo '<div id="pwe-forms-audit-async" class="pwe-forms-audit-async" aria-live="polite">';
+        echo '<div class="pwe-forms-audit-loader">';
+        echo '<span class="pwe-forms-audit-loader__spinner" aria-hidden="true"></span>';
+        echo '<div><strong>Ładowanie audytu…</strong><p>Strona jest już gotowa. Dane formularzy, rejestracji i powiadomień są pobierane w tle.</p></div>';
+        echo '</div>';
+        echo '</div>';
+
         echo '</div></div>';
+    }
+
+    public function enqueue_assets(): void {
+        if (!is_admin() || sanitize_key((string) ($_GET['page'] ?? '')) !== 'pwe-system-forms-audit') {
+            return;
+        }
+
+        $script = PWE_SYSTEM_PATH . 'assets/js/forms-audit.js';
+
+        wp_enqueue_script(
+            'pwe-system-forms-audit',
+            PWE_SYSTEM_URL . 'assets/js/forms-audit.js',
+            ['jquery'],
+            is_file($script) ? (string) filemtime($script) : PWE_SYSTEM_VERSION,
+            true
+        );
+
+        wp_localize_script('pwe-system-forms-audit', 'PWEFormsAudit', [
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'nonce'   => wp_create_nonce('pwe_system_forms_audit_load'),
+        ]);
+    }
+
+    public function ajax_load_audit(): void {
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => 'Brak uprawnień.'], 403);
+        }
+
+        if (!check_ajax_referer('pwe_system_forms_audit_load', 'nonce', false)) {
+            wp_send_json_error(['message' => 'Sesja wygasła. Odśwież stronę.'], 403);
+        }
+
+        if (!class_exists('GFAPI')) {
+            wp_send_json_error(['message' => 'Gravity Forms nie jest dostępne.'], 500);
+        }
+
+        $allowed = [
+            'audit_form_id',
+            'audit_search',
+            'audit_status',
+            'audit_notification',
+            'audit_per_page',
+            'audit_paged',
+        ];
+
+        foreach ($allowed as $key) {
+            if (!isset($_REQUEST[$key])) {
+                continue;
+            }
+
+            $_GET[$key] = wp_unslash($_REQUEST[$key]);
+        }
+
+        $forms = GFAPI::get_forms(true, false, 'title', 'ASC');
+        $active_form_ids = [];
+
+        if (is_array($forms)) {
+            foreach ($forms as $form) {
+                $form_id = absint($form['id'] ?? 0);
+
+                if ($form_id && !empty($this->get_pwe_feeds($form_id))) {
+                    $active_form_ids[] = $form_id;
+                }
+            }
+        }
+
+        $force_refresh = !empty($_REQUEST['audit_refresh']);
+        $this->prime_audit_session_cache($active_form_ids, $force_refresh);
+
+        ob_start();
+        $this->render_forms_table($forms);
+        $this->render_entries_table($forms);
+        $html = (string) ob_get_clean();
+
+        wp_send_json_success(['html' => $html]);
     }
 
 }

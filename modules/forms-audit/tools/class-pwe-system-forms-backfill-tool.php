@@ -168,6 +168,10 @@ final class PWE_System_Forms_Backfill_Tool {
 
         $remaining = $this->count_entries($form_id, true);
 
+        if ($generated > 0) {
+            do_action('pwe_system_forms_audit_cache_invalidate');
+        }
+
         wp_send_json_success([
             'processed' => count($entry_ids),
             'generated' => $generated,

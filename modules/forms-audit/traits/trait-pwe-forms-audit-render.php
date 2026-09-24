@@ -301,6 +301,38 @@ margin-top: 6px;
                 width: 36px;
                 text-align: center;
             }
+            .pwe-forms-audit .pwe-forms-audit-loader {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                min-height: 110px;
+                padding: 24px;
+                margin-top: 20px;
+                background: #fff;
+                border: 1px solid #dcdcde;
+                border-radius: 14px;
+            }
+            .pwe-forms-audit .pwe-forms-audit-loader strong {
+                display: block;
+                margin-bottom: 4px;
+                font-size: 14px;
+            }
+            .pwe-forms-audit .pwe-forms-audit-loader p {
+                margin: 0;
+                color: #646970;
+            }
+            .pwe-forms-audit .pwe-forms-audit-loader__spinner {
+                width: 28px;
+                height: 28px;
+                flex: 0 0 28px;
+                border: 3px solid #dcdcde;
+                border-top-color: #2271b1;
+                border-radius: 50%;
+                animation: pweFormsAuditSpin .8s linear infinite;
+            }
+            @keyframes pweFormsAuditSpin {
+                to { transform: rotate(360deg); }
+            }
             @media (max-width: 782px) {
                 .pwe-forms-audit .tablenav-pages {
                     justify-content: flex-start;
@@ -337,7 +369,17 @@ margin-top: 6px;
                 $form_id = absint($form['id'] ?? 0);
                 $feeds = $this->get_pwe_feeds($form_id);
 
-                $registration_stats = $this->get_form_registration_stats($form_id, $feeds);
+                $registration_stats = !empty($feeds)
+                    ? $this->get_form_registration_stats($form_id, $feeds)
+                    : [
+                        'ok' => 0,
+                        'bad' => 0,
+                        'none' => 0,
+                        'notification_none' => 0,
+                        'notification_missing' => 0,
+                        'notification_error' => 0,
+                        'resend' => 0,
+                    ];
 
                 if (
                     (int) ($registration_stats['bad'] ?? 0) > 0 ||
@@ -567,8 +609,15 @@ margin-top: 6px;
                     $resend_notification_names = [];
                 }
 
-                $has_sent_notification = $this->has_sent_notification($entry_id);
-                $has_notification_error = $this->has_notification_error($entry_id);
+                $delivery_state = $this->get_notification_delivery_state($forms_cache[$form_id], $entry_id);
+                $has_sent_notification = !empty($delivery_state['sent']);
+                $has_resend_notification = !empty($delivery_state['resend']);
+                $has_audit_resend = ($resend_success === '1' || $resend_qr_url !== '');
+                $resend_notification_names = array_values(array_unique(array_filter(array_merge(
+                    $resend_notification_names,
+                    (array) ($delivery_state['resend_names'] ?? [])
+                ), 'strlen')));
+                $has_notification_error = $this->has_active_notification_error($forms_cache[$form_id], $entry_id);
                 $has_active_notifications = $this->form_has_active_notifications($forms_cache[$form_id]);
                 $notification_error_message = $has_notification_error
                     ? $this->get_notification_error_message($entry_id)
@@ -580,12 +629,18 @@ margin-top: 6px;
                     ? $resend_qr_value
                     : $qr_value;
 
-                $comparison = $this->compare_entry_qr(
-                    $form_id,
-                    $entry,
-                    $feeds_cache[$form_id],
-                    $comparison_value
-                );
+                // The list query already calculates the comparison using the feed's saved
+                // custom_key values. This is especially important for legacy `qr-code` feeds:
+                // recalculating through get_qr_data_for_feed() may use only the new pwe_qr
+                // provider and incorrectly mark a valid legacy QR as a mismatch.
+                $comparison = isset($entry_row['comparison'])
+                    ? (string) $entry_row['comparison']
+                    : $this->compare_entry_qr(
+                        $form_id,
+                        $entry,
+                        $feeds_cache[$form_id],
+                        $comparison_value
+                    );
 
                 $notification_match = $this->get_notification_for_entry($forms_cache[$form_id], $entry, $email);
 
@@ -619,10 +674,7 @@ margin-top: 6px;
                 echo '<td>' . esc_html($entry_row['date_created'] ?? '') . '</td>';
                 echo '<td>' . ($email !== '' ? esc_html($email) : '—') . '</td>';
 
-                $has_confirmed_resend = (
-                    $resend_success === '1' ||
-                    $resend_qr_url !== ''
-                );
+                $has_confirmed_resend = ($has_resend_notification || $has_audit_resend);
 
                 if ($has_confirmed_resend) {
                     // Resend is the final state for feed coloring, regardless of the
@@ -651,7 +703,7 @@ margin-top: 6px;
                 echo '<td>' . $this->render_saved_qr_history($qr_url, $qr_value, $resend_qr_url, $resend_qr_value) . '</td>';
                 echo '<td>';
 
-                if ($has_notification_error && !$has_sent_notification) {
+                if ($has_notification_error && !$has_sent_notification && !$has_confirmed_resend) {
                     echo '<div class="pwe-qr-notification-error-column">';
                     echo '<strong>Błąd wysyłki</strong>';
 
@@ -665,16 +717,16 @@ margin-top: 6px;
                 } else {
                     echo $this->render_notification_column(
                         $notification_match,
-                        $resend_notification_names
+                        $resend_notification_names,
+                        $forms_cache[$form_id],
+                        $entry_id
                     );
                 }
 
                 echo '</td>';
                 echo '<td>';
 
-                if (!$has_sent_notification && !$has_confirmed_resend) {
-                    // No message ever reached the outgoing mail path, so the client did
-                    // not receive a QR. Do not call the stored QR "Zgodny" or "Rozbieżny".
+                if (!$has_sent_notification && !$has_audit_resend) {
                     if ($has_notification_error) {
                         echo '<span class="pwe-qr-status notification-error">Błąd wysyłki</span>';
                     } elseif (!$has_active_notifications) {
@@ -683,11 +735,14 @@ margin-top: 6px;
                         echo '<span class="pwe-qr-status notification-missing">Nie wysłane</span>';
                     }
                 } else {
+                    // Audit resend is a repair, so show the resulting QR comparison.
                     echo $this->render_comparison_status($comparison);
+                }
 
-                    if ($has_confirmed_resend) {
-                        echo '<br><span class="pwe-qr-status resend">Resend wysłany</span>';
-                    }
+                // Resend is always a second, independent status. This applies both to
+                // the audit resend and to the standalone Resend module.
+                if ($has_confirmed_resend) {
+                    echo ' <span class="pwe-qr-status resend">Resend</span>';
                 }
 
                 echo '</td>';
@@ -835,7 +890,8 @@ margin-top: 6px;
             });
 
 
-            $(document).on("change", ".pwe-qr-resend-entry", function() {
+            $(document).off("change.pweQrAuditResend", ".pwe-qr-resend-entry");
+            $(document).on("change.pweQrAuditResend", ".pwe-qr-resend-entry", function() {
                 const total = $(".pwe-qr-resend-entry").length;
                 const checked = $(".pwe-qr-resend-entry:checked").length;
                 $selectAll.prop("checked", total > 0 && checked === total);
@@ -944,7 +1000,8 @@ margin-top: 6px;
                 });
             });
 
-            $(document).on("click", "#pwe-qr-bulk-language-send", function() {
+            $(document).off("click.pweQrAuditBulk", "#pwe-qr-bulk-language-send");
+            $(document).on("click.pweQrAuditBulk", "#pwe-qr-bulk-language-send", function() {
                 const $sendButton = $(this);
                 const $status = $("#pwe-qr-bulk-language-send-status");
                 const grouped = {};
@@ -1007,7 +1064,7 @@ margin-top: 6px;
     }
 
 
-    private function render_notification_column($match, $resend_notification_names = []) {
+    private function render_notification_column($match, $resend_notification_names = [], $form = [], $entry_id = 0) {
         $html = $this->render_notification_match($match);
 
         if (!empty($resend_notification_names) && is_array($resend_notification_names)) {
@@ -1025,7 +1082,7 @@ margin-top: 6px;
     }
 
 
-    private function render_notification_match($match, $form = [], $entry_id = 0, $available_notifications = []) {
+    private function render_notification_match($match) {
         if (!empty($match['ambiguous'])) {
             $names = array_values($match['candidates'] ?? []);
 
@@ -1033,7 +1090,6 @@ margin-top: 6px;
                 esc_html(implode(', ', $names)) .
                 '</small>';
 
-            $html .= $this->render_manual_notification_select($entry_id, $available_notifications);
             $html .= '</div>';
 
             return $html;
@@ -1042,7 +1098,6 @@ margin-top: 6px;
         if (empty($match['id'])) {
             $html = '<div class="pwe-qr-notification"><span class="pwe-qr-status none">Nie ustalono</span><small>Brak historycznego zapisu i brak jednoznacznego powiadomienia do tego e-maila.</small>';
 
-            $html .= $this->render_manual_notification_select($entry_id, $available_notifications);
             $html .= '</div>';
 
             return $html;
@@ -1055,6 +1110,10 @@ margin-top: 6px;
             $source = 'zapisane przy wysyłce';
         } elseif (($match['source'] ?? '') === 'source_url') {
             $source = 'dobrane automatycznie z języka źródłowego URL: ' . esc_html($match['lang'] ?? '');
+        } elseif (($match['source'] ?? '') === 'entry_lang') {
+            $source = 'dobrane z pola lang wpisu: ' . esc_html($match['lang'] ?? '');
+        } elseif (($match['source'] ?? '') === 'conditional_logic') {
+            $source = 'dobrane z aktywnych powiadomień i logiki warunkowej dla tego wpisu';
         } else {
             $source = 'wykryte z aktualnej konfiguracji formularza';
         }
@@ -1068,32 +1127,6 @@ margin-top: 6px;
         return '<div class="pwe-qr-notification"><strong>' .
             esc_html(implode(' + ', $names)) .
             '</strong><small>' . esc_html($source) . '</small></div>';
-    }
-
-
-    private function render_manual_notification_select($entry_id, $available_notifications) {
-        if (empty($available_notifications)) {
-            return '<small>Brak aktywnych powiadomień w formularzu.</small>';
-        }
-
-        $html = '<select class="pwe-qr-manual-notification" data-entry-id="' . esc_attr(absint($entry_id)) . '">';
-        $html .= '<option value="">Wybierz powiadomienie…</option>';
-
-        foreach ($available_notifications as $notification) {
-            $id = (string) ($notification['id'] ?? '');
-            $name = (string) ($notification['name'] ?? '');
-
-            if ($id === '') {
-                continue;
-            }
-
-            $label = $name !== '' ? $name . ' (ID: ' . $id . ')' : 'ID: ' . $id;
-            $html .= '<option value="' . esc_attr($id) . '">' . esc_html($label) . '</option>';
-        }
-
-        $html .= '</select>';
-
-        return $html;
     }
 
 
@@ -1137,6 +1170,7 @@ margin-top: 6px;
 
         echo '<input type="search" name="audit_search" value="' . esc_attr($search) . '" placeholder="Entry ID lub e-mail">';
         echo '<button type="submit" class="button button-secondary">Filtruj</button>';
+        echo '<button type="button" class="button pwe-forms-audit-refresh" title="Wyczyść pamięć podręczną audytu i przelicz wszystkie wpisy ponownie">Odśwież dane</button>';
 
         if ($selected_form_id || $search !== '' || $status_filter !== '' || $notification_filter !== '') {
             echo '<a class="button" href="' . esc_url(admin_url('admin.php?page=pwe-system-forms-audit')) . '">Wyczyść</a>';

@@ -2349,8 +2349,8 @@ class PWE_Shortcodes {
                 <input
                     <?php echo !empty($current_group) ? "style='pointer-events: none; opacity: 0.5;'" : ""; ?>
                     type="text"
-                    name="trade_fair_accent"
-                    id="trade_fair_accent"
+                    name="trade_fair_group"
+                    id="trade_fair_group"
                     value="<?php echo !empty($current_group) ? $current_group : get_option('trade_fair_group'); ?>"
                 />
                 <p><?php echo !empty($current_group) ? "Dane pobrane z CAP DB" : "np -> gr2"; ?></p>
