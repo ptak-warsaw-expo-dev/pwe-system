@@ -1,0 +1,919 @@
+[
+  {
+    "path": "README.md",
+    "extension": ".md",
+    "bytes": 5512,
+    "sha256": "0fc98ee0f76765ea3365ca562ef39031f89d5f99f4f6461e1a114f918e044347",
+    "category": "asset"
+  },
+  {
+    "path": "api/cap/doc.php",
+    "extension": ".php",
+    "bytes": 17225,
+    "sha256": "7ef296ff12dc31483594bd686f166a16998d325ba8dbec72c0de93831d674897",
+    "category": "direct-api"
+  },
+  {
+    "path": "api/news/index.php",
+    "extension": ".php",
+    "bytes": 11648,
+    "sha256": "1ba09f05d512bf5036404749947601acce63c5fbeed01dfee514e2089f7c5da6",
+    "category": "direct-api"
+  },
+  {
+    "path": "assets/css/admin.css",
+    "extension": ".css",
+    "bytes": 37434,
+    "sha256": "2fdf4993b8d7da5bec1b0f00b64377fe8763ae3a57d9639ead3fc09d4d85fb36",
+    "category": "asset"
+  },
+  {
+    "path": "assets/images/logo-pwe.webp",
+    "extension": ".webp",
+    "bytes": 8870,
+    "sha256": "d3b833b8e5690097ee806e42e057abb7066b95112a6f58b7049cf90b2d36cb1e",
+    "category": "asset"
+  },
+  {
+    "path": "assets/js/forms-audit.js",
+    "extension": ".js",
+    "bytes": 5441,
+    "sha256": "55a8163fbfaca2fd3e8209827a46cee1ffcd6e80cd84c67e3d704e91c0b5916e",
+    "category": "asset"
+  },
+  {
+    "path": "assets/js/forms-backfill.js",
+    "extension": ".js",
+    "bytes": 6036,
+    "sha256": "fb9d7a5e307d53f5e49f0afa64a8230d2f6c1bf1cbe5beeb394b4125d4a7979d",
+    "category": "asset"
+  },
+  {
+    "path": "assets/js/replace-content.js",
+    "extension": ".js",
+    "bytes": 13085,
+    "sha256": "662f8b38ad8ab8bce4bcb48425bfe6a887f55acfdd1a61dedec27732c3af37b6",
+    "category": "asset"
+  },
+  {
+    "path": "assets/js/resend.js",
+    "extension": ".js",
+    "bytes": 1362,
+    "sha256": "8eef7af00e8a016232a0450c3cb1cecc75804a7204b8f29ed831b701367bf14d",
+    "category": "asset"
+  },
+  {
+    "path": "assets/js/shortcodes-admin.js",
+    "extension": ".js",
+    "bytes": 1827,
+    "sha256": "19ee6f79bee7bf334bad9248313af7fef6b71f1ceb15711e0269cda00354edf2",
+    "category": "asset"
+  },
+  {
+    "path": "core/class-pwe-system-admin-access.php",
+    "extension": ".php",
+    "bytes": 209,
+    "sha256": "6ca36ed0e559d872bce308292d4dce8dbda3b7913c6c3d798a94f71bb003c2db",
+    "category": "core"
+  },
+  {
+    "path": "core/class-pwe-system-admin-ui.php",
+    "extension": ".php",
+    "bytes": 1836,
+    "sha256": "c9b4e63aef7937a4c0d610d56ab550f591f4172ac1040236909a1497d7cc887e",
+    "category": "core"
+  },
+  {
+    "path": "core/class-pwe-system-admin.php",
+    "extension": ".php",
+    "bytes": 11753,
+    "sha256": "0c4f3090648d618b5f3af47eccd9e0035c7f39ce3f3bb64d7c29a676f9f0f8c6",
+    "category": "core"
+  },
+  {
+    "path": "core/class-pwe-system-functions.php",
+    "extension": ".php",
+    "bytes": 194567,
+    "sha256": "147df5abe013299722eb852d0b5f7459ebeb9d588fec8f664a3ae44e2bf81b23",
+    "category": "core"
+  },
+  {
+    "path": "core/class-pwe-system-updater.php",
+    "extension": ".php",
+    "bytes": 1862,
+    "sha256": "fbb6b8474a6ffc64b6c791f873004b151ee2e9f442732a0b3a8d259e855e86f9",
+    "category": "core"
+  },
+  {
+    "path": "core/class-pwe-system.php",
+    "extension": ".php",
+    "bytes": 2816,
+    "sha256": "e59af8a69246bb2e1c02a8e93755df1ce00afde65a874c15d485ef0066137072",
+    "category": "core"
+  },
+  {
+    "path": "data/website-translation.json",
+    "extension": ".json",
+    "bytes": 13042,
+    "sha256": "c34452289aadd514119a7ec144ef6b463d45390e780f88c65ec8f7a74a18b5c8",
+    "category": "data"
+  },
+  {
+    "path": "modules/doc-manager/assets/admin.css",
+    "extension": ".css",
+    "bytes": 7015,
+    "sha256": "74f65f361aaa788bbbb7d41f18a0904f468d4a7f3153a3f84a0e737f7de655c9",
+    "category": "doc-manager"
+  },
+  {
+    "path": "modules/doc-manager/assets/admin.js",
+    "extension": ".js",
+    "bytes": 18152,
+    "sha256": "dd5d6652b297d35e593384cfe5f368886faa9fbfecf60dc7007bd28fdf8957f4",
+    "category": "doc-manager"
+  },
+  {
+    "path": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "extension": ".php",
+    "bytes": 34126,
+    "sha256": "8f1e8e7b56d9cb75f9a48982544b46c930344b989beadb781291845eff95e0c7",
+    "category": "doc-manager"
+  },
+  {
+    "path": "modules/forms-audit/pwe-forms-audit-module.php",
+    "extension": ".php",
+    "bytes": 7458,
+    "sha256": "901e98217be458cae7f6de85ab8450e577674f9c637b989138567a49665b75b3",
+    "category": "forms-audit"
+  },
+  {
+    "path": "modules/forms-audit/tools/class-pwe-system-forms-backfill-tool.php",
+    "extension": ".php",
+    "bytes": 11503,
+    "sha256": "96bf9f6df98e678b05cbc1f0b6892eaf2fbe8d1b8e813f1aac8d646e73f423b8",
+    "category": "forms-audit"
+  },
+  {
+    "path": "modules/forms-audit/traits/trait-pwe-forms-audit-data.php",
+    "extension": ".php",
+    "bytes": 28963,
+    "sha256": "5cda6008412e86a0deea97f2786b11090c82715d76f42e81224f8df1bd611877",
+    "category": "forms-audit"
+  },
+  {
+    "path": "modules/forms-audit/traits/trait-pwe-forms-audit-export.php",
+    "extension": ".php",
+    "bytes": 5880,
+    "sha256": "a568e3ad64244a5d5c081e822d61d9800a015779ac494b27f59cffc2094c973c",
+    "category": "forms-audit"
+  },
+  {
+    "path": "modules/forms-audit/traits/trait-pwe-forms-audit-notifications.php",
+    "extension": ".php",
+    "bytes": 73966,
+    "sha256": "f16470c40251256265cc969db9eab4902a2cab03d3bb9bde675f50398f40a095",
+    "category": "forms-audit"
+  },
+  {
+    "path": "modules/forms-audit/traits/trait-pwe-forms-audit-render.php",
+    "extension": ".php",
+    "bytes": 55944,
+    "sha256": "d5c22b5fe725a9b62e07ac0720e863b7eec4b6eda52cc1d68e747cb5c0002816",
+    "category": "forms-audit"
+  },
+  {
+    "path": "modules/replace-content/core/admin-page.php",
+    "extension": ".php",
+    "bytes": 11727,
+    "sha256": "8a8be19b43d6c81a62b8a3067cf09bc3786a9c277551326c18a6f740e120a429",
+    "category": "replace-content"
+  },
+  {
+    "path": "modules/replace-content/core/ajax-actions.php",
+    "extension": ".php",
+    "bytes": 12265,
+    "sha256": "734f8aa024add6afac67a57b178ff9010b457020e344a71bfe9099993addcf70",
+    "category": "replace-content"
+  },
+  {
+    "path": "modules/replace-content/core/language-helper.php",
+    "extension": ".php",
+    "bytes": 1333,
+    "sha256": "76e23e55cb317c819fa080b8f5586759d8204ea86ae2e195ebc10b070b57e488",
+    "category": "replace-content"
+  },
+  {
+    "path": "modules/replace-content/core/page-locator.php",
+    "extension": ".php",
+    "bytes": 1161,
+    "sha256": "f3359fbb3f45d60f1d4f01c4b81148c0b0464105011fc48212acf06f007f6d12",
+    "category": "replace-content"
+  },
+  {
+    "path": "modules/replace-content/core/page-meta-adapter.php",
+    "extension": ".php",
+    "bytes": 2216,
+    "sha256": "8fb255316b6d8bd99dbfd77fd99630bc809b4c21fc69f5167023c657dfda701b",
+    "category": "replace-content"
+  },
+  {
+    "path": "modules/replace-content/core/replace-content-config.php",
+    "extension": ".php",
+    "bytes": 1362,
+    "sha256": "7db4074763911f3ec177a1c9a025d3d309b711a0ccb58f60f40d6b8b81415ab6",
+    "category": "replace-content"
+  },
+  {
+    "path": "modules/replace-content/core/replace-content-service.php",
+    "extension": ".php",
+    "bytes": 14120,
+    "sha256": "3146f1294c25a956d77ce2c47f1a199792fce37bb18a7f45a4988bbf20255f4a",
+    "category": "replace-content"
+  },
+  {
+    "path": "modules/replace-content/core/wpml-gateway.php",
+    "extension": ".php",
+    "bytes": 1651,
+    "sha256": "6cd606304834ba7529b41fc21a353ed62e0c1804c6f295b93e71330ff2ab017b",
+    "category": "replace-content"
+  },
+  {
+    "path": "modules/replace-content/replace-content-map.php",
+    "extension": ".php",
+    "bytes": 1378,
+    "sha256": "b76d64804da60d8943f5d3748f5c7056af7d112f5fa06de63d218f3ef4ea1e71",
+    "category": "replace-content"
+  },
+  {
+    "path": "modules/replace-content/replace-content-module.php",
+    "extension": ".php",
+    "bytes": 913,
+    "sha256": "05b6bbf584edbf8cdc189674d59f73dadb27b3fc7ce46d1a6f690d9f8290be1b",
+    "category": "replace-content"
+  },
+  {
+    "path": "modules/resend/core/admin-page.php",
+    "extension": ".php",
+    "bytes": 20293,
+    "sha256": "07d1519b6fb971e0833d1ac8cb184e367bc09914212d3ac8133244273e64cee3",
+    "category": "resend"
+  },
+  {
+    "path": "modules/resend/core/conditional-logic.php",
+    "extension": ".php",
+    "bytes": 802,
+    "sha256": "29556aa04017accd55bb1521fbdad7b399baae235f22b7f10451d9a82d1e310e",
+    "category": "resend"
+  },
+  {
+    "path": "modules/resend/core/field-locator.php",
+    "extension": ".php",
+    "bytes": 3994,
+    "sha256": "be2276465e7f739f063c0dd5715e3394ac949cca2efdfd1c484e0fdc4297e0b9",
+    "category": "resend"
+  },
+  {
+    "path": "modules/resend/core/form-repository.php",
+    "extension": ".php",
+    "bytes": 1276,
+    "sha256": "ad2032dce1c8ae584f6354d2fa4faa360e920e9a87bfc8e5046c6546d2d690ea",
+    "category": "resend"
+  },
+  {
+    "path": "modules/resend/core/gravity-entries.php",
+    "extension": ".php",
+    "bytes": 5892,
+    "sha256": "0803f0317241f450df36042180a1833211acb16800dd88c4f2c012e5f58400e2",
+    "category": "resend"
+  },
+  {
+    "path": "modules/resend/core/job-lock.php",
+    "extension": ".php",
+    "bytes": 5717,
+    "sha256": "934a32973ab4284b36b0de6f50a226c7183c26673c6833e01371a79be7002449",
+    "category": "resend"
+  },
+  {
+    "path": "modules/resend/core/job-runner.php",
+    "extension": ".php",
+    "bytes": 9372,
+    "sha256": "aa637278cb19d7f51c89708368e8ba395d8b5b95761fc7bdab65e1f44b7e0f3d",
+    "category": "resend"
+  },
+  {
+    "path": "modules/resend/core/notification-matcher.php",
+    "extension": ".php",
+    "bytes": 3474,
+    "sha256": "d036217812e0b9b9f2e5d0ca99e03611d3285d57876f5ac8c91b2cd04eec5a83",
+    "category": "resend"
+  },
+  {
+    "path": "modules/resend/core/notification-name.php",
+    "extension": ".php",
+    "bytes": 2512,
+    "sha256": "8b525b9729b45ec9bef87baa274360c131aaea6dbd33a68109b08f48869f2832",
+    "category": "resend"
+  },
+  {
+    "path": "modules/resend/core/resend-actions.php",
+    "extension": ".php",
+    "bytes": 4051,
+    "sha256": "f33bd56ca6216d016d9fbe309d2b34b534eadf8cdd4c368153974610092ed92e",
+    "category": "resend"
+  },
+  {
+    "path": "modules/resend/core/resend-job.php",
+    "extension": ".php",
+    "bytes": 14929,
+    "sha256": "112e018b4a5019955d42e0317c3ffaf90e80e9bdc576ef72de7bd3b1ea105489",
+    "category": "resend"
+  },
+  {
+    "path": "modules/resend/resend-module.php",
+    "extension": ".php",
+    "bytes": 1359,
+    "sha256": "ddb1dcaac9343eae2a1442ec828e2e769588cbba08913c01f0d8a4ff13a81566",
+    "category": "resend"
+  },
+  {
+    "path": "modules/shortcodes/backend-shortcodes.php",
+    "extension": ".php",
+    "bytes": 11425,
+    "sha256": "ecdfdeb0461691b10f2064fefdead22f7ab7c2958d7c4523e91e151d8ff7176b",
+    "category": "shortcodes"
+  },
+  {
+    "path": "modules/shortcodes/class-shortcodes.php",
+    "extension": ".php",
+    "bytes": 194805,
+    "sha256": "172682c7e2d0ea97825e053f1b1cc75c139679a782f795ed4db8e708bc8cd11c",
+    "category": "shortcodes"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4/Factory.php",
+    "extension": ".php",
+    "bytes": 119,
+    "sha256": "a73cf52d144e4f992ffe05cd4b6b5acb5d4b5d8d8cf0acb3442e5a8bbad19778",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Autoloader.php",
+    "extension": ".php",
+    "bytes": 1323,
+    "sha256": "513b7fe63b233ea203a3616c10ca44d87da0633d140816224e9955780557abcc",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/DebugBar/Extension.php",
+    "extension": ".php",
+    "bytes": 5636,
+    "sha256": "e5348073f6443f9477134f597c53847b86223941500244fc23eee0bf7a287a04",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/DebugBar/Panel.php",
+    "extension": ".php",
+    "bytes": 5287,
+    "sha256": "615494d26572240c923c54335c6bca43d9c8283a2f0eb1a104b2d848cc42af10",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/DebugBar/PluginExtension.php",
+    "extension": ".php",
+    "bytes": 994,
+    "sha256": "c53616232206d047ff6dd16e1fc0753f7179531e4091925e5cc460344234341c",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/DebugBar/PluginPanel.php",
+    "extension": ".php",
+    "bytes": 962,
+    "sha256": "19c3ada7bdb3523ee6aaf5a33739c381a99b3c839cbc851170a72fe86a11e649",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/DebugBar/ThemePanel.php",
+    "extension": ".php",
+    "bytes": 537,
+    "sha256": "6cc95da0f7396ade8500f29983473fa931cbb8e66d3dfdf005e8b18fad5f7397",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Factory.php",
+    "extension": ".php",
+    "bytes": 10004,
+    "sha256": "f0095be9d7f332352d08813746cf69cfde462c45269e4f7ffe88832e3a15b29c",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/InstalledPackage.php",
+    "extension": ".php",
+    "bytes": 3013,
+    "sha256": "f895c64978fffc3d490c76f0cd7b1b9249cd39b6d93993ed9886ea381b00e0f5",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Metadata.php",
+    "extension": ".php",
+    "bytes": 3656,
+    "sha256": "8ff3d171dc333939395d616ae668beb1849c5c91ad73c6b4edadb0a55978c4a4",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/OAuthSignature.php",
+    "extension": ".php",
+    "bytes": 3017,
+    "sha256": "0cc0e1d401bc316e87148c0377066a87af14d5f96e66ce73f2e78e36f9c78094",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Plugin/Info.php",
+    "extension": ".php",
+    "bytes": 3835,
+    "sha256": "5316607ab6500e4f74ac117ee1a22cdb04af93caef2b5c1ca85abc39f51194cf",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Plugin/Package.php",
+    "extension": ".php",
+    "bytes": 5674,
+    "sha256": "cca547c29e00ae4a8fb5bed49d643f9d9c82a06402fb1e1579604dd96077e70b",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Plugin/Ui.php",
+    "extension": ".php",
+    "bytes": 10085,
+    "sha256": "dd448a550e0e9b29af8bd7c628bd2fb12f9effdbe392394556b60ea1ba077157",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Plugin/Update.php",
+    "extension": ".php",
+    "bytes": 3282,
+    "sha256": "54766777a767531717fbc625f056e3e690babcb03604bec3a14793755e72d614",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Plugin/UpdateChecker.php",
+    "extension": ".php",
+    "bytes": 13257,
+    "sha256": "c5e2b97abfa836f140144199d121d7d777f00ae29f38776f2095765fedef253a",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Scheduler.php",
+    "extension": ".php",
+    "bytes": 8697,
+    "sha256": "7f5f8a2544208ec62b0e37eda55cff8f27f8bab0f23a2297512f441844b179bc",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/StateStore.php",
+    "extension": ".php",
+    "bytes": 4746,
+    "sha256": "42876a3fc2582ba03b461aaf361e2d48888760b7443003259b621a19fc59d717",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Theme/Package.php",
+    "extension": ".php",
+    "bytes": 1812,
+    "sha256": "397f871c51a100873866fc2760439f74077c1d795c1da291b23a579418e23dd7",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Theme/Update.php",
+    "extension": ".php",
+    "bytes": 2236,
+    "sha256": "91f7cc75cb33de6dd7d3d810ca337e9862b9fee976b633b7a380b7055820b84a",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Theme/UpdateChecker.php",
+    "extension": ".php",
+    "bytes": 4438,
+    "sha256": "4082531d53150ebb13cd10568a5ad738ad1fc8a77cad7225eb646ae5e7e71d7d",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Update.php",
+    "extension": ".php",
+    "bytes": 741,
+    "sha256": "3048ef75be1eff44d5b75e78e5b271531bed3a1b258c250a59e094bb68151102",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/UpdateChecker.php",
+    "extension": ".php",
+    "bytes": 30280,
+    "sha256": "ff2f01c17997841864b640fae85ce2837c1b6a771e7160118d54ff2c2bd9c1ba",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/UpgraderStatus.php",
+    "extension": ".php",
+    "bytes": 7228,
+    "sha256": "bed77d7d60d8b659e459709307dcb64e2b87802e93132a2918f860aad99fc531",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Utils.php",
+    "extension": ".php",
+    "bytes": 1929,
+    "sha256": "ef1de0d1387578761b789a2da27c912d6f9c63dbd0b181b3fe835230ac2ffba3",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Vcs/Api.php",
+    "extension": ".php",
+    "bytes": 8115,
+    "sha256": "420907af6a913ad9f9f91866acc8f64da01b1146c584b4061d31e6af3b52c3ae",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Vcs/BaseChecker.php",
+    "extension": ".php",
+    "bytes": 555,
+    "sha256": "f3247169f7bcafe9d68a471a95361de9081f88197b4bacaa356f0acb48bf01c7",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Vcs/BitBucketApi.php",
+    "extension": ".php",
+    "bytes": 7369,
+    "sha256": "dbaf9a460e0f2c28239a9c9ef53cdd4b69bc8a40d5853a11c685288ce995c74d",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Vcs/GitHubApi.php",
+    "extension": ".php",
+    "bytes": 13669,
+    "sha256": "fb08c1999b5cb6f2d061116661159753a755bac83978c73a668958b59f682572",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Vcs/GitLabApi.php",
+    "extension": ".php",
+    "bytes": 9191,
+    "sha256": "f33bae067d01c779faa026ede28aefd9f2a371fb66593d3143d608c317885aca",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Vcs/PluginUpdateChecker.php",
+    "extension": ".php",
+    "bytes": 7115,
+    "sha256": "2e7cc5411a977f3e5a89b86b650686429f7c580cab5f62e346d8301497a86396",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Vcs/Reference.php",
+    "extension": ".php",
+    "bytes": 1139,
+    "sha256": "b2898cdb6e48c5fde4328a6308caecb3285b18a0c9246deb15a2d0cccee95f80",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/Puc/v4p9/Vcs/ThemeUpdateChecker.php",
+    "extension": ".php",
+    "bytes": 3764,
+    "sha256": "76eabc8772e91d3f8567f9254c10d8bbf50835bdcbad379e9bff4f6608227d68",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/README.md",
+    "extension": ".md",
+    "bytes": 16621,
+    "sha256": "929829f04e3ebeef3bd21b78c27aa4ab7f48418613277a278362ffa8cafb8a1d",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/composer.json",
+    "extension": ".json",
+    "bytes": 694,
+    "sha256": "d3cd8854751bb913a815a0a244aed23155d92202fa37964dc9d7dbba76b2a358",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/css/puc-debug-bar.css",
+    "extension": ".css",
+    "bytes": 1334,
+    "sha256": "10b19856db2a370f92a1be3a42ccbd174222f7e53321af00bf7e4278e34bd657",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/examples/plugin.json",
+    "extension": ".json",
+    "bytes": 1588,
+    "sha256": "8b2213b2e33be9fe5b105d63bfd2e9249152d0da51653331f2385eb9c09a1ea5",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/examples/theme.json",
+    "extension": ".json",
+    "bytes": 145,
+    "sha256": "37ba37cac85561d384646b7deab6215ec2d9fd62058e1fbbaf5c998467905e7c",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/js/debug-bar.js",
+    "extension": ".js",
+    "bytes": 1624,
+    "sha256": "311715529e8fad341e62364ea6a01e9b0dcede19396d802fc8b8375f4b1516fe",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-ca.mo",
+    "extension": ".mo",
+    "bytes": 1186,
+    "sha256": "d3bdbf4488d742cf79d90387ac4b98bb165e1fc8d3218f191601e2d93f4205d1",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-ca.po",
+    "extension": ".po",
+    "bytes": 1573,
+    "sha256": "4efc463f116e4faa8b13e11e26f0bd89760b0e45fb22033787c41e16d830924e",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-cs_CZ.mo",
+    "extension": ".mo",
+    "bytes": 1077,
+    "sha256": "fdc548b5c9f66e3aa651db0e81b9a83b1d854d10596252f5c1fb4b9b61d46adc",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-cs_CZ.po",
+    "extension": ".po",
+    "bytes": 1449,
+    "sha256": "db06bffba172b1a8225cc91b5119a0913ea0ffe2de998c3ce0770471e4ef5d8e",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-da_DK.mo",
+    "extension": ".mo",
+    "bytes": 1010,
+    "sha256": "cd1d3fddd8d247e535eb5d1995fe8cfd0efc5ba5de12758ce1d10bd822927103",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-da_DK.po",
+    "extension": ".po",
+    "bytes": 1324,
+    "sha256": "3f1bb354e6762d6fd432275c63bfd542fc8540fa97d3dd137676ca1b2f6018a4",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-de_DE.mo",
+    "extension": ".mo",
+    "bytes": 980,
+    "sha256": "9d88faa650197369f6b7f557173153601ba06c7a1854447e1faac279c528deab",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-de_DE.po",
+    "extension": ".po",
+    "bytes": 1193,
+    "sha256": "f028ec94c621cf5355cd3cf4201e5f269c7fd770e966a02313cdf4e7e06b1619",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-es_ES.mo",
+    "extension": ".mo",
+    "bytes": 1178,
+    "sha256": "f91e8d447947739fcbbbbe377e6e2664319272c74c633e1902ef4ea76fb34544",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-es_ES.po",
+    "extension": ".po",
+    "bytes": 1565,
+    "sha256": "4db3bdcb3caeb5a8fe655856a6f8185049685473ccbf65dbb71bef163cfa200c",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-fa_IR.mo",
+    "extension": ".mo",
+    "bytes": 1128,
+    "sha256": "cd8d9c1c3acc03ee49a829c55fad4cb58585abfd86f18c7b23d3a37ab7366c47",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-fa_IR.po",
+    "extension": ".po",
+    "bytes": 1341,
+    "sha256": "0881831cc297ff9e47960a0b7b0f0fd83ce0e2011976bbac88e9e9a6a36a1758",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-fr_CA.mo",
+    "extension": ".mo",
+    "bytes": 1208,
+    "sha256": "79b918f71844e4738008b9e37d6465996407fbf4a2cff7edf9b5911c0cbe220e",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-fr_CA.po",
+    "extension": ".po",
+    "bytes": 1600,
+    "sha256": "ff33e627ef27e83629a474e51ff46bc4932cd877aca2916d8594bf0873b014d2",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-fr_FR.mo",
+    "extension": ".mo",
+    "bytes": 1066,
+    "sha256": "c934f43879e1eb7ccb44f80fe4acd3c53544552138547e4a2970940d33140d17",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-fr_FR.po",
+    "extension": ".po",
+    "bytes": 1380,
+    "sha256": "c9ca53374b1c093780653b4ac95c4e60017d0f948c6e4aa41cf868795c083f08",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-hu_HU.mo",
+    "extension": ".mo",
+    "bytes": 982,
+    "sha256": "164f463e17f7c8a1bf6cb1a8192287aed183474fb0ce34311f63f4ac62159b60",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-hu_HU.po",
+    "extension": ".po",
+    "bytes": 1256,
+    "sha256": "c86869e7915be2ed6566a16c28d88e1462fe443e2320c8c09153811c04a063ef",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-it_IT.mo",
+    "extension": ".mo",
+    "bytes": 989,
+    "sha256": "74f563d288cc12cd567ea1490eb4646a42d1be2b9b8aa694479ba1f0a1848106",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-it_IT.po",
+    "extension": ".po",
+    "bytes": 1202,
+    "sha256": "791c455c283ac08d6d92eae26fdd78609b5217fa44f10d8875754708f059923d",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-ja.mo",
+    "extension": ".mo",
+    "bytes": 1454,
+    "sha256": "edb9e5b2a8cac7d31b16508996ca85e82b41b040a92fbdae889d5c55c9d8937a",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-ja.po",
+    "extension": ".po",
+    "bytes": 1828,
+    "sha256": "08a94a05d00049a40b64e7990b8f59db6c7b23227353794088b45119418da8d3",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-nl_BE.mo",
+    "extension": ".mo",
+    "bytes": 1211,
+    "sha256": "c585812d909631cb62eb36ff65d830321efd39de6cf2d7a9e2cbdaadfc87a228",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-nl_BE.po",
+    "extension": ".po",
+    "bytes": 1598,
+    "sha256": "288b5f2e478e64bf36e4414562086838cb189b61c9e919ed8645653db4144e9d",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-nl_NL.mo",
+    "extension": ".mo",
+    "bytes": 1211,
+    "sha256": "63c4d497c807ecc1dcbe29305fc5fc0896844610a140429c7caedf0eea5215f0",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-nl_NL.po",
+    "extension": ".po",
+    "bytes": 1598,
+    "sha256": "237bd0268e85fc34b55e30848d399bbe329f8db4ddcad60cd3358b5cc3a1c3a9",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-pt_BR.mo",
+    "extension": ".mo",
+    "bytes": 1014,
+    "sha256": "66a74d4e28a6cff6797cced4454b9648cf565c05a6d011edfcf9111befe8647d",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-pt_BR.po",
+    "extension": ".po",
+    "bytes": 1610,
+    "sha256": "06b507c57a0e6f282883b8a813c61dae054a7d54605a218bb5b2455cff78b814",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-sl_SI.mo",
+    "extension": ".mo",
+    "bytes": 1203,
+    "sha256": "3f61f54cc44dd781a9aec9d71b841ad7fce361bc18aafd44c295ce15a63c0d51",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-sl_SI.po",
+    "extension": ".po",
+    "bytes": 1590,
+    "sha256": "692d5306657a7fc2e83e0a8d490734fdb8014d36ad35bdd0aa20ab993ca4fbb8",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-sv_SE.mo",
+    "extension": ".mo",
+    "bytes": 1006,
+    "sha256": "4d70a56814fd99c35e4f5965b87456c0d81d76f4f15fcb36b5acd08669bbbbde",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker-sv_SE.po",
+    "extension": ".po",
+    "bytes": 1318,
+    "sha256": "cc12622b833ecd422bd280a213feb2767f2399a82dcdebc3fc9baf2dd93cb0d7",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/languages/plugin-update-checker.pot",
+    "extension": ".pot",
+    "bytes": 1343,
+    "sha256": "4d95b6deee82bafb905246868c235273621a511b394c51a98f4a53c74b5be2ed",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/license.txt",
+    "extension": ".txt",
+    "bytes": 1063,
+    "sha256": "0efc20a920e8553a2be413f5df4a6fbcf85847bec93cd0794e29dbe126b15608",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/load-v4p9.php",
+    "extension": ".php",
+    "bytes": 1052,
+    "sha256": "b2fd275405052d46a6b5eec988ee999f2bb0130d6f1230aabae5cbabd4d2df30",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/plugin-update-checker.php",
+    "extension": ".php",
+    "bytes": 227,
+    "sha256": "bab7d8565934041db2aa32e18eeee175b2d7100fec13e02e786a135ec78005e2",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/vendor/Parsedown.php",
+    "extension": ".php",
+    "bytes": 293,
+    "sha256": "73d1aa11881d38db2cff8986790a946133a907cbb7865c440ae1add00e98e1bc",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/vendor/ParsedownLegacy.php",
+    "extension": ".php",
+    "bytes": 38844,
+    "sha256": "d3ce3e720b30cab10085f5d75d095efdacb30a7156d8e51287bf6968e499c88a",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/vendor/ParsedownModern.php",
+    "extension": ".php",
+    "bytes": 39150,
+    "sha256": "5a1d8f0c597d6f4dd469814a1c0b97095f6ee7c08fbfa9282c0ef79a57461681",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker/vendor/PucReadmeParser.php",
+    "extension": ".php",
+    "bytes": 12311,
+    "sha256": "2303b50bcb3e36e863d1e757f63beec66360152f663e1f3075018d1efc19024a",
+    "category": "third-party"
+  },
+  {
+    "path": "plugin-update-checker.php",
+    "extension": ".php",
+    "bytes": 306,
+    "sha256": "721cf0b6b8b51ae32ea4f28fef58ca5b0123d077688b89d7dbffd8b10e348914",
+    "category": "updater-wrapper"
+  },
+  {
+    "path": "pwe-system.php",
+    "extension": ".php",
+    "bytes": 1319,
+    "sha256": "33801d80be986aa996438a28ed41ed0893aaae3d1e53dc2df7ad3faa55038949",
+    "category": "bootstrap"
+  }
+]

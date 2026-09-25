@@ -1,0 +1,2322 @@
+[
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_about_desc_en",
+    "callback": "handle_fair_shortcode($atts, \"about_desc_en\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 198,
+    "description": "Zwraca pole `about_desc_en` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_about_desc_pl",
+    "callback": "handle_fair_shortcode($atts, \"about_desc_pl\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 197,
+    "description": "Zwraca pole `about_desc_pl` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_about_title_en",
+    "callback": "handle_fair_shortcode($atts, \"about_title_en\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 196,
+    "description": "Zwraca pole `about_title_en` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_about_title_pl",
+    "callback": "handle_fair_shortcode($atts, \"about_title_pl\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 195,
+    "description": "Zwraca pole `about_title_pl` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_area",
+    "callback": "handle_fair_shortcode($atts, \"fair_area_current\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 167,
+    "description": "Zwraca pole `fair_area_current` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_area_prev",
+    "callback": "handle_fair_shortcode($atts, \"fair_area_previous\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 173,
+    "description": "Zwraca pole `fair_area_previous` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_badge",
+    "callback": "handle_fair_shortcode($atts, \"badge\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 179,
+    "description": "Zwraca pole `badge` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_catalog",
+    "callback": "handle_fair_shortcode($atts, \"catalog\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 184,
+    "description": "Zwraca pole `catalog` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_catalog_id",
+    "callback": "handle_fair_shortcode($atts, \"catalog_id\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 185,
+    "description": "Zwraca pole `catalog_id` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_category_en",
+    "callback": "handle_fair_shortcode($atts, \"category_en\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 187,
+    "description": "Zwraca pole `category_en` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_category_pl",
+    "callback": "handle_fair_shortcode($atts, \"category_pl\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 186,
+    "description": "Zwraca pole `category_pl` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_color_accent",
+    "callback": "handle_fair_shortcode($atts, \"color_accent\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 177,
+    "description": "Zwraca pole `color_accent` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_color_main2",
+    "callback": "handle_fair_shortcode($atts, \"color_main2\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 178,
+    "description": "Zwraca pole `color_main2` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_conference_desc_en",
+    "callback": "handle_fair_shortcode($atts, \"conference_desc_en\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 194,
+    "description": "Zwraca pole `conference_desc_en` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_conference_desc_pl",
+    "callback": "handle_fair_shortcode($atts, \"conference_desc_pl\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 193,
+    "description": "Zwraca pole `conference_desc_pl` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_conference_name",
+    "callback": "handle_fair_shortcode($atts, \"conference_name\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 190,
+    "description": "Zwraca pole `conference_name` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_conference_title_en",
+    "callback": "handle_fair_shortcode($atts, \"conference_title_en\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 192,
+    "description": "Zwraca pole `conference_title_en` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_conference_title_pl",
+    "callback": "handle_fair_shortcode($atts, \"conference_title_pl\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 191,
+    "description": "Zwraca pole `conference_title_pl` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_countries",
+    "callback": "handle_fair_shortcode($atts, \"fair_countries_current\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 166,
+    "description": "Zwraca pole `fair_countries_current` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_countries_prev",
+    "callback": "handle_fair_shortcode($atts, \"fair_countries_previous\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 172,
+    "description": "Zwraca pole `fair_countries_previous` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_date_end",
+    "callback": "handle_fair_shortcode($atts, \"date_end\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 160,
+    "description": "Zwraca pole `date_end` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_date_end_hour",
+    "callback": "handle_fair_shortcode($atts, \"date_end_hour\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 161,
+    "description": "Zwraca pole `date_end_hour` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_date_start",
+    "callback": "handle_fair_shortcode($atts, \"date_start\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 158,
+    "description": "Zwraca pole `date_start` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_date_start_hour",
+    "callback": "handle_fair_shortcode($atts, \"date_start_hour\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 159,
+    "description": "Zwraca pole `date_start_hour` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_desc_en",
+    "callback": "handle_fair_shortcode($atts, \"desc_en\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 152,
+    "description": "Zwraca pole `desc_en` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_desc_pl",
+    "callback": "handle_fair_shortcode($atts, \"desc_pl\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 151,
+    "description": "Zwraca pole `desc_pl` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_edition",
+    "callback": "handle_fair_shortcode($atts, \"edition\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 162,
+    "description": "Zwraca pole `edition` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_exhibitors",
+    "callback": "handle_fair_shortcode($atts, \"fair_exhibitors_current\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 165,
+    "description": "Zwraca pole `fair_exhibitors_current` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_exhibitors_prev",
+    "callback": "handle_fair_shortcode($atts, \"fair_exhibitors_previous\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 171,
+    "description": "Zwraca pole `fair_exhibitors_previous` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_facebook",
+    "callback": "handle_fair_shortcode($atts, \"facebook\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 180,
+    "description": "Zwraca pole `facebook` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_fair_id",
+    "callback": "handle_fair_shortcode($atts, \"id\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 153,
+    "description": "Zwraca pole `id` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_full_desc_en",
+    "callback": "handle_fair_shortcode($atts, \"full_desc_en\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 157,
+    "description": "Zwraca pole `full_desc_en` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_full_desc_pl",
+    "callback": "handle_fair_shortcode($atts, \"full_desc_pl\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 156,
+    "description": "Zwraca pole `full_desc_pl` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_group",
+    "callback": "handle_fair_shortcode($atts, \"group\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 189,
+    "description": "Zwraca pole `group` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_hall",
+    "callback": "handle_fair_shortcode($atts, \"hall\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 175,
+    "description": "Zwraca pole `hall` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_hall_entrance",
+    "callback": "handle_fair_shortcode($atts, \"hall_entrance\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 176,
+    "description": "Zwraca pole `hall_entrance` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_industry",
+    "callback": "handle_fair_shortcode($atts, \"industry\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 188,
+    "description": "Zwraca pole `industry` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_instagram",
+    "callback": "handle_fair_shortcode($atts, \"instagram\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 181,
+    "description": "Zwraca pole `instagram` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "class-map",
+    "tag": "pwe_lang_domain",
+    "callback": "PWE_Shortcodes::get_lang_domain",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 89,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `get_lang_domain()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_linkedin",
+    "callback": "handle_fair_shortcode($atts, \"linkedin\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 182,
+    "description": "Zwraca pole `linkedin` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "class-map",
+    "tag": "pwe_mailing_header_platyna_url",
+    "callback": "PWE_Shortcodes::show_pwe_mailing_header_platyna_url",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 145,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_pwe_mailing_header_platyna_url()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "pwe_mailing_header_url",
+    "callback": "PWE_Shortcodes::show_pwe_mailing_header_url",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 144,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_pwe_mailing_header_url()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_name_en",
+    "callback": "handle_fair_shortcode($atts, \"name_en\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 150,
+    "description": "Zwraca pole `name_en` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_name_pl",
+    "callback": "handle_fair_shortcode($atts, \"name_pl\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 149,
+    "description": "Zwraca pole `name_pl` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_short_desc_en",
+    "callback": "handle_fair_shortcode($atts, \"short_desc_en\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 155,
+    "description": "Zwraca pole `short_desc_en` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_short_desc_pl",
+    "callback": "handle_fair_shortcode($atts, \"short_desc_pl\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 154,
+    "description": "Zwraca pole `short_desc_pl` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_statistics_year_curr",
+    "callback": "handle_fair_shortcode($atts, \"fair_year_current\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 168,
+    "description": "Zwraca pole `fair_year_current` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_statistics_year_prev",
+    "callback": "handle_fair_shortcode($atts, \"fair_year_previous\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 174,
+    "description": "Zwraca pole `fair_year_previous` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_visitors",
+    "callback": "handle_fair_shortcode($atts, \"fair_visitors_current\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 163,
+    "description": "Zwraca pole `fair_visitors_current` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_visitors_foreign",
+    "callback": "handle_fair_shortcode($atts, \"fair_foreign_current\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 164,
+    "description": "Zwraca pole `fair_foreign_current` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_visitors_foreign_prev",
+    "callback": "handle_fair_shortcode($atts, \"fair_foreign_previous\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 170,
+    "description": "Zwraca pole `fair_foreign_previous` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_visitors_prev",
+    "callback": "handle_fair_shortcode($atts, \"fair_visitors_previous\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 169,
+    "description": "Zwraca pole `fair_visitors_previous` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "dynamic-map",
+    "tag": "pwe_youtube",
+    "callback": "handle_fair_shortcode($atts, \"youtube\")",
+    "category": "PWE data / CAP",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 183,
+    "description": "Zwraca pole `youtube` danych targów. Tag należy do mapy `pwe_get_shortcode_map()` i jest rejestrowany przez `register_dynamic_shortcodes()`.",
+    "options": [
+      "domain"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::get_database_fairs_data",
+      "PWE_Functions::get_database_translations_data"
+    ],
+    "callback_mode": "closure-dispatch"
+  },
+  {
+    "kind": "class-map",
+    "tag": "sc_pwe_text_add_calendar",
+    "callback": "PWE_Shortcodes::sc_pwe_text_add_calendar",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 131,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `sc_pwe_text_add_calendar()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "sc_pwe_text_become_an_exhibitor",
+    "callback": "PWE_Shortcodes::sc_pwe_text_become_an_exhibitor",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 140,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `sc_pwe_text_become_an_exhibitor()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "sc_pwe_text_contact",
+    "callback": "PWE_Shortcodes::sc_pwe_text_contact",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 136,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `sc_pwe_text_contact()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "sc_pwe_text_events",
+    "callback": "PWE_Shortcodes::sc_pwe_text_events",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 135,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `sc_pwe_text_events()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "sc_pwe_text_exh_catalog",
+    "callback": "PWE_Shortcodes::sc_pwe_text_exh_catalog",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 134,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `sc_pwe_text_exh_catalog()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "sc_pwe_text_fair_plan",
+    "callback": "PWE_Shortcodes::sc_pwe_text_fair_plan",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 137,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `sc_pwe_text_fair_plan()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "sc_pwe_text_for_exhibitors",
+    "callback": "PWE_Shortcodes::sc_pwe_text_for_exhibitors",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 130,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `sc_pwe_text_for_exhibitors()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "sc_pwe_text_for_visitors",
+    "callback": "PWE_Shortcodes::sc_pwe_text_for_visitors",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 129,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `sc_pwe_text_for_visitors()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "sc_pwe_text_gallery",
+    "callback": "PWE_Shortcodes::sc_pwe_text_gallery",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 132,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `sc_pwe_text_gallery()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "sc_pwe_text_news",
+    "callback": "PWE_Shortcodes::sc_pwe_text_news",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 128,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `sc_pwe_text_news()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "sc_pwe_text_org_info",
+    "callback": "PWE_Shortcodes::sc_pwe_text_org_info",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 133,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `sc_pwe_text_org_info()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "sc_pwe_text_promote_yourself",
+    "callback": "PWE_Shortcodes::sc_pwe_text_promote_yourself",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 139,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `sc_pwe_text_promote_yourself()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "sc_pwe_text_registration",
+    "callback": "PWE_Shortcodes::sc_pwe_text_registration",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 138,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `sc_pwe_text_registration()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "sc_pwe_text_store",
+    "callback": "PWE_Shortcodes::sc_pwe_text_store",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 141,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `sc_pwe_text_store()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "sc_pwe_trade_fair_conference_title",
+    "callback": "show_trade_fair_conference_title (pl) / show_trade_fair_conference_title_eng (inne)",
+    "category": "PWE Shortcodes / SEO",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 127,
+    "description": "Callback zależy od `PWE_LANG`: PL używa `show_trade_fair_conference_title`, pozostałe wersje `show_trade_fair_conference_title_eng`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "language-switch"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_1stbuildday",
+    "callback": "PWE_Shortcodes::show_trade_fair_1stbuildday",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 67,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_1stbuildday()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_1stdismantlday",
+    "callback": "PWE_Shortcodes::show_trade_fair_1stdismantlday",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 69,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_1stdismantlday()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_2ndbuildday",
+    "callback": "PWE_Shortcodes::show_trade_fair_2ndbuildday",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 68,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_2ndbuildday()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_2nddismantlday",
+    "callback": "PWE_Shortcodes::show_trade_fair_2nddismantlday",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 70,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_2nddismantlday()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_accent",
+    "callback": "PWE_Shortcodes::show_trade_fair_accent",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 77,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_accent()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_actualyear",
+    "callback": "PWE_Shortcodes::show_trade_fair_actualyear",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 91,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_actualyear()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_badge",
+    "callback": "PWE_Shortcodes::show_trade_fair_badge",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 81,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_badge()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_branzowy",
+    "callback": "PWE_Shortcodes::show_trade_fair_branzowy",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 79,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_branzowy()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_branzowy_eng",
+    "callback": "PWE_Shortcodes::show_trade_fair_branzowy_eng",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 80,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_branzowy_eng()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_catalog",
+    "callback": "PWE_Shortcodes::show_trade_fair_catalog",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 54,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_catalog()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_catalog_archive",
+    "callback": "PWE_Shortcodes::show_trade_fair_catalog_archive",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 56,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_catalog_archive()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_catalog_id",
+    "callback": "PWE_Shortcodes::show_trade_fair_catalog_id",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 55,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_catalog_id()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_catalog_id_archive",
+    "callback": "PWE_Shortcodes::show_trade_fair_catalog_id_archive",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 57,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_catalog_id_archive()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_catalog_year",
+    "callback": "PWE_Shortcodes::show_trade_fair_catalog_year",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 58,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_catalog_year()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_conferance",
+    "callback": "PWE_Shortcodes::show_trade_fair_conference_title",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 64,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_conference_title()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_conferance_eng",
+    "callback": "PWE_Shortcodes::show_trade_fair_conference_title_eng",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 65,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_conference_title_eng()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_conference",
+    "callback": "PWE_Shortcodes::show_trade_fair_conference",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 60,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_conference()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_conference_title",
+    "callback": "PWE_Shortcodes::show_trade_fair_conference_title",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 61,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_conference_title()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_conference_title_eng",
+    "callback": "PWE_Shortcodes::show_trade_fair_conference_title_eng",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 62,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_conference_title_eng()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 93,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_email_vip",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_email_vip",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 110,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_email_vip()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_medal_ceremony_email",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_medal_ceremony_email",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 113,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_medal_ceremony_email()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_media",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_media",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 98,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_media()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_media_name",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_media_name",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 100,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_media_name()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_media_person_email",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_media_person_email",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 103,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_media_person_email()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_media_person_email_2",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_media_person_email_2",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 106,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_media_person_email_2()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_media_person_email_3",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_media_person_email_3",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 109,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_media_person_email_3()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_media_person_name",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_media_person_name",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 101,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_media_person_name()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_media_person_name_2",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_media_person_name_2",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 104,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_media_person_name_2()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_media_person_name_3",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_media_person_name_3",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 107,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_media_person_name_3()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_media_person_phone",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_media_person_phone",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 102,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_media_person_phone()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_media_person_phone_2",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_media_person_phone_2",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 105,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_media_person_phone_2()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_media_person_phone_3",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_media_person_phone_3",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 108,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_media_person_phone_3()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_media_phone",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_media_phone",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 99,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_media_phone()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_phone_vip",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_phone_vip",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 111,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_phone_vip()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_service_email",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_service_email",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 96,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_service_email()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_service_name",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_service_name",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 94,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_service_name()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_service_phone",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_service_phone",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 95,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_service_phone()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_contact_tech",
+    "callback": "PWE_Shortcodes::show_trade_fair_contact_tech",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 97,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_contact_tech()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_date",
+    "callback": "PWE_Shortcodes::show_trade_fair_date",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 47,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_date()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_date_custom_format",
+    "callback": "PWE_Shortcodes::show_trade_fair_date_custom_format",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 46,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_date_custom_format()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_date_eng",
+    "callback": "PWE_Shortcodes::show_trade_fair_date_eng",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 48,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_date_eng()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_date_multilang",
+    "callback": "PWE_Shortcodes::show_trade_fair_date_multilang",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 49,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_date_multilang()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_datetotimer",
+    "callback": "PWE_Shortcodes::show_trade_fair_datetotimer",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 44,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_datetotimer()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_desc",
+    "callback": "PWE_Shortcodes::show_trade_fair_desc",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 39,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_desc()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_desc_eng",
+    "callback": "PWE_Shortcodes::show_trade_fair_desc_eng",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 40,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_desc_eng()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_desc_short",
+    "callback": "PWE_Shortcodes::show_trade_fair_desc_short",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 41,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_desc_short()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_desc_short_eng",
+    "callback": "PWE_Shortcodes::show_trade_fair_desc_short_eng",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 42,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_desc_short_eng()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_domainadress",
+    "callback": "PWE_Shortcodes::show_trade_fair_domainadress",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 90,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_domainadress()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_edition",
+    "callback": "PWE_Shortcodes::show_trade_fair_edition",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 76,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_edition()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_enddata",
+    "callback": "PWE_Shortcodes::show_trade_fair_enddata",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 45,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_enddata()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_exhibitor_generator_badge_url",
+    "callback": "PWE_Shortcodes::show_trade_fair_exhibitor_generator_badge_url",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 123,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_exhibitor_generator_badge_url()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_exhibitor_generator_header_url",
+    "callback": "PWE_Shortcodes::show_trade_fair_exhibitor_generator_header_url",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 122,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_exhibitor_generator_header_url()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_exhibitor_generator_icons",
+    "callback": "PWE_Shortcodes::show_trade_fair_exhibitor_generator_icons",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 120,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_exhibitor_generator_icons()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_exhibitor_generator_text",
+    "callback": "PWE_Shortcodes::show_trade_fair_exhibitor_generator_text",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 121,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_exhibitor_generator_text()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_facebook",
+    "callback": "PWE_Shortcodes::show_trade_fair_facebook",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 84,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_facebook()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_feed_prefix",
+    "callback": "PWE_Shortcodes::show_trade_fair_feed_prefix",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 82,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_feed_prefix()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_first_day",
+    "callback": "PWE_Shortcodes::show_trade_fair_first_day",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 50,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_first_day()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_full_desc",
+    "callback": "PWE_Shortcodes::sc_pwe_trade_fair_full_desc",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 126,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `sc_pwe_trade_fair_full_desc()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_group",
+    "callback": "PWE_Shortcodes::show_trade_fair_group",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 75,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_group()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_hall",
+    "callback": "PWE_Shortcodes::show_trade_fair_hall",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 72,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_hall()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_hall_entrance",
+    "callback": "PWE_Shortcodes::show_trade_fair_hall_entrance",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 73,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_hall_entrance()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_instagram",
+    "callback": "PWE_Shortcodes::show_trade_fair_instagram",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 85,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_instagram()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_lidy",
+    "callback": "PWE_Shortcodes::show_trade_fair_lidy",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 112,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_lidy()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_linkedin",
+    "callback": "PWE_Shortcodes::show_trade_fair_linkedin",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 86,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_linkedin()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_main2",
+    "callback": "PWE_Shortcodes::show_trade_fair_main2",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 78,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_main2()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_name",
+    "callback": "PWE_Shortcodes::show_trade_fair_name",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 37,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_name()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_name_eng",
+    "callback": "PWE_Shortcodes::show_trade_fair_name_eng",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 38,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_name_eng()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_registration_benefits_en",
+    "callback": "PWE_Shortcodes::show_trade_fair_registration_benefits_en",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 116,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_registration_benefits_en()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_registration_benefits_pl",
+    "callback": "PWE_Shortcodes::show_trade_fair_registration_benefits_pl",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 115,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_registration_benefits_pl()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_rejestracja",
+    "callback": "PWE_Shortcodes::show_trade_fair_rejestracja",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 92,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_rejestracja()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_second_day",
+    "callback": "PWE_Shortcodes::show_trade_fair_second_day",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 51,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_second_day()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_third_day",
+    "callback": "PWE_Shortcodes::show_trade_fair_third_day",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 52,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_third_day()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_ticket_benefits_en",
+    "callback": "PWE_Shortcodes::show_trade_fair_ticket_benefits_en",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 118,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_ticket_benefits_en()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_ticket_benefits_pl",
+    "callback": "PWE_Shortcodes::show_trade_fair_ticket_benefits_pl",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 117,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_ticket_benefits_pl()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "class-map",
+    "tag": "trade_fair_youtube",
+    "callback": "PWE_Shortcodes::show_trade_fair_youtube",
+    "category": "PWE Shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 87,
+    "description": "Tag rejestrowany przez `PWE_Shortcodes::register_shortcodes()` na podstawie `get_shortcodes_map()`; callback `show_trade_fair_youtube()`.",
+    "options": [],
+    "shortcodes_used": [],
+    "pwe_functions": [],
+    "callback_mode": "method-map"
+  },
+  {
+    "kind": "dynamic-url",
+    "tag": "url_dla_odwiedzajacych",
+    "callback": "PWE_Shortcodes::show_multilang_url",
+    "category": "Adresy wielojęzyczne",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 4148,
+    "description": "Dynamiczny URL dla klucza `dla_odwiedzajacych`. Lista kluczy pochodzi z `pwe-multilang/website-translation.json`, a w razie braku/błędu z `PWE System/data/website-translation.json`.",
+    "options": [
+      "lang",
+      "absolute"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::lang"
+    ],
+    "callback_mode": "dynamic-json-key"
+  },
+  {
+    "kind": "dynamic-url",
+    "tag": "url_dla_wystawcow",
+    "callback": "PWE_Shortcodes::show_multilang_url",
+    "category": "Adresy wielojęzyczne",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 4148,
+    "description": "Dynamiczny URL dla klucza `dla_wystawcow`. Lista kluczy pochodzi z `pwe-multilang/website-translation.json`, a w razie braku/błędu z `PWE System/data/website-translation.json`.",
+    "options": [
+      "lang",
+      "absolute"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::lang"
+    ],
+    "callback_mode": "dynamic-json-key"
+  },
+  {
+    "kind": "dynamic-url",
+    "tag": "url_home",
+    "callback": "PWE_Shortcodes::show_multilang_url",
+    "category": "Adresy wielojęzyczne",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 4148,
+    "description": "Dynamiczny URL dla klucza `home`. Lista kluczy pochodzi z `pwe-multilang/website-translation.json`, a w razie braku/błędu z `PWE System/data/website-translation.json`.",
+    "options": [
+      "lang",
+      "absolute"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::lang"
+    ],
+    "callback_mode": "dynamic-json-key"
+  },
+  {
+    "kind": "dynamic-url",
+    "tag": "url_informacje_organizacyjne_dla_wystawcow",
+    "callback": "PWE_Shortcodes::show_multilang_url",
+    "category": "Adresy wielojęzyczne",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 4148,
+    "description": "Dynamiczny URL dla klucza `informacje_organizacyjne_dla_wystawcow`. Lista kluczy pochodzi z `pwe-multilang/website-translation.json`, a w razie braku/błędu z `PWE System/data/website-translation.json`.",
+    "options": [
+      "lang",
+      "absolute"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::lang"
+    ],
+    "callback_mode": "dynamic-json-key"
+  },
+  {
+    "kind": "dynamic-url",
+    "tag": "url_katalog_wystawcow",
+    "callback": "PWE_Shortcodes::show_multilang_url",
+    "category": "Adresy wielojęzyczne",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 4148,
+    "description": "Dynamiczny URL dla klucza `katalog_wystawcow`. Lista kluczy pochodzi z `pwe-multilang/website-translation.json`, a w razie braku/błędu z `PWE System/data/website-translation.json`.",
+    "options": [
+      "lang",
+      "absolute"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::lang"
+    ],
+    "callback_mode": "dynamic-json-key"
+  },
+  {
+    "kind": "dynamic-url",
+    "tag": "url_kontakt",
+    "callback": "PWE_Shortcodes::show_multilang_url",
+    "category": "Adresy wielojęzyczne",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 4148,
+    "description": "Dynamiczny URL dla klucza `kontakt`. Lista kluczy pochodzi z `pwe-multilang/website-translation.json`, a w razie braku/błędu z `PWE System/data/website-translation.json`.",
+    "options": [
+      "lang",
+      "absolute"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::lang"
+    ],
+    "callback_mode": "dynamic-json-key"
+  },
+  {
+    "kind": "dynamic-url",
+    "tag": "url_krok2",
+    "callback": "PWE_Shortcodes::show_multilang_url",
+    "category": "Adresy wielojęzyczne",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 4148,
+    "description": "Dynamiczny URL dla klucza `krok2`. Lista kluczy pochodzi z `pwe-multilang/website-translation.json`, a w razie braku/błędu z `PWE System/data/website-translation.json`.",
+    "options": [
+      "lang",
+      "absolute"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::lang"
+    ],
+    "callback_mode": "dynamic-json-key"
+  },
+  {
+    "kind": "dynamic-url",
+    "tag": "url_potwierdzenie_rejestracji_wystawcy",
+    "callback": "PWE_Shortcodes::show_multilang_url",
+    "category": "Adresy wielojęzyczne",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 4148,
+    "description": "Dynamiczny URL dla klucza `potwierdzenie_rejestracji_wystawcy`. Lista kluczy pochodzi z `pwe-multilang/website-translation.json`, a w razie braku/błędu z `PWE System/data/website-translation.json`.",
+    "options": [
+      "lang",
+      "absolute"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::lang"
+    ],
+    "callback_mode": "dynamic-json-key"
+  },
+  {
+    "kind": "dynamic-url",
+    "tag": "url_rejestracja",
+    "callback": "PWE_Shortcodes::show_multilang_url",
+    "category": "Adresy wielojęzyczne",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 4148,
+    "description": "Dynamiczny URL dla klucza `rejestracja`. Lista kluczy pochodzi z `pwe-multilang/website-translation.json`, a w razie braku/błędu z `PWE System/data/website-translation.json`.",
+    "options": [
+      "lang",
+      "absolute"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::lang"
+    ],
+    "callback_mode": "dynamic-json-key"
+  },
+  {
+    "kind": "dynamic-url",
+    "tag": "url_wypromuj_sie",
+    "callback": "PWE_Shortcodes::show_multilang_url",
+    "category": "Adresy wielojęzyczne",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 4148,
+    "description": "Dynamiczny URL dla klucza `wypromuj_sie`. Lista kluczy pochodzi z `pwe-multilang/website-translation.json`, a w razie braku/błędu z `PWE System/data/website-translation.json`.",
+    "options": [
+      "lang",
+      "absolute"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::lang"
+    ],
+    "callback_mode": "dynamic-json-key"
+  },
+  {
+    "kind": "dynamic-url",
+    "tag": "url_zostan_wystawca",
+    "callback": "PWE_Shortcodes::show_multilang_url",
+    "category": "Adresy wielojęzyczne",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 4148,
+    "description": "Dynamiczny URL dla klucza `zostan_wystawca`. Lista kluczy pochodzi z `pwe-multilang/website-translation.json`, a w razie braku/błędu z `PWE System/data/website-translation.json`.",
+    "options": [
+      "lang",
+      "absolute"
+    ],
+    "shortcodes_used": [],
+    "pwe_functions": [
+      "PWE_Functions::lang"
+    ],
+    "callback_mode": "dynamic-json-key"
+  }
+]

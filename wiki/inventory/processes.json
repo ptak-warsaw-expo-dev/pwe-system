@@ -1,0 +1,288 @@
+[
+  {
+    "id": "bootstrap-and-compatibility",
+    "name": "Bootstrap i warstwa zgodności PWE",
+    "status": "active",
+    "document": "bootstrap-and-compatibility.md",
+    "entrypoints": [
+      "plugin-bootstrap",
+      "plugin-activation"
+    ],
+    "symbols": [
+      "PWE_System::init",
+      "PWE_System::activate",
+      "PWE_System_Functions"
+    ],
+    "side_effects": [
+      "loads modules",
+      "adds capabilities",
+      "PWE_Functions class alias"
+    ],
+    "integrations": [
+      "wordpress",
+      "pwe-elements",
+      "pwe-elements-auto-switch"
+    ]
+  },
+  {
+    "id": "doc-manager",
+    "name": "Zarządzanie katalogiem /doc",
+    "status": "active",
+    "document": "doc-manager.md",
+    "entrypoints": [
+      "doc-list",
+      "doc-mkdir",
+      "doc-rename",
+      "doc-delete",
+      "doc-move",
+      "doc-upload",
+      "doc-replace",
+      "doc-unzip"
+    ],
+    "symbols": [
+      "PWE_System_Doc_Manager"
+    ],
+    "side_effects": [
+      "filesystem /doc",
+      "pwe_system_log table"
+    ],
+    "integrations": [
+      "wordpress"
+    ]
+  },
+  {
+    "id": "graphics-api",
+    "name": "CAP Graphics API",
+    "status": "active",
+    "document": "graphics-api.md",
+    "entrypoints": [
+      "cap-graphics"
+    ],
+    "symbols": [
+      "pwe_system_api_images_status",
+      "pwe_system_api_images_send_notification"
+    ],
+    "side_effects": [
+      "read/write whitelisted /doc assets",
+      "wp_mail notification"
+    ],
+    "integrations": [
+      "wordpress",
+      "smtp"
+    ]
+  },
+  {
+    "id": "news-sync",
+    "name": "Synchronizacja newsów do WordPress",
+    "status": "active",
+    "document": "news-sync.md",
+    "entrypoints": [
+      "news-sync"
+    ],
+    "symbols": [
+      "pwe_system_api_news_assign_category",
+      "pwe_system_api_news_set_featured_image_from_url"
+    ],
+    "side_effects": [
+      "insert/update/delete posts PL/EN",
+      "WPML links",
+      "media sideload",
+      "post meta"
+    ],
+    "integrations": [
+      "wordpress",
+      "wpml",
+      "uncode"
+    ]
+  },
+  {
+    "id": "replace-content",
+    "name": "Seryjna podmiana treści stron",
+    "status": "active",
+    "document": "replace-content.md",
+    "entrypoints": [
+      "replace-content-start",
+      "replace-content-step"
+    ],
+    "symbols": [
+      "PWE_System_Replace_Content_Ajax",
+      "PWE_System_Replace_Content_Service"
+    ],
+    "side_effects": [
+      "page content update",
+      "Uncode meta update",
+      "transient job",
+      "MySQL advisory lock",
+      "WP Rocket cache clear"
+    ],
+    "integrations": [
+      "wordpress",
+      "wpml",
+      "uncode",
+      "wp-rocket",
+      "pwe-elements-auto-switch"
+    ]
+  },
+  {
+    "id": "resend-notifications",
+    "name": "Masowy resend powiadomień Gravity Forms",
+    "status": "active",
+    "document": "resend-notifications.md",
+    "entrypoints": [
+      "resend-admin-action"
+    ],
+    "symbols": [
+      "PWE_System_Resend_Actions::handle",
+      "PWE_System_Resend_Job_Runner::run",
+      "PWE_System_Resend_Matcher"
+    ],
+    "side_effects": [
+      "GF email delivery",
+      "GF entry meta",
+      "option pwe_system_resend_job",
+      "job logs"
+    ],
+    "integrations": [
+      "gravity-forms",
+      "smtp"
+    ]
+  },
+  {
+    "id": "forms-audit",
+    "name": "Audyt formularzy, QR i powiadomień",
+    "status": "conditional",
+    "document": "forms-audit.md",
+    "entrypoints": [
+      "forms-audit-boot",
+      "forms-audit-load",
+      "forms-audit-language-preview",
+      "forms-audit-resend",
+      "forms-audit-export"
+    ],
+    "symbols": [
+      "PWE_System_Forms_Audit_Module::boot",
+      "PWE_System_Forms_Audit_Tool"
+    ],
+    "side_effects": [
+      "session audit cache",
+      "optional resend actions",
+      "CSV export",
+      "GF notes/meta reads and writes"
+    ],
+    "integrations": [
+      "gravity-forms",
+      "pwe-qr-gravity-forms"
+    ]
+  },
+  {
+    "id": "qr-backfill",
+    "name": "Uzupełnianie brakujących QR",
+    "status": "conditional",
+    "document": "qr-backfill.md",
+    "entrypoints": [
+      "forms-backfill-scan",
+      "forms-backfill-generate"
+    ],
+    "symbols": [
+      "PWE_System_Forms_Backfill_Tool"
+    ],
+    "side_effects": [
+      "pwe_qr_code_url entry meta",
+      "pwe_qr_code_url_encoded entry meta"
+    ],
+    "integrations": [
+      "gravity-forms",
+      "pwe-qr-gravity-forms"
+    ]
+  },
+  {
+    "id": "shortcode-data-layer",
+    "name": "Warstwa danych [pwe_*]",
+    "status": "active",
+    "document": "shortcode-data-layer.md",
+    "entrypoints": [
+      "dynamic-pwe-shortcodes"
+    ],
+    "symbols": [
+      "get_fair_data",
+      "pwe_get_shortcode_map",
+      "register_dynamic_shortcodes",
+      "handle_fair_shortcode"
+    ],
+    "side_effects": [
+      "CAP DB reads",
+      "fallback JSON fetch"
+    ],
+    "integrations": [
+      "cap-db",
+      "wpml"
+    ]
+  },
+  {
+    "id": "shortcode-compatibility",
+    "name": "PWE_Shortcodes i zgodność z AutoSwitch",
+    "status": "active",
+    "document": "pwe-shortcodes.md",
+    "entrypoints": [
+      "pwe-shortcodes"
+    ],
+    "symbols": [
+      "PWE_Shortcodes::register_shortcodes",
+      "PWE_Shortcodes::replace_gf_merge_tags",
+      "PWE_Shortcodes::show_multilang_url"
+    ],
+    "side_effects": [
+      "register/remove shortcodes",
+      "GF merge tag replacement",
+      "Yoast replacements"
+    ],
+    "integrations": [
+      "gravity-forms",
+      "pwe-multilang",
+      "pwe-elements-auto-switch"
+    ]
+  },
+  {
+    "id": "cap-data-cache",
+    "name": "Dostęp i cache danych CAP",
+    "status": "active",
+    "document": "cap-data-cache.md",
+    "entrypoints": [
+      "plugin-bootstrap"
+    ],
+    "symbols": [
+      "PWE_System_Functions::connect_database",
+      "PWE_System_Functions::read_database_json_cache",
+      "PWE_System_Functions::write_database_json_cache",
+      "PWE_System_Functions::refresh_database_json_cache"
+    ],
+    "side_effects": [
+      "cross-server DB connections",
+      "JSON cache under uploads",
+      "diagnostic logs"
+    ],
+    "integrations": [
+      "cap-db"
+    ]
+  },
+  {
+    "id": "plugin-update",
+    "name": "Aktualizacja PWE System z GitHub",
+    "status": "active",
+    "document": "plugin-update.md",
+    "entrypoints": [
+      "plugin-bootstrap"
+    ],
+    "symbols": [
+      "PWE_System_Updater::setup_updater"
+    ],
+    "side_effects": [
+      "GitHub update checks",
+      "optional authenticated API"
+    ],
+    "integrations": [
+      "github",
+      "cap-db"
+    ]
+  }
+]

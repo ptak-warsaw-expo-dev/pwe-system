@@ -1,0 +1,13 @@
+[
+  {
+    "class": "PWE_System_Forms_Audit_Tool",
+    "source": "modules/forms-audit/pwe-forms-audit-module.php",
+    "line": 17,
+    "traits": [
+      "PWE_System_Forms_Audit_Render_Trait",
+      "PWE_System_Forms_Audit_Notifications_Trait",
+      "PWE_System_Forms_Audit_Data_Trait",
+      "PWE_System_Forms_Audit_Export_Trait"
+    ]
+  }
+]

@@ -1,0 +1,274 @@
+[
+  {
+    "id": "cap-graphics",
+    "type": "file_http",
+    "trigger": "/wp-content/plugins/pwe-system/api/cap/doc.php",
+    "methods": [
+      "GET",
+      "POST",
+      "OPTIONS"
+    ],
+    "source": "api/cap/doc.php",
+    "auth": "GET bez klucza; POST wymaga X-PWE-API-Key zgodnego z PWE_API_KEY_2. OPTIONS kończy się 204."
+  },
+  {
+    "id": "news-sync",
+    "type": "file_http",
+    "trigger": "/wp-content/plugins/pwe-system/api/news/index.php",
+    "methods": [
+      "POST"
+    ],
+    "source": "api/news/index.php",
+    "auth": "PWE_API_KEY_2 przez ?key= lub X-API-KEY."
+  },
+  {
+    "id": "doc-list",
+    "type": "wp_ajax",
+    "trigger": "admin-ajax.php?action=pwe_system_doc_list",
+    "methods": [
+      "POST"
+    ],
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "auth": "Capability pwe_manage_doc + nonce pwe_system_doc_manager.",
+    "symbol": "PWE_System_Doc_Manager::ajax_list",
+    "hook": "wp_ajax_pwe_system_doc_list"
+  },
+  {
+    "id": "doc-mkdir",
+    "type": "wp_ajax",
+    "trigger": "admin-ajax.php?action=pwe_system_doc_mkdir",
+    "methods": [
+      "POST"
+    ],
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "auth": "Capability pwe_manage_doc + nonce pwe_system_doc_manager.",
+    "symbol": "PWE_System_Doc_Manager::ajax_mkdir",
+    "hook": "wp_ajax_pwe_system_doc_mkdir"
+  },
+  {
+    "id": "doc-rename",
+    "type": "wp_ajax",
+    "trigger": "admin-ajax.php?action=pwe_system_doc_rename",
+    "methods": [
+      "POST"
+    ],
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "auth": "Capability pwe_manage_doc + nonce pwe_system_doc_manager.",
+    "symbol": "PWE_System_Doc_Manager::ajax_rename",
+    "hook": "wp_ajax_pwe_system_doc_rename"
+  },
+  {
+    "id": "doc-delete",
+    "type": "wp_ajax",
+    "trigger": "admin-ajax.php?action=pwe_system_doc_delete",
+    "methods": [
+      "POST"
+    ],
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "auth": "Capability pwe_manage_doc + nonce pwe_system_doc_manager.",
+    "symbol": "PWE_System_Doc_Manager::ajax_delete",
+    "hook": "wp_ajax_pwe_system_doc_delete"
+  },
+  {
+    "id": "doc-move",
+    "type": "wp_ajax",
+    "trigger": "admin-ajax.php?action=pwe_system_doc_move",
+    "methods": [
+      "POST"
+    ],
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "auth": "Capability pwe_manage_doc + nonce pwe_system_doc_manager.",
+    "symbol": "PWE_System_Doc_Manager::ajax_move",
+    "hook": "wp_ajax_pwe_system_doc_move"
+  },
+  {
+    "id": "doc-upload",
+    "type": "wp_ajax",
+    "trigger": "admin-ajax.php?action=pwe_system_doc_upload",
+    "methods": [
+      "POST"
+    ],
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "auth": "Capability pwe_manage_doc + nonce pwe_system_doc_manager.",
+    "symbol": "PWE_System_Doc_Manager::ajax_upload",
+    "hook": "wp_ajax_pwe_system_doc_upload"
+  },
+  {
+    "id": "doc-replace",
+    "type": "wp_ajax",
+    "trigger": "admin-ajax.php?action=pwe_system_doc_replace",
+    "methods": [
+      "POST"
+    ],
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "auth": "Capability pwe_manage_doc + nonce pwe_system_doc_manager.",
+    "symbol": "PWE_System_Doc_Manager::ajax_replace",
+    "hook": "wp_ajax_pwe_system_doc_replace"
+  },
+  {
+    "id": "doc-unzip",
+    "type": "wp_ajax",
+    "trigger": "admin-ajax.php?action=pwe_system_doc_unzip",
+    "methods": [
+      "POST"
+    ],
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "auth": "Capability pwe_manage_doc + nonce pwe_system_doc_manager.",
+    "symbol": "PWE_System_Doc_Manager::ajax_unzip",
+    "hook": "wp_ajax_pwe_system_doc_unzip"
+  },
+  {
+    "id": "replace-content-start",
+    "type": "wp_ajax",
+    "trigger": "admin-ajax.php?action=pwe_replace_content_start",
+    "methods": [
+      "POST"
+    ],
+    "source": "modules/replace-content/core/ajax-actions.php",
+    "auth": "manage_options przez PWE_System_Admin_Access + nonce pwe_system_replace_content.",
+    "symbol": "PWE_System_Replace_Content_Ajax::start",
+    "hook": "wp_ajax_pwe_replace_content_start"
+  },
+  {
+    "id": "replace-content-step",
+    "type": "wp_ajax",
+    "trigger": "admin-ajax.php?action=pwe_replace_content_step",
+    "methods": [
+      "POST"
+    ],
+    "source": "modules/replace-content/core/ajax-actions.php",
+    "auth": "manage_options przez PWE_System_Admin_Access + nonce pwe_system_replace_content.",
+    "symbol": "PWE_System_Replace_Content_Ajax::step",
+    "hook": "wp_ajax_pwe_replace_content_step"
+  },
+  {
+    "id": "forms-audit-load",
+    "type": "wp_ajax",
+    "trigger": "admin-ajax.php?action=pwe_system_forms_audit_load",
+    "methods": [
+      "POST"
+    ],
+    "source": "modules/forms-audit/pwe-forms-audit-module.php",
+    "auth": "manage_options + nonce pwe_system_forms_audit_load.",
+    "symbol": "PWE_System_Forms_Audit_Tool::ajax_load_audit",
+    "hook": "wp_ajax_pwe_system_forms_audit_load"
+  },
+  {
+    "id": "forms-audit-resend",
+    "type": "wp_ajax",
+    "trigger": "admin-ajax.php?action=pwe_qr_resend_notifications",
+    "methods": [
+      "POST"
+    ],
+    "source": "modules/forms-audit/traits/trait-pwe-forms-audit-notifications.php",
+    "auth": "manage_options + nonce pwe_qr_resend_notifications; maks. 10 pozycji na request.",
+    "symbol": "PWE_System_Forms_Audit_Tool::ajax_resend_notifications",
+    "definitionSymbol": "PWE_System_Forms_Audit_Notifications_Trait::ajax_resend_notifications",
+    "hook": "wp_ajax_pwe_qr_resend_notifications"
+  },
+  {
+    "id": "forms-audit-language-preview",
+    "type": "wp_ajax",
+    "trigger": "admin-ajax.php?action=pwe_qr_bulk_language_preview",
+    "methods": [
+      "POST"
+    ],
+    "source": "modules/forms-audit/traits/trait-pwe-forms-audit-notifications.php",
+    "auth": "manage_options + nonce pwe_qr_bulk_language_preview.",
+    "symbol": "PWE_System_Forms_Audit_Tool::ajax_bulk_language_preview",
+    "definitionSymbol": "PWE_System_Forms_Audit_Notifications_Trait::ajax_bulk_language_preview",
+    "hook": "wp_ajax_pwe_qr_bulk_language_preview"
+  },
+  {
+    "id": "forms-audit-export",
+    "type": "admin_post",
+    "trigger": "admin-post.php?action=pwe_qr_export_mismatches",
+    "methods": [
+      "GET"
+    ],
+    "source": "modules/forms-audit/traits/trait-pwe-forms-audit-export.php",
+    "auth": "manage_options + admin nonce pwe_qr_export_mismatches.",
+    "symbol": "PWE_System_Forms_Audit_Tool::export_mismatches_csv",
+    "definitionSymbol": "PWE_System_Forms_Audit_Export_Trait::export_mismatches_csv",
+    "hook": "admin_post_pwe_qr_export_mismatches"
+  },
+  {
+    "id": "forms-backfill-scan",
+    "type": "wp_ajax",
+    "trigger": "admin-ajax.php?action=pwe_system_forms_backfill_scan",
+    "methods": [
+      "POST"
+    ],
+    "source": "modules/forms-audit/tools/class-pwe-system-forms-backfill-tool.php",
+    "auth": "manage_options + nonce pwe_system_forms_backfill.",
+    "symbol": "PWE_System_Forms_Backfill_Tool::ajax_scan",
+    "hook": "wp_ajax_pwe_system_forms_backfill_scan"
+  },
+  {
+    "id": "forms-backfill-generate",
+    "type": "wp_ajax",
+    "trigger": "admin-ajax.php?action=pwe_system_forms_backfill_generate",
+    "methods": [
+      "POST"
+    ],
+    "source": "modules/forms-audit/tools/class-pwe-system-forms-backfill-tool.php",
+    "auth": "manage_options + nonce pwe_system_forms_backfill; generowanie partiami.",
+    "symbol": "PWE_System_Forms_Backfill_Tool::ajax_generate",
+    "hook": "wp_ajax_pwe_system_forms_backfill_generate"
+  },
+  {
+    "id": "resend-admin-action",
+    "type": "admin_form",
+    "trigger": "admin.php?page=pwe-system-resend + POST pwe_resend_action",
+    "methods": [
+      "POST"
+    ],
+    "source": "modules/resend/core/resend-actions.php",
+    "auth": "manage_options + check_admin_referer(pwe_system_resend_action).",
+    "symbol": "PWE_System_Resend_Actions::handle",
+    "hook": "admin_init"
+  },
+  {
+    "id": "plugin-bootstrap",
+    "type": "plugin_bootstrap",
+    "trigger": "WordPress loads active plugin",
+    "source": "pwe-system.php",
+    "symbol": "PWE_System::init"
+  },
+  {
+    "id": "plugin-activation",
+    "type": "activation_hook",
+    "trigger": "activate_plugin",
+    "source": "pwe-system.php",
+    "symbol": "PWE_System::activate"
+  },
+  {
+    "id": "dynamic-pwe-shortcodes",
+    "type": "shortcode_family",
+    "trigger": "init → register_dynamic_shortcodes",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "symbol": "register_dynamic_shortcodes"
+  },
+  {
+    "id": "pwe-shortcodes",
+    "type": "shortcode_map",
+    "trigger": "init priority 20 → PWE_Shortcodes::register_shortcodes",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "symbol": "PWE_Shortcodes::register_shortcodes"
+  },
+  {
+    "id": "forms-audit-boot",
+    "type": "plugin_hook",
+    "trigger": "plugins_loaded priority 35 (plus immediate boot after module include)",
+    "source": "modules/forms-audit/pwe-forms-audit-module.php",
+    "symbol": "PWE_System_Forms_Audit_Module::boot",
+    "condition": "PWE_QR_Gravity_Forms instance exposes qr object"
+  },
+  {
+    "id": "database-log-footer",
+    "type": "hook",
+    "trigger": "wp_footer",
+    "source": "core/class-pwe-system-functions.php",
+    "symbol": "PWE_System_Functions::output_db_connection_logs"
+  }
+]

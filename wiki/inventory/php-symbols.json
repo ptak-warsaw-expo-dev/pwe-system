@@ -1,0 +1,5637 @@
+{
+  "api/cap/doc.php": {
+    "classes": [],
+    "functions": [
+      {
+        "name": "pwe_system_api_images_status",
+        "line": 441,
+        "params": "string $root, array $assets",
+        "modifiers": []
+      },
+      {
+        "name": "pwe_system_api_images_send_notification",
+        "line": 511,
+        "params": "array $recipients, array $uploadedDetails, string $changedByName = '', string $changedByEmail = ''",
+        "modifiers": []
+      },
+      {
+        "name": "pwe_system_api_images_normalize_files",
+        "line": 608,
+        "params": "array $files",
+        "modifiers": []
+      },
+      {
+        "name": "pwe_system_api_images_cleanup_staged",
+        "line": 634,
+        "params": "array $staged",
+        "modifiers": []
+      },
+      {
+        "name": "pwe_system_api_images_response",
+        "line": 643,
+        "params": "array $data, int $code = 200",
+        "modifiers": []
+      }
+    ],
+    "lines": 655,
+    "bytes": 17225,
+    "registrations": []
+  },
+  "api/news/index.php": {
+    "classes": [],
+    "functions": [
+      {
+        "name": "pwe_system_api_news_json_response",
+        "line": 7,
+        "params": "$status_code, $data",
+        "modifiers": []
+      },
+      {
+        "name": "pwe_system_api_news_assign_category",
+        "line": 17,
+        "params": "$post_id, $language = 'pl'",
+        "modifiers": []
+      },
+      {
+        "name": "pwe_system_api_news_prepare_uncode_raw_html",
+        "line": 65,
+        "params": "$html",
+        "modifiers": []
+      },
+      {
+        "name": "pwe_system_api_news_set_featured_image_from_url",
+        "line": 83,
+        "params": "$image_url, $post_id, $title",
+        "modifiers": []
+      }
+    ],
+    "lines": 366,
+    "bytes": 11648,
+    "registrations": []
+  },
+  "core/class-pwe-system-admin-access.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Admin_Access",
+        "kind": "class",
+        "line": 7,
+        "methods": [
+          {
+            "name": "is_allowed",
+            "line": 9,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 14,
+    "bytes": 209,
+    "registrations": []
+  },
+  "core/class-pwe-system-admin-ui.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Admin_UI",
+        "kind": "class",
+        "line": 7,
+        "methods": [
+          {
+            "name": "notice",
+            "line": 9,
+            "params": "string $class, string $iconClass, string $contentHtml",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "status",
+            "line": 17,
+            "params": "string $tag, string $variant, string $iconClass, string $contentHtml",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "checkbox",
+            "line": 26,
+            "params": "array $inputAttributes, string $containerClass = 'pwe-checkbox-container', string $wrapperTag = 'label'",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "button",
+            "line": 35,
+            "params": "array $attributes, string $innerHtml",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "attributes",
+            "line": 40,
+            "params": "array $attributes",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 49,
+    "bytes": 1836,
+    "registrations": []
+  },
+  "core/class-pwe-system-admin.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Admin",
+        "kind": "class",
+        "line": 6,
+        "methods": [
+          {
+            "name": "init",
+            "line": 7,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "register_menu",
+            "line": 13,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "render_replace_content",
+            "line": 56,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "render_resend",
+            "line": 79,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "render_module_header",
+            "line": 102,
+            "params": "string $kicker, string $title, string $description, string $icon = ''",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "enqueue_assets",
+            "line": 120,
+            "params": "string $hook",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "admin_body_class",
+            "line": 158,
+            "params": "string $classes",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "render_dashboard",
+            "line": 166,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 256,
+    "bytes": 11753,
+    "registrations": [
+      {
+        "type": "action",
+        "hook": "admin_menu",
+        "line": 8
+      },
+      {
+        "type": "action",
+        "hook": "admin_enqueue_scripts",
+        "line": 9
+      },
+      {
+        "type": "filter",
+        "hook": "admin_body_class",
+        "line": 10
+      }
+    ]
+  },
+  "core/class-pwe-system-functions.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Functions",
+        "kind": "class",
+        "line": 4,
+        "methods": [
+          {
+            "name": "elements_plugin_path",
+            "line": 12,
+            "params": "",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "elements_plugin_url",
+            "line": 25,
+            "params": "",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "set_translation_context",
+            "line": 43,
+            "params": "$element_slug, $group, $element_type = 'main'",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "multi_translation",
+            "line": 51,
+            "params": "$key",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "load_translation_file",
+            "line": 139,
+            "params": "$file_path",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "assets_per_element",
+            "line": 157,
+            "params": "$element_slug, $element_type = 'main', $folder = 'elements'",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "assets_per_group",
+            "line": 190,
+            "params": "$element_slug, $group, $element_type = 'main', $folder = 'elements', $atts = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "exhibitor_logos",
+            "line": 235,
+            "params": "$count = 16, $shuffle = true",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_gf_form_id",
+            "line": 386,
+            "params": "string $base_title",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "render_component",
+            "line": 502,
+            "params": "$slug, $group = 'all', $params = []",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_website_translation_files",
+            "line": 538,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "is_pwe_session_page",
+            "line": 551,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "id_rnd",
+            "line": 624,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "lang",
+            "line": 632,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "add_log",
+            "line": 656,
+            "params": "$message, $filename = 'logs'",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "debug_log",
+            "line": 674,
+            "params": "$message, $type = 'log'",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "output_db_connection_logs",
+            "line": 700,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "resolve_server_addr_fallback",
+            "line": 726,
+            "params": "",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_servers",
+            "line": 745,
+            "params": "",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "connect_database",
+            "line": 804,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "set_db_timeout",
+            "line": 894,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_json_cache_dir",
+            "line": 915,
+            "params": "",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_json_cache_path",
+            "line": 947,
+            "params": "$source, $cache_key",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "pack_database_json_value",
+            "line": 961,
+            "params": "$value",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "unpack_database_json_value",
+            "line": 985,
+            "params": "$value",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "read_database_json_cache",
+            "line": 1012,
+            "params": "$source, $cache_key",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "write_database_json_cache",
+            "line": 1043,
+            "params": "$source, $cache_key, $data, array $args = []",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "refresh_database_json_cache",
+            "line": 1104,
+            "params": "$domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_fairs_data",
+            "line": 1500,
+            "params": "$fair_domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_fairs_data_adds",
+            "line": 1746,
+            "params": "$fair_domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_translations_data",
+            "line": 1869,
+            "params": "$fair_domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_associates_data",
+            "line": 2092,
+            "params": "$fair_domain = null, bool $fair_block = false",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_store_data",
+            "line": 2226,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_store_packages_data",
+            "line": 2319,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_meta_data",
+            "line": 2407,
+            "params": "$data_id = null, $domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_groups_contacts_data",
+            "line": 2520,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_groups_callcenter_data",
+            "line": 2600,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_groups_data",
+            "line": 2679,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_week_data",
+            "line": 2758,
+            "params": "$fair_domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_week_all",
+            "line": 2845,
+            "params": "$fair_domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_all_week_domains",
+            "line": 2933,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_logotypes_data",
+            "line": 3020,
+            "params": "$fair_domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_conferences_data",
+            "line": 3139,
+            "params": "$domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_conference_adds_data",
+            "line": 3241,
+            "params": "$conf_id",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_fairs_data_profiles",
+            "line": 3337,
+            "params": "$fair_domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_premieres_data",
+            "line": 3412,
+            "params": "$fair_domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_fairs_data_opinions",
+            "line": 3495,
+            "params": "$fair_domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_fairs_data_sectors",
+            "line": 3580,
+            "params": "$fair_domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_fairs_data_tickets",
+            "line": 3664,
+            "params": "$fair_domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_fairs_data_speakers",
+            "line": 3748,
+            "params": "$fair_domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_fairs_data_guests",
+            "line": 3837,
+            "params": "$fair_domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_fairs_data_attractions",
+            "line": 3924,
+            "params": "$fair_domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_fairs_data_files",
+            "line": 4011,
+            "params": "$fair_domain = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_elements_data",
+            "line": 4098,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_database_elements_order_data",
+            "line": 4191,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "remove_logo_duplicates",
+            "line": 4286,
+            "params": "array $logos",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "pwe_color",
+            "line": 4317,
+            "params": "$color",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "generate_fair_data",
+            "line": 4342,
+            "params": "$fair",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "generate_fair_translation_data",
+            "line": 4408,
+            "params": "$fair",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "json_fairs",
+            "line": 4446,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "transform_dates",
+            "line": 4548,
+            "params": "$start_date, $end_date, $include_hours = true",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "decode_clean_content",
+            "line": 4583,
+            "params": "$encoded_content",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "json_decode",
+            "line": 4592,
+            "params": "$encoded_variable",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "findColor",
+            "line": 4601,
+            "params": "$primary, $secondary, $default = ''",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "findPalletColorsStatic",
+            "line": 4616,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "findPalletColors",
+            "line": 4646,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "lang_pl",
+            "line": 4676,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "languageChecker",
+            "line": 4687,
+            "params": "$pl, $en = '', $de = ''",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "adjustBrightness",
+            "line": 4702,
+            "params": "$hex, $steps",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "findFormsGF",
+            "line": 4725,
+            "params": "$mode = ''",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "findFormsID",
+            "line": 4750,
+            "params": "$form_name",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "checkForMobile",
+            "line": 4769,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "findBestLogo",
+            "line": 4779,
+            "params": "$logo_color = false",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "findAllImages",
+            "line": 4829,
+            "params": "$firstPath, $image_count = false, $secondPath = '/doc/galeria'",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "findBestFile",
+            "line": 4857,
+            "params": "$file_path",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "isTradeDateExist",
+            "line": 4876,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "inputRange",
+            "line": 4893,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "input_range_field_html",
+            "line": 4898,
+            "params": "$settings, $value",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "gravity_forms_smtp_monitor",
+            "line": 4918,
+            "params": "$is_success = null, $to = '', $subject = '', $message = '', $headers = [], $attachments = [], $message_format = '', $from = '', $from_name = '', $bcc = '', $reply_to = '', $entry = false",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 5108,
+    "bytes": 194567,
+    "registrations": [
+      {
+        "type": "filter",
+        "hook": "wpdb_connect_timeout",
+        "line": 818
+      },
+      {
+        "type": "action",
+        "hook": "phpmailer_init",
+        "line": 4998
+      },
+      {
+        "type": "action",
+        "hook": "phpmailer_init",
+        "line": 5089
+      },
+      {
+        "type": "action",
+        "hook": "wp_footer",
+        "line": 5100
+      }
+    ]
+  },
+  "core/class-pwe-system-updater.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Updater",
+        "kind": "class",
+        "line": 7,
+        "methods": [
+          {
+            "name": "__construct",
+            "line": 11,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "setup_updater",
+            "line": 18,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 63,
+    "bytes": 1862,
+    "registrations": [
+      {
+        "type": "action",
+        "hook": "plugins_loaded",
+        "line": 12
+      }
+    ]
+  },
+  "core/class-pwe-system.php": {
+    "classes": [
+      {
+        "name": "PWE_System",
+        "kind": "class",
+        "line": 6,
+        "methods": [
+          {
+            "name": "init",
+            "line": 9,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "activate",
+            "line": 52,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "sync_capabilities",
+            "line": 59,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 68,
+    "bytes": 2816,
+    "registrations": [
+      {
+        "type": "action",
+        "hook": "init",
+        "line": 23
+      }
+    ]
+  },
+  "modules/doc-manager/class-pwe-system-doc-manager.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Doc_Manager",
+        "kind": "class",
+        "line": 6,
+        "methods": [
+          {
+            "name": "init",
+            "line": 10,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "register_menu",
+            "line": 30,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "enqueue_assets",
+            "line": 41,
+            "params": "string $hook",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "capability",
+            "line": 73,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "ensure_doc_directory",
+            "line": 77,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "install_log_table",
+            "line": 84,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "render_page",
+            "line": 105,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "ajax_list",
+            "line": 192,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "ajax_mkdir",
+            "line": 250,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "ajax_rename",
+            "line": 267,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "ajax_delete",
+            "line": 291,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "ajax_move",
+            "line": 304,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "ajax_upload",
+            "line": 328,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "ajax_replace",
+            "line": 333,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "ajax_unzip",
+            "line": 338,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "handle_upload",
+            "line": 509,
+            "params": "bool $force_replace",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "guard",
+            "line": 564,
+            "params": "",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "base_dir",
+            "line": 572,
+            "params": "",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "base_real",
+            "line": 576,
+            "params": "",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "clean_rel",
+            "line": 582,
+            "params": "string $path",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "clean_name",
+            "line": 600,
+            "params": "string $name",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "resolve_existing",
+            "line": 609,
+            "params": "string $rel, bool $must_be_dir",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "ensure_directory_path",
+            "line": 618,
+            "params": "string $rel",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "path_is_inside",
+            "line": 628,
+            "params": "string $path, string $parent, bool $allow_same = false",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "parent_rel",
+            "line": 635,
+            "params": "string $rel",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "join_rel",
+            "line": 640,
+            "params": "string $a, string $b",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "is_allowed_filename",
+            "line": 644,
+            "params": "string $name",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "image_dimensions",
+            "line": 657,
+            "params": "string $path, string $extension",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "svg_dimension",
+            "line": 694,
+            "params": "string $svg, string $attribute",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "clean_zip_entry",
+            "line": 702,
+            "params": "string $name",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "zip_entry_is_symlink",
+            "line": 730,
+            "params": "ZipArchive $zip, int $index",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "delete_tree",
+            "line": 746,
+            "params": "string $path",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "breadcrumbs",
+            "line": 757,
+            "params": "string $dir",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "file_url",
+            "line": 768,
+            "params": "string $rel",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "post",
+            "line": 773,
+            "params": "string $key",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "error",
+            "line": 777,
+            "params": "string $message, int $status = 400",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "upload_error",
+            "line": 781,
+            "params": "int $code",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "log",
+            "line": 801,
+            "params": "string $action, ?string $source, ?string $target, array $details = []",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 822,
+    "bytes": 34126,
+    "registrations": [
+      {
+        "type": "action",
+        "hook": "admin_menu",
+        "line": 11
+      },
+      {
+        "type": "action",
+        "hook": "admin_enqueue_scripts",
+        "line": 12
+      },
+      {
+        "type": "action",
+        "hook": "wp_ajax_pwe_system_doc_delete",
+        "line": 26
+      },
+      {
+        "type": "action",
+        "hook": "wp_ajax_pwe_system_doc_list",
+        "line": 26
+      },
+      {
+        "type": "action",
+        "hook": "wp_ajax_pwe_system_doc_mkdir",
+        "line": 26
+      },
+      {
+        "type": "action",
+        "hook": "wp_ajax_pwe_system_doc_move",
+        "line": 26
+      },
+      {
+        "type": "action",
+        "hook": "wp_ajax_pwe_system_doc_rename",
+        "line": 26
+      },
+      {
+        "type": "action",
+        "hook": "wp_ajax_pwe_system_doc_replace",
+        "line": 26
+      },
+      {
+        "type": "action",
+        "hook": "wp_ajax_pwe_system_doc_unzip",
+        "line": 26
+      },
+      {
+        "type": "action",
+        "hook": "wp_ajax_pwe_system_doc_upload",
+        "line": 26
+      }
+    ]
+  },
+  "modules/forms-audit/pwe-forms-audit-module.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Forms_Audit_Tool",
+        "kind": "class",
+        "line": 19,
+        "methods": [
+          {
+            "name": "__construct",
+            "line": 42,
+            "params": "$qr",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "register_submenu",
+            "line": 55,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "render_page",
+            "line": 67,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "enqueue_assets",
+            "line": 108,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "ajax_load_audit",
+            "line": 129,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "PWE_System_Forms_Audit_Module",
+        "kind": "class",
+        "line": 185,
+        "methods": [
+          {
+            "name": "boot",
+            "line": 192,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "is_ready",
+            "line": 210,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 217,
+    "bytes": 7458,
+    "registrations": [
+      {
+        "type": "action",
+        "hook": "admin_menu",
+        "line": 45
+      },
+      {
+        "type": "action",
+        "hook": "admin_post_pwe_qr_export_mismatches",
+        "line": 46
+      },
+      {
+        "type": "action",
+        "hook": "wp_ajax_pwe_qr_resend_notifications",
+        "line": 47
+      },
+      {
+        "type": "action",
+        "hook": "wp_ajax_pwe_qr_bulk_language_preview",
+        "line": 48
+      },
+      {
+        "type": "action",
+        "hook": "wp_ajax_pwe_system_forms_audit_load",
+        "line": 49
+      },
+      {
+        "type": "action",
+        "hook": "admin_enqueue_scripts",
+        "line": 50
+      },
+      {
+        "type": "action",
+        "hook": "pwe_system_forms_audit_cache_invalidate",
+        "line": 51
+      },
+      {
+        "type": "action",
+        "hook": "plugins_loaded",
+        "line": 216
+      }
+    ]
+  },
+  "modules/forms-audit/tools/class-pwe-system-forms-backfill-tool.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Forms_Backfill_Tool",
+        "kind": "class",
+        "line": 11,
+        "methods": [
+          {
+            "name": "__construct",
+            "line": 18,
+            "params": "$qr",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "enqueue_assets",
+            "line": 27,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "render_audit_section",
+            "line": 46,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "ajax_scan",
+            "line": 87,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "ajax_generate",
+            "line": 129,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "authorize_request",
+            "line": 183,
+            "params": "",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_active_feeds",
+            "line": 193,
+            "params": "int $form_id",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "save_qr_code_link_to_entry_meta",
+            "line": 208,
+            "params": "array $entry, array $form",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "build_qr_image_url",
+            "line": 254,
+            "params": "string $value, string $label, int $size, string $logo_url = ''",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_table_names",
+            "line": 279,
+            "params": "",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "count_entries",
+            "line": 293,
+            "params": "int $form_id, bool $missing_only",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_missing_entry_ids",
+            "line": 321,
+            "params": "int $form_id, int $limit",
+            "modifiers": [
+              "private"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 344,
+    "bytes": 11503,
+    "registrations": [
+      {
+        "type": "action",
+        "hook": "pwe_system_forms_audit_tools",
+        "line": 21
+      },
+      {
+        "type": "action",
+        "hook": "admin_enqueue_scripts",
+        "line": 22
+      },
+      {
+        "type": "action",
+        "hook": "wp_ajax_pwe_system_forms_backfill_scan",
+        "line": 23
+      },
+      {
+        "type": "action",
+        "hook": "wp_ajax_pwe_system_forms_backfill_generate",
+        "line": 24
+      }
+    ]
+  },
+  "modules/forms-audit/traits/trait-pwe-forms-audit-data.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Forms_Audit_Data_Trait",
+        "kind": "trait",
+        "line": 7,
+        "methods": [
+          {
+            "name": "get_audit_session_cache_key",
+            "line": 9,
+            "params": "$active_form_ids",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "decode_audit_session_cache",
+            "line": 20,
+            "params": "$packed",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "encode_audit_session_cache",
+            "line": 48,
+            "params": "$rows",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "clear_audit_session_cache",
+            "line": 67,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "prime_audit_session_cache",
+            "line": 90,
+            "params": "$active_form_ids, $force_refresh = false",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "build_audit_session_rows",
+            "line": 137,
+            "params": "$active_form_ids",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_search_entry_ids",
+            "line": 261,
+            "params": "$search, $active_form_ids, $selected_form_id = 0",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_form_registration_stats",
+            "line": 312,
+            "params": "$form_id, $feeds",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_redirect_value_for_entry",
+            "line": 479,
+            "params": "$form_id, $entry_id, $feeds",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_entries_page",
+            "line": 505,
+            "params": "$active_form_ids, $selected_form_id, $search, $status_filter, $notification_filter, $page",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "compare_entry_qr_light",
+            "line": 603,
+            "params": "$form_id, $entry_id, $feeds, $saved_value",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_pwe_feeds",
+            "line": 634,
+            "params": "$form_id",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_feed_name",
+            "line": 654,
+            "params": "$feed",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_feed_custom_keys",
+            "line": 661,
+            "params": "$feed",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_email_field_ids",
+            "line": 682,
+            "params": "$form",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_entry_email",
+            "line": 695,
+            "params": "$entry, $email_field_ids",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_legacy_derived_qr_value",
+            "line": 708,
+            "params": "$entry_id, $feeds",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_entry_saved_qr",
+            "line": 736,
+            "params": "$entry_id, $feeds",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "extract_qr_value",
+            "line": 817,
+            "params": "$qr_url",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "compare_entry_qr",
+            "line": 833,
+            "params": "$form_id, $entry, $feeds, $saved_value",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_table_names",
+            "line": 864,
+            "params": "",
+            "modifiers": [
+              "private"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 878,
+    "bytes": 28963,
+    "registrations": []
+  },
+  "modules/forms-audit/traits/trait-pwe-forms-audit-export.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Forms_Audit_Export_Trait",
+        "kind": "trait",
+        "line": 7,
+        "methods": [
+          {
+            "name": "export_mismatches_csv",
+            "line": 9,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 172,
+    "bytes": 5880,
+    "registrations": []
+  },
+  "modules/forms-audit/traits/trait-pwe-forms-audit-notifications.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Forms_Audit_Notifications_Trait",
+        "kind": "trait",
+        "line": 7,
+        "methods": [
+          {
+            "name": "ajax_bulk_language_preview",
+            "line": 9,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "detect_language_from_source_url",
+            "line": 205,
+            "params": "$source_url",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_active_notifications_by_language",
+            "line": 223,
+            "params": "$form",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "ajax_resend_notifications",
+            "line": 260,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "add_admin_notifications_to_unsent_match",
+            "line": 561,
+            "params": "$form, $entry, $match",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_notification_for_entry",
+            "line": 616,
+            "params": "$form, $entry, $entry_email",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_notification_history",
+            "line": 842,
+            "params": "$entry_id",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_notification_error_message",
+            "line": 859,
+            "params": "$entry_id",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "has_notification_error",
+            "line": 938,
+            "params": "$entry_id",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_failed_notifications_from_gf_notes",
+            "line": 1008,
+            "params": "$form, $entry_id",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_notifications_from_gf_notes",
+            "line": 1097,
+            "params": "$form, $entry_id",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "notification_name_is_resend",
+            "line": 1170,
+            "params": "$name",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_notification_delivery_state",
+            "line": 1175,
+            "params": "$form, $entry_id",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "has_sent_notification",
+            "line": 1274,
+            "params": "$entry_id, $form = null",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "has_resend_notification",
+            "line": 1301,
+            "params": "$form, $entry_id",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "has_active_notification_error",
+            "line": 1307,
+            "params": "$form, $entry_id",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_entry_with_language_override",
+            "line": 1312,
+            "params": "$form, $entry, $lang",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_notifications_for_language",
+            "line": 1348,
+            "params": "$form, $lang, $entry = null",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "notification_contains_qr",
+            "line": 1390,
+            "params": "$notification",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_historical_notifications_for_entry",
+            "line": 1412,
+            "params": "$form, $entry",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_qr_resend_notifications_for_entry",
+            "line": 1461,
+            "params": "$form, $entry",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_never_sent_notifications_for_entry",
+            "line": 1495,
+            "params": "$form, $entry",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_resend_notifications_for_entry",
+            "line": 1636,
+            "params": "$form, $entry, $comparison = ''",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "form_has_active_notifications",
+            "line": 1673,
+            "params": "$form",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "notification_conditional_logic_passes",
+            "line": 1693,
+            "params": "$notification, $form, $entry",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "normalize_notification_conditional_logic",
+            "line": 1751,
+            "params": "$logic, $form",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "hydrate_notification_conditional_entry",
+            "line": 1784,
+            "params": "$form, $entry, $logic",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "find_form_field_id_by_name",
+            "line": 1850,
+            "params": "$form, $name",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_form_field_names_by_id",
+            "line": 1878,
+            "params": "$form, $field_id",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_entry_named_value",
+            "line": 1908,
+            "params": "$form, $entry, $names",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_notification_logic_rule_value",
+            "line": 1971,
+            "params": "$form, $entry, $field_id",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_form_field_property",
+            "line": 2025,
+            "params": "$field, $property",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "resolve_notification_recipients",
+            "line": 2034,
+            "params": "$notification, $form, $entry",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "replace_notification_variables",
+            "line": 2080,
+            "params": "$value, $form, $entry",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "compare_rule_value",
+            "line": 2093,
+            "params": "$actual, $operator, $expected",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "recipient_array_contains",
+            "line": 2124,
+            "params": "$recipients, $target_email",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "email_list_contains",
+            "line": 2135,
+            "params": "$emails, $target_email",
+            "modifiers": [
+              "private"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 2159,
+    "bytes": 73966,
+    "registrations": [
+      {
+        "type": "action",
+        "hook": "gform_after_email",
+        "line": 420
+      }
+    ]
+  },
+  "modules/forms-audit/traits/trait-pwe-forms-audit-render.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Forms_Audit_Render_Trait",
+        "kind": "trait",
+        "line": 7,
+        "methods": [
+          {
+            "name": "render_styles",
+            "line": 9,
+            "params": "",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "render_forms_table",
+            "line": 349,
+            "params": "$forms",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "render_form_registration_stats",
+            "line": 453,
+            "params": "$stats",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "render_entries_table",
+            "line": 472,
+            "params": "$forms",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "render_resend_tools",
+            "line": 769,
+            "params": "$selected_form_id = 0, $status_filter = '', $notification_filter = '', $search = ''",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "render_notification_column",
+            "line": 1067,
+            "params": "$match, $resend_notification_names = [], $form = [], $entry_id = 0",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "render_notification_match",
+            "line": 1085,
+            "params": "$match",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "render_filters",
+            "line": 1133,
+            "params": "$active_forms, $selected_form_id, $search, $status_filter, $notification_filter, $per_page",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "render_export_button",
+            "line": 1183,
+            "params": "$selected_form_id, $search",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "render_pagination",
+            "line": 1203,
+            "params": "$total, $page, $selected_form_id, $search, $status_filter, $notification_filter, $per_page",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "render_feeds_for_entry",
+            "line": 1243,
+            "params": "$feeds, $status_class = ''",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "render_saved_qr_history",
+            "line": 1272,
+            "params": "$qr_url, $qr_value, $resend_qr_url, $resend_qr_value",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "render_saved_qr",
+            "line": 1298,
+            "params": "$qr_url, $qr_value",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "render_comparison_status",
+            "line": 1319,
+            "params": "$status",
+            "modifiers": [
+              "private"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 1331,
+    "bytes": 55944,
+    "registrations": []
+  },
+  "modules/replace-content/core/admin-page.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Replace_Content_Admin_Page",
+        "kind": "class",
+        "line": 9,
+        "methods": [
+          {
+            "name": "render",
+            "line": 13,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "is_submit",
+            "line": 96,
+            "params": "",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "render_result",
+            "line": 105,
+            "params": "?array $result",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "render_progress",
+            "line": 136,
+            "params": "",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "get_summary",
+            "line": 154,
+            "params": "array $plan",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "render_plan_item",
+            "line": 184,
+            "params": "array $item, array $active_languages",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "render_translation",
+            "line": 226,
+            "params": "array $translation, array $active_languages",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 292,
+    "bytes": 11727,
+    "registrations": []
+  },
+  "modules/replace-content/core/ajax-actions.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Replace_Content_Ajax",
+        "kind": "class",
+        "line": 9,
+        "methods": [
+          {
+            "name": "init",
+            "line": 18,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "start",
+            "line": 24,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "step",
+            "line": 72,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "process_job_step",
+            "line": 162,
+            "params": "string $job_key, string $token, array $job, ?int $client_processed, string &$error_message",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "is_valid_job",
+            "line": 258,
+            "params": "$job",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "response_from_job",
+            "line": 272,
+            "params": "array $job, string $token",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "error_response_data",
+            "line": 305,
+            "params": "string $message, string $token, $job, bool $retryable",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "authorize",
+            "line": 321,
+            "params": "",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "job_key",
+            "line": 330,
+            "params": "string $token",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "lock_key",
+            "line": 335,
+            "params": "string $token",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "acquire_lock",
+            "line": 340,
+            "params": "string $token",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "release_lock",
+            "line": 352,
+            "params": "string $token, string $lock_name",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 365,
+    "bytes": 12265,
+    "registrations": [
+      {
+        "type": "action",
+        "hook": "wp_ajax_pwe_replace_content_start",
+        "line": 20
+      },
+      {
+        "type": "action",
+        "hook": "wp_ajax_pwe_replace_content_step",
+        "line": 21
+      }
+    ]
+  },
+  "modules/replace-content/core/language-helper.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Replace_Content_Language_Helper",
+        "kind": "class",
+        "line": 7,
+        "methods": [
+          {
+            "name": "get_active_languages",
+            "line": 9,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_language_label",
+            "line": 14,
+            "params": "string $lang_code, array $active_languages",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_flag_url",
+            "line": 28,
+            "params": "string $lang_code, array $active_languages",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 39,
+    "bytes": 1333,
+    "registrations": []
+  },
+  "modules/replace-content/core/page-locator.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Replace_Content_Page_Locator",
+        "kind": "class",
+        "line": 7,
+        "methods": [
+          {
+            "name": "find_by_url",
+            "line": 9,
+            "params": "string $url",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "as_page",
+            "line": 32,
+            "params": "int $post_id",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 38,
+    "bytes": 1161,
+    "registrations": []
+  },
+  "modules/replace-content/core/page-meta-adapter.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Replace_Content_Page_Meta_Adapter",
+        "kind": "class",
+        "line": 7,
+        "methods": [
+          {
+            "name": "inspect_replacement_state",
+            "line": 13,
+            "params": "int $post_id, string $shortcode",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "set_uncode_header_none",
+            "line": 36,
+            "params": "int $post_id",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "set_uncode_show_title_off",
+            "line": 43,
+            "params": "int $post_id",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "verify_replacement_state",
+            "line": 49,
+            "params": "int $post_id, string $shortcode",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 55,
+    "bytes": 2216,
+    "registrations": []
+  },
+  "modules/replace-content/core/replace-content-config.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Replace_Content_Config",
+        "kind": "class",
+        "line": 9,
+        "methods": [
+          {
+            "name": "get_map",
+            "line": 14,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 60,
+    "bytes": 1362,
+    "registrations": []
+  },
+  "modules/replace-content/core/replace-content-service.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Replace_Content_Service",
+        "kind": "class",
+        "line": 9,
+        "methods": [
+          {
+            "name": "build_plan",
+            "line": 15,
+            "params": "array $map",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "prepare_job",
+            "line": 54,
+            "params": "array $plan",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "execute",
+            "line": 136,
+            "params": "array $plan",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "process_page",
+            "line": 168,
+            "params": "int $post_id, string $shortcode",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "empty_result",
+            "line": 244,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "add_page_result",
+            "line": 258,
+            "params": "array &$result, array $page_result",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "recover_page_result",
+            "line": 280,
+            "params": "array $task",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_wpml_translations",
+            "line": 307,
+            "params": "WP_Post $source_page, string $shortcode",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "add_translation",
+            "line": 363,
+            "params": "array &$translations, int $post_id, string $language, string $shortcode, bool $is_original = false",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "get_page_language",
+            "line": 401,
+            "params": "int $post_id, string $element_type",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 406,
+    "bytes": 14120,
+    "registrations": []
+  },
+  "modules/replace-content/core/wpml-gateway.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Replace_Content_Wpml_Gateway",
+        "kind": "class",
+        "line": 7,
+        "methods": [
+          {
+            "name": "is_active",
+            "line": 9,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_active_languages",
+            "line": 14,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_element_type",
+            "line": 20,
+            "params": "string $post_type = 'page'",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_trid",
+            "line": 25,
+            "params": "int $post_id, string $element_type",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_element_translations",
+            "line": 30,
+            "params": "int $trid, string $element_type",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_element_language",
+            "line": 39,
+            "params": "int $post_id, string $element_type",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 55,
+    "bytes": 1651,
+    "registrations": []
+  },
+  "modules/replace-content/replace-content-map.php": {
+    "classes": [],
+    "functions": [],
+    "lines": 27,
+    "bytes": 1378,
+    "registrations": []
+  },
+  "modules/replace-content/replace-content-module.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Replace_Content",
+        "kind": "class",
+        "line": 16,
+        "methods": [
+          {
+            "name": "init",
+            "line": 20,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "render_admin_page",
+            "line": 29,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 34,
+    "bytes": 913,
+    "registrations": []
+  },
+  "modules/resend/core/admin-page.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Resend_Admin",
+        "kind": "class",
+        "line": 7,
+        "methods": [
+          {
+            "name": "render",
+            "line": 9,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "render_start_screen",
+            "line": 33,
+            "params": "",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "render_preview_toggle",
+            "line": 77,
+            "params": "bool $preview_all",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "build_form_rows",
+            "line": 90,
+            "params": "array $forms, bool $preview_all",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "render_form_card",
+            "line": 133,
+            "params": "array $row",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "render_settings_bar",
+            "line": 178,
+            "params": "",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "render_job_screen",
+            "line": 252,
+            "params": "array $job",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "render_job_actions",
+            "line": 312,
+            "params": "array $job",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "group_notifications_for_display",
+            "line": 389,
+            "params": "array $notifications",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "strip_lang_suffix",
+            "line": 418,
+            "params": "string $name",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "render_notification_groups",
+            "line": 423,
+            "params": "array $groups, array $notification_lang_counts",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "notification_lang_count",
+            "line": 458,
+            "params": "array $notification_lang_counts, string $group_key, string $lang_key",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "render_recent_log",
+            "line": 467,
+            "params": "array $job",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 503,
+    "bytes": 20293,
+    "registrations": []
+  },
+  "modules/resend/core/conditional-logic.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Resend_Conditional_Logic",
+        "kind": "class",
+        "line": 12,
+        "methods": [
+          {
+            "name": "compile",
+            "line": 14,
+            "params": "$logic, string $context, array $owner = []",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "evaluate",
+            "line": 19,
+            "params": "$logic, array $form, array $entry",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 33,
+    "bytes": 802,
+    "registrations": []
+  },
+  "modules/resend/core/field-locator.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Resend_Field_Locator",
+        "kind": "class",
+        "line": 9,
+        "methods": [
+          {
+            "name": "find_id",
+            "line": 18,
+            "params": "array $form, array $names = [], array $types = []",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "value",
+            "line": 60,
+            "params": "array $form, array $entry, array $names, array $types = []",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "clear_cache",
+            "line": 71,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "cache_key",
+            "line": 85,
+            "params": "array $form, array $names, array $types",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "property",
+            "line": 113,
+            "params": "$field, string $name",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 120,
+    "bytes": 3994,
+    "registrations": []
+  },
+  "modules/resend/core/form-repository.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Resend_Form_Repository",
+        "kind": "class",
+        "line": 9,
+        "methods": [
+          {
+            "name": "available",
+            "line": 11,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get",
+            "line": 16,
+            "params": "int $form_id",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "is_managed",
+            "line": 27,
+            "params": "array $form",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "is_managed_id",
+            "line": 32,
+            "params": "int $form_id",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "managed",
+            "line": 40,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 60,
+    "bytes": 1276,
+    "registrations": []
+  },
+  "modules/resend/core/gravity-entries.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Resend_Gravity",
+        "kind": "class",
+        "line": 9,
+        "methods": [
+          {
+            "name": "get_resend_notifications",
+            "line": 14,
+            "params": "array $form",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_entries_page",
+            "line": 32,
+            "params": "int $form_id, bool $include_all_entries, int $offset, int $page_size, int $min_age_days = PWE_System_Resend::DEFAULT_MIN_AGE_DAYS",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "scan_form_stats",
+            "line": 73,
+            "params": "array $form, array $notifications, bool $include_all_entries, int $min_age_days = PWE_System_Resend::DEFAULT_MIN_AGE_DAYS, bool $only_unsent = false",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "entries_error_message",
+            "line": 161,
+            "params": "int $form_id, string $details",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "notification_group_key",
+            "line": 172,
+            "params": "string $name",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 177,
+    "bytes": 5892,
+    "registrations": []
+  },
+  "modules/resend/core/job-lock.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Resend_Job_Lock",
+        "kind": "class",
+        "line": 9,
+        "methods": [
+          {
+            "name": "acquire",
+            "line": 17,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "refresh",
+            "line": 61,
+            "params": "string $token",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "release",
+            "line": 94,
+            "params": "string $token",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "key",
+            "line": 132,
+            "params": "",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "value",
+            "line": 137,
+            "params": "string $token",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "is_valid",
+            "line": 142,
+            "params": "$value",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "is_owned_by",
+            "line": 151,
+            "params": "$value, string $token",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "read_raw",
+            "line": 157,
+            "params": "string $key",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "compare_and_delete",
+            "line": 171,
+            "params": "string $key, string $expected_raw",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "compare_and_update",
+            "line": 189,
+            "params": "string $key, string $expected_raw, string $next_raw",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "clear_option_cache",
+            "line": 209,
+            "params": "string $key",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 216,
+    "bytes": 5717,
+    "registrations": []
+  },
+  "modules/resend/core/job-runner.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Resend_Job_Runner",
+        "kind": "class",
+        "line": 9,
+        "methods": [
+          {
+            "name": "run",
+            "line": 13,
+            "params": "array &$job, ?string $lock_token = null",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "run_locked",
+            "line": 40,
+            "params": "array &$job, string $lock_token",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "next_form",
+            "line": 192,
+            "params": "array $cursor",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "record_result",
+            "line": 202,
+            "params": "array &$job, array $entry, array $notification, $result",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "maybe_send_notification",
+            "line": 226,
+            "params": "array $form, array $entry, array $notification",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 280,
+    "bytes": 9372,
+    "registrations": [
+      {
+        "type": "action",
+        "hook": "wp_mail_failed",
+        "line": 253
+      }
+    ]
+  },
+  "modules/resend/core/notification-matcher.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Resend_Matcher",
+        "kind": "class",
+        "line": 9,
+        "methods": [
+          {
+            "name": "get_entry_lang",
+            "line": 11,
+            "params": "array $form, array $entry",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "get_entry_location",
+            "line": 18,
+            "params": "array $form, array $entry",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "entry_has_platyna",
+            "line": 23,
+            "params": "array $form, array $entry",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "notification_is_platyna",
+            "line": 28,
+            "params": "array $notification",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "extract_lang_from_notification_name",
+            "line": 33,
+            "params": "string $name",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "is_entry_matching_notification",
+            "line": 38,
+            "params": "array $form, array $entry, array $notification",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "notification_should_send",
+            "line": 56,
+            "params": "array $notification, array $form, array $entry",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "entry_has_valid_email",
+            "line": 74,
+            "params": "array $form, array $entry",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "sent_meta_key",
+            "line": 86,
+            "params": "array $notification",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "skipped_meta_key",
+            "line": 93,
+            "params": "array $notification",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "is_already_processed",
+            "line": 98,
+            "params": "array $entry, array $notification",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 111,
+    "bytes": 3474,
+    "registrations": []
+  },
+  "modules/resend/core/notification-name.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Resend_Notification_Name",
+        "kind": "class",
+        "line": 12,
+        "methods": [
+          {
+            "name": "strict_language",
+            "line": 14,
+            "params": "string $name",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "detect_language",
+            "line": 29,
+            "params": "string $name, array $languages, string $template = '', string $message = ''",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "base_title",
+            "line": 63,
+            "params": "string $name, string $language = ''",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "is_allowed",
+            "line": 80,
+            "params": "string $language, array $languages",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 91,
+    "bytes": 2512,
+    "registrations": []
+  },
+  "modules/resend/core/resend-actions.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Resend_Actions",
+        "kind": "class",
+        "line": 9,
+        "methods": [
+          {
+            "name": "init",
+            "line": 13,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "handle",
+            "line": 23,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "admin_url",
+            "line": 99,
+            "params": "array $args = []",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "action_form",
+            "line": 104,
+            "params": "string $action, string $label, string $class = 'button'",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "safe_redirect",
+            "line": 117,
+            "params": "string $url",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 123,
+    "bytes": 4051,
+    "registrations": [
+      {
+        "type": "action",
+        "hook": "admin_init",
+        "line": 20
+      }
+    ]
+  },
+  "modules/resend/core/resend-job.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Resend_Job",
+        "kind": "class",
+        "line": 9,
+        "methods": [
+          {
+            "name": "get",
+            "line": 14,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "save",
+            "line": 34,
+            "params": "array $job",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "checkpoint",
+            "line": 39,
+            "params": "array $job, string $lock_token",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "delete",
+            "line": 49,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "create",
+            "line": 64,
+            "params": "array $form_ids, int $batch_size, int $delay, bool $include_all_entries, int $min_age_days",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "mutate",
+            "line": 136,
+            "params": "callable $callback",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "block_for_entries_error",
+            "line": 164,
+            "params": "array &$job, string $message, int $form_id = 0",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "block_for_delivery_error",
+            "line": 177,
+            "params": "array &$job, int $entry_id, string $notification, string $message",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "clear_block",
+            "line": 195,
+            "params": "array &$job",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "complete",
+            "line": 208,
+            "params": "array &$job",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "append_log",
+            "line": 221,
+            "params": "array &$job, int $entry_id, string $notification, string $status, string $message",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "stats",
+            "line": 242,
+            "params": "array $job",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "empty_cursor",
+            "line": 257,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "migrate_legacy_total",
+            "line": 262,
+            "params": "array $fallback_job",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "count_remaining",
+            "line": 341,
+            "params": "array $job, string $lock_token",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "completed_count",
+            "line": 388,
+            "params": "array $job",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "normalise",
+            "line": 395,
+            "params": "array $job",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "normalise_cursor",
+            "line": 430,
+            "params": "$cursor",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 441,
+    "bytes": 14929,
+    "registrations": []
+  },
+  "modules/resend/resend-module.php": {
+    "classes": [
+      {
+        "name": "PWE_System_Resend",
+        "kind": "class",
+        "line": 7,
+        "methods": [
+          {
+            "name": "init",
+            "line": 17,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "includes",
+            "line": 28,
+            "params": "",
+            "modifiers": [
+              "private",
+              "static"
+            ]
+          },
+          {
+            "name": "render_admin_page",
+            "line": 45,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 50,
+    "bytes": 1359,
+    "registrations": []
+  },
+  "modules/shortcodes/backend-shortcodes.php": {
+    "classes": [],
+    "functions": [
+      {
+        "name": "get_fair_data",
+        "line": 7,
+        "params": "$specific_domain = null",
+        "modifiers": []
+      },
+      {
+        "name": "pwe_get_shortcode_map",
+        "line": 146,
+        "params": "",
+        "modifiers": []
+      },
+      {
+        "name": "register_dynamic_shortcodes",
+        "line": 236,
+        "params": "",
+        "modifiers": []
+      },
+      {
+        "name": "handle_fair_shortcode",
+        "line": 241,
+        "params": "$atts, $field",
+        "modifiers": []
+      },
+      {
+        "name": "PWE_GF_shortcodes",
+        "line": 259,
+        "params": "$text, $form, $entry, $url_encode, $esc_html, $nl2br, $format",
+        "modifiers": []
+      }
+    ],
+    "lines": 296,
+    "bytes": 11425,
+    "registrations": [
+      {
+        "type": "action",
+        "hook": "init",
+        "line": 255
+      },
+      {
+        "type": "filter",
+        "hook": "gform_replace_merge_tags",
+        "line": 257
+      }
+    ]
+  },
+  "modules/shortcodes/class-shortcodes.php": {
+    "classes": [
+      {
+        "name": "PWE_Shortcodes",
+        "kind": "class",
+        "line": 5,
+        "methods": [
+          {
+            "name": "init",
+            "line": 10,
+            "params": "",
+            "modifiers": [
+              "public",
+              "static"
+            ]
+          },
+          {
+            "name": "__construct",
+            "line": 17,
+            "params": "",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_shortcodes_map",
+            "line": 34,
+            "params": "",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_gf_shortcodes_map",
+            "line": 149,
+            "params": "",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_yoast_shortcodes_map",
+            "line": 238,
+            "params": "",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "other_shortcodes_map",
+            "line": 262,
+            "params": "",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "translates_shortcodes_map",
+            "line": 322,
+            "params": "",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "register_shortcodes",
+            "line": 340,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "shorten_value",
+            "line": 353,
+            "params": "$value, $length = 30",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "enqueue_admin_assets",
+            "line": 364,
+            "params": "$hook",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "get_shortcode_description",
+            "line": 383,
+            "params": "$tag",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "render_shortcode_list_item",
+            "line": 482,
+            "params": "$syntax, $tag, $value = '', $description = ''",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "add_menu",
+            "line": 501,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "theme_options_page",
+            "line": 512,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "register_settings",
+            "line": 753,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "header_section",
+            "line": 901,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_name",
+            "line": 907,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_name_eng",
+            "line": 924,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_desc",
+            "line": 943,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_desc_eng",
+            "line": 960,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_desc_short",
+            "line": 977,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_desc_short_eng",
+            "line": 994,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "get_trade_fair_dates",
+            "line": 1011,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "format_trade_fair_date",
+            "line": 1030,
+            "params": "$start_date, $end_date, $lang = \"pl\"",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_date_field",
+            "line": 1375,
+            "params": "$lang = \"pl\"",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_date",
+            "line": 1404,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_date_eng",
+            "line": 1408,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_datetotimer",
+            "line": 1412,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_enddata",
+            "line": 1444,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_date_custom_format",
+            "line": 1476,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_date_multilang",
+            "line": 1506,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "get_trade_fair_days",
+            "line": 1521,
+            "params": "",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "display_trade_fair_first_day",
+            "line": 1543,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_second_day",
+            "line": 1564,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_third_day",
+            "line": 1585,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_catalog",
+            "line": 1607,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_catalog_id",
+            "line": 1624,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_catalog_archive",
+            "line": 1641,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_catalog_id_archive",
+            "line": 1658,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_catalog_year",
+            "line": 1675,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_conference",
+            "line": 1693,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_conference_title",
+            "line": 1710,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_conference_title_eng",
+            "line": 1727,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_1stbuildday",
+            "line": 1744,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_2ndbuildday",
+            "line": 1762,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_1stdismantlday",
+            "line": 1780,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_2nddismantlday",
+            "line": 1798,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_actualyear",
+            "line": 1816,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_branzowy_field",
+            "line": 1825,
+            "params": "$lang = \"pl\"",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_branzowy",
+            "line": 1870,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_branzowy_eng",
+            "line": 1874,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_hall",
+            "line": 1878,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_hall_entrance",
+            "line": 1895,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_edition",
+            "line": 1912,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_accent",
+            "line": 1929,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_main2",
+            "line": 1946,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_badge",
+            "line": 1962,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_feed_prefix",
+            "line": 1979,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_domainadress",
+            "line": 1997,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_facebook",
+            "line": 2006,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_instagram",
+            "line": 2023,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_linkedin",
+            "line": 2040,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_youtube",
+            "line": 2057,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "get_group_contact_default_value",
+            "line": 2075,
+            "params": "$groups_slug, $field = 'email'",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "show_contact_field_with_default",
+            "line": 2122,
+            "params": "$option_name, $groups_slug, $field = 'email'",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "display_contact_field_with_default",
+            "line": 2132,
+            "params": "$option_name, $default_value = ''",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "display_trade_fair_rejestracja",
+            "line": 2146,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact",
+            "line": 2155,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_service_name",
+            "line": 2160,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_service_phone",
+            "line": 2164,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_service_email",
+            "line": 2168,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_media_phone",
+            "line": 2172,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_media_name",
+            "line": 2176,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_media_person_name",
+            "line": 2180,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_media_person_phone",
+            "line": 2184,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_media_person_email",
+            "line": 2188,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_media_person_name_2",
+            "line": 2192,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_media_person_phone_2",
+            "line": 2196,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_media_person_email_2",
+            "line": 2200,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_media_person_name_3",
+            "line": 2204,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_media_person_phone_3",
+            "line": 2208,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_media_person_email_3",
+            "line": 2212,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_tech",
+            "line": 2216,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_media",
+            "line": 2220,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_lidy",
+            "line": 2224,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_email_vip",
+            "line": 2228,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_phone_vip",
+            "line": 2232,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_contact_medal_ceremony_email",
+            "line": 2236,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "days_difference",
+            "line": 2240,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_registration_benefits_pl",
+            "line": 2261,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_registration_benefits_en",
+            "line": 2279,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_ticket_benefits_pl",
+            "line": 2297,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_ticket_benefits_en",
+            "line": 2318,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "display_trade_fair_group",
+            "line": 2339,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_name",
+            "line": 2367,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_name_eng",
+            "line": 2377,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_desc",
+            "line": 2389,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_desc_eng",
+            "line": 2396,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_desc_short",
+            "line": 2403,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_desc_short_eng",
+            "line": 2414,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_datetotimer",
+            "line": 2424,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_enddata",
+            "line": 2443,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_date_custom_format",
+            "line": 2462,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_date",
+            "line": 2476,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_date_eng",
+            "line": 2490,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_date_multilang",
+            "line": 2504,
+            "params": "$atts = []",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "get_trade_fair_day",
+            "line": 2612,
+            "params": "int $offset = 0",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "show_trade_fair_first_day",
+            "line": 2666,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_second_day",
+            "line": 2674,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_third_day",
+            "line": 2682,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_catalog",
+            "line": 2690,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_catalog_id",
+            "line": 2697,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_catalog_archive",
+            "line": 2704,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_catalog_id_archive",
+            "line": 2711,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_catalog_year",
+            "line": 2718,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_conference",
+            "line": 2725,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_conference_title",
+            "line": 2735,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_conference_title_eng",
+            "line": 2745,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_1stbuildday",
+            "line": 2755,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_2ndbuildday",
+            "line": 2763,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_1stdismantlday",
+            "line": 2771,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_2nddismantlday",
+            "line": 2782,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_hall",
+            "line": 2793,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_hall_entrance",
+            "line": 2801,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_edition",
+            "line": 2809,
+            "params": "$entry = null, $fields = null",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_accent",
+            "line": 2827,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_main2",
+            "line": 2834,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "trade_fair_branzowy_result",
+            "line": 2841,
+            "params": "$lang = \"pl\"",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_branzowy",
+            "line": 2868,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_branzowy_eng",
+            "line": 2877,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_badge",
+            "line": 2886,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_feed_prefix",
+            "line": 2893,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_facebook",
+            "line": 2902,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_instagram",
+            "line": 2912,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_linkedin",
+            "line": 2922,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_youtube",
+            "line": 2932,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_domainadress",
+            "line": 2942,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "get_lang_domain",
+            "line": 2950,
+            "params": "$atts = []",
+            "modifiers": []
+          },
+          {
+            "name": "show_trade_fair_actualyear",
+            "line": 2996,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_rejestracja",
+            "line": 3001,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_contact",
+            "line": 3011,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_contact_service_name",
+            "line": 3015,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_contact_service_phone",
+            "line": 3019,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_contact_service_email",
+            "line": 3023,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_contact_media_phone",
+            "line": 3027,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_contact_media_name",
+            "line": 3031,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_contact_media_person_name",
+            "line": 3035,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_contact_media_person_phone",
+            "line": 3039,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_contact_media_person_email",
+            "line": 3043,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_contact_tech",
+            "line": 3047,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_contact_media",
+            "line": 3051,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_lidy",
+            "line": 3055,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_contact_email_vip",
+            "line": 3059,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_contact_phone_vip",
+            "line": 3063,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_contact_medal_ceremony_email",
+            "line": 3067,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_group",
+            "line": 3071,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_registration_benefits_pl",
+            "line": 3083,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_registration_benefits_en",
+            "line": 3097,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_ticket_benefits_pl",
+            "line": 3111,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_ticket_benefits_en",
+            "line": 3128,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_exhibitor_generator_icons",
+            "line": 3145,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_exhibitor_generator_text",
+            "line": 3356,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_exhibitor_generator_header_url",
+            "line": 3394,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_trade_fair_exhibitor_generator_badge_url",
+            "line": 3433,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "sc_pwe_trade_fair_full_desc",
+            "line": 3458,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "get_translated_field",
+            "line": 3464,
+            "params": "$fair, $field_base_name",
+            "modifiers": []
+          },
+          {
+            "name": "get_pwe_shortcode",
+            "line": 3482,
+            "params": "$shortcode, $domain",
+            "modifiers": []
+          },
+          {
+            "name": "check_available_pwe_shortcode",
+            "line": 3488,
+            "params": "$shortcodes_active, $shortcode",
+            "modifiers": []
+          },
+          {
+            "name": "sc_pwe_text_news",
+            "line": 3510,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "sc_pwe_text_for_visitors",
+            "line": 3518,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "sc_pwe_text_for_exhibitors",
+            "line": 3526,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "sc_pwe_text_add_calendar",
+            "line": 3534,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "sc_pwe_text_gallery",
+            "line": 3542,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "sc_pwe_text_org_info",
+            "line": 3550,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "sc_pwe_text_exh_catalog",
+            "line": 3558,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "sc_pwe_text_events",
+            "line": 3566,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "sc_pwe_text_contact",
+            "line": 3574,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "sc_pwe_text_fair_plan",
+            "line": 3582,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "sc_pwe_text_registration",
+            "line": 3590,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "sc_pwe_text_promote_yourself",
+            "line": 3598,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "sc_pwe_text_become_an_exhibitor",
+            "line": 3606,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "sc_pwe_text_store",
+            "line": 3614,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "wpseo_register_extra_replacements",
+            "line": 3622,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "wpseo_replacements",
+            "line": 3630,
+            "params": "$replacements",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "replace_multilang_date_in_notification",
+            "line": 3649,
+            "params": "$notification, $form, $entry",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "get_language_from_notification_name",
+            "line": 3727,
+            "params": "$notification_name",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "replace_gf_merge_tags",
+            "line": 3794,
+            "params": "$text, $form, $entry, $url_encode, $esc_html, $nl2br, $format",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "read_urls_json_file",
+            "line": 3841,
+            "params": "$json_file",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_urls_data",
+            "line": 3888,
+            "params": "",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_url_shortcode_language",
+            "line": 3930,
+            "params": "$requested_lang = ''",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_url_language_data",
+            "line": 3973,
+            "params": "array $url_entry, $lang",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "show_multilang_url",
+            "line": 4021,
+            "params": "$atts = [], $content = null, $shortcode_tag = ''",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "register_url_shortcodes",
+            "line": 4148,
+            "params": "",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "get_gf_url_shortcodes_map",
+            "line": 4177,
+            "params": "",
+            "modifiers": [
+              "private"
+            ]
+          },
+          {
+            "name": "show_pwe_mailing_header_url",
+            "line": 4209,
+            "params": "",
+            "modifiers": [
+              "public"
+            ]
+          },
+          {
+            "name": "show_pwe_mailing_header_platyna_url",
+            "line": 4277,
+            "params": "$requested_lang = ''",
+            "modifiers": [
+              "public"
+            ]
+          }
+        ]
+      }
+    ],
+    "functions": [],
+    "lines": 4356,
+    "bytes": 194805,
+    "registrations": [
+      {
+        "type": "action",
+        "hook": "admin_menu",
+        "line": 19
+      },
+      {
+        "type": "action",
+        "hook": "admin_init",
+        "line": 20
+      },
+      {
+        "type": "action",
+        "hook": "admin_enqueue_scripts",
+        "line": 21
+      },
+      {
+        "type": "action",
+        "hook": "init",
+        "line": 23
+      },
+      {
+        "type": "filter",
+        "hook": "wpseo_register_extra_replacements",
+        "line": 25
+      },
+      {
+        "type": "filter",
+        "hook": "wpseo_replacements",
+        "line": 26
+      },
+      {
+        "type": "filter",
+        "hook": "gform_replace_merge_tags",
+        "line": 27
+      },
+      {
+        "type": "filter",
+        "hook": "gform_notification",
+        "line": 29
+      }
+    ]
+  },
+  "plugin-update-checker.php": {
+    "classes": [],
+    "functions": [],
+    "lines": 11,
+    "bytes": 306,
+    "registrations": []
+  },
+  "pwe-system.php": {
+    "classes": [],
+    "functions": [],
+    "lines": 39,
+    "bytes": 1319,
+    "registrations": [
+      {
+        "type": "action",
+        "hook": "plugins_loaded",
+        "line": 38
+      }
+    ]
+  }
+}

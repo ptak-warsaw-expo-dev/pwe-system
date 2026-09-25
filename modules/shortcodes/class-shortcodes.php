@@ -2358,10 +2358,6 @@ class PWE_Shortcodes {
         <?php
     }
 
-
-
-
-
     // DISPLAYING THE SHORTCODES <----------------------------------------------------------------------<
 
     public function show_trade_fair_name() {

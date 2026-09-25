@@ -1,0 +1,284 @@
+[
+  {
+    "type": "filter",
+    "hook": "admin_body_class",
+    "source": "core/class-pwe-system-admin.php",
+    "line": 10
+  },
+  {
+    "type": "action",
+    "hook": "admin_enqueue_scripts",
+    "source": "core/class-pwe-system-admin.php",
+    "line": 9
+  },
+  {
+    "type": "action",
+    "hook": "admin_enqueue_scripts",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "line": 12
+  },
+  {
+    "type": "action",
+    "hook": "admin_enqueue_scripts",
+    "source": "modules/forms-audit/pwe-forms-audit-module.php",
+    "line": 50
+  },
+  {
+    "type": "action",
+    "hook": "admin_enqueue_scripts",
+    "source": "modules/forms-audit/tools/class-pwe-system-forms-backfill-tool.php",
+    "line": 22
+  },
+  {
+    "type": "action",
+    "hook": "admin_enqueue_scripts",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 21
+  },
+  {
+    "type": "action",
+    "hook": "admin_init",
+    "source": "modules/resend/core/resend-actions.php",
+    "line": 20
+  },
+  {
+    "type": "action",
+    "hook": "admin_init",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 20
+  },
+  {
+    "type": "action",
+    "hook": "admin_menu",
+    "source": "core/class-pwe-system-admin.php",
+    "line": 8
+  },
+  {
+    "type": "action",
+    "hook": "admin_menu",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "line": 11
+  },
+  {
+    "type": "action",
+    "hook": "admin_menu",
+    "source": "modules/forms-audit/pwe-forms-audit-module.php",
+    "line": 45
+  },
+  {
+    "type": "action",
+    "hook": "admin_menu",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 19
+  },
+  {
+    "type": "action",
+    "hook": "admin_post_pwe_qr_export_mismatches",
+    "source": "modules/forms-audit/pwe-forms-audit-module.php",
+    "line": 46
+  },
+  {
+    "type": "action",
+    "hook": "gform_after_email",
+    "source": "modules/forms-audit/traits/trait-pwe-forms-audit-notifications.php",
+    "line": 420
+  },
+  {
+    "type": "filter",
+    "hook": "gform_notification",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 29
+  },
+  {
+    "type": "filter",
+    "hook": "gform_replace_merge_tags",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 257
+  },
+  {
+    "type": "filter",
+    "hook": "gform_replace_merge_tags",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 27
+  },
+  {
+    "type": "action",
+    "hook": "init",
+    "source": "core/class-pwe-system.php",
+    "line": 23
+  },
+  {
+    "type": "action",
+    "hook": "init",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "line": 255
+  },
+  {
+    "type": "action",
+    "hook": "init",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 23
+  },
+  {
+    "type": "action",
+    "hook": "phpmailer_init",
+    "source": "core/class-pwe-system-functions.php",
+    "line": 4998
+  },
+  {
+    "type": "action",
+    "hook": "phpmailer_init",
+    "source": "core/class-pwe-system-functions.php",
+    "line": 5089
+  },
+  {
+    "type": "action",
+    "hook": "plugins_loaded",
+    "source": "core/class-pwe-system-updater.php",
+    "line": 12
+  },
+  {
+    "type": "action",
+    "hook": "plugins_loaded",
+    "source": "modules/forms-audit/pwe-forms-audit-module.php",
+    "line": 216
+  },
+  {
+    "type": "action",
+    "hook": "plugins_loaded",
+    "source": "pwe-system.php",
+    "line": 38
+  },
+  {
+    "type": "action",
+    "hook": "pwe_system_forms_audit_cache_invalidate",
+    "source": "modules/forms-audit/pwe-forms-audit-module.php",
+    "line": 51
+  },
+  {
+    "type": "action",
+    "hook": "pwe_system_forms_audit_tools",
+    "source": "modules/forms-audit/tools/class-pwe-system-forms-backfill-tool.php",
+    "line": 21
+  },
+  {
+    "type": "action",
+    "hook": "wp_ajax_pwe_qr_bulk_language_preview",
+    "source": "modules/forms-audit/pwe-forms-audit-module.php",
+    "line": 48
+  },
+  {
+    "type": "action",
+    "hook": "wp_ajax_pwe_qr_resend_notifications",
+    "source": "modules/forms-audit/pwe-forms-audit-module.php",
+    "line": 47
+  },
+  {
+    "type": "action",
+    "hook": "wp_ajax_pwe_replace_content_start",
+    "source": "modules/replace-content/core/ajax-actions.php",
+    "line": 20
+  },
+  {
+    "type": "action",
+    "hook": "wp_ajax_pwe_replace_content_step",
+    "source": "modules/replace-content/core/ajax-actions.php",
+    "line": 21
+  },
+  {
+    "type": "action",
+    "hook": "wp_ajax_pwe_system_doc_delete",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "line": 26
+  },
+  {
+    "type": "action",
+    "hook": "wp_ajax_pwe_system_doc_list",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "line": 26
+  },
+  {
+    "type": "action",
+    "hook": "wp_ajax_pwe_system_doc_mkdir",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "line": 26
+  },
+  {
+    "type": "action",
+    "hook": "wp_ajax_pwe_system_doc_move",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "line": 26
+  },
+  {
+    "type": "action",
+    "hook": "wp_ajax_pwe_system_doc_rename",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "line": 26
+  },
+  {
+    "type": "action",
+    "hook": "wp_ajax_pwe_system_doc_replace",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "line": 26
+  },
+  {
+    "type": "action",
+    "hook": "wp_ajax_pwe_system_doc_unzip",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "line": 26
+  },
+  {
+    "type": "action",
+    "hook": "wp_ajax_pwe_system_doc_upload",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "line": 26
+  },
+  {
+    "type": "action",
+    "hook": "wp_ajax_pwe_system_forms_audit_load",
+    "source": "modules/forms-audit/pwe-forms-audit-module.php",
+    "line": 49
+  },
+  {
+    "type": "action",
+    "hook": "wp_ajax_pwe_system_forms_backfill_generate",
+    "source": "modules/forms-audit/tools/class-pwe-system-forms-backfill-tool.php",
+    "line": 24
+  },
+  {
+    "type": "action",
+    "hook": "wp_ajax_pwe_system_forms_backfill_scan",
+    "source": "modules/forms-audit/tools/class-pwe-system-forms-backfill-tool.php",
+    "line": 23
+  },
+  {
+    "type": "action",
+    "hook": "wp_footer",
+    "source": "core/class-pwe-system-functions.php",
+    "line": 5100
+  },
+  {
+    "type": "action",
+    "hook": "wp_mail_failed",
+    "source": "modules/resend/core/job-runner.php",
+    "line": 253
+  },
+  {
+    "type": "filter",
+    "hook": "wpdb_connect_timeout",
+    "source": "core/class-pwe-system-functions.php",
+    "line": 818
+  },
+  {
+    "type": "filter",
+    "hook": "wpseo_register_extra_replacements",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 25
+  },
+  {
+    "type": "filter",
+    "hook": "wpseo_replacements",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "line": 26
+  }
+]

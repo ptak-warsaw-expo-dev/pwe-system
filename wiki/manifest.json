@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "wiki_profile": "pwe-wiki-v2",
+  "extensions_version": 2,
+  "plugin": {
+    "name": "PWE System",
+    "slug": "pwe-system",
+    "version": "1.0.2",
+    "entrypoint": "pwe-system.php"
+  },
+  "documentation": {
+    "generated_at": "2026-09-24",
+    "language": "pl",
+    "source": "uploaded archive",
+    "source_commit": null,
+    "scope": "first-party source plus dependency inventory",
+    "notes": [
+      "Documentation is based on uploaded pwe-system 1.0.2 archive.",
+      "source_commit is unknown because the archive does not contain trusted repository commit metadata.",
+      "Bundled plugin-update-checker code is treated as third-party and excluded from first-party symbol indexing.",
+      "Wiki v2 keeps schema_version 1 compatibility and adds entrypoints/load graph/integrations/dependencies/processes inventories.",
+      "Traits are stored under php-symbols classes for importer compatibility and marked with kind=trait.",
+      "Trait composition is mapped in inventory/trait-uses.json so runtime class callbacks can be resolved to trait definitions.",
+      "Version metadata mismatch is preserved in issues.json rather than silently reconciled."
+    ]
+  },
+  "counts": {
+    "files_total": 131,
+    "php_files_first_party": 41,
+    "types_detected": 36,
+    "classes_detected": 32,
+    "traits_detected": 4,
+    "methods_detected": 558,
+    "global_functions_detected": 14,
+    "shortcodes_documented": 155,
+    "shortcode_families": 10,
+    "hooks_detected": 47,
+    "endpoints_documented": 19,
+    "entrypoints_documented": 25,
+    "processes_documented": 12,
+    "trait_compositions": 1
+  },
+  "entry_documents": [
+    "README.md",
+    "architecture/overview.md",
+    "architecture/bootstrap-lifecycle.md",
+    "architecture/cross-plugin-compatibility.md",
+    "architecture/modules.md",
+    "architecture/data-and-cache.md",
+    "architecture/shortcodes-and-translations.md",
+    "architecture/gravity-forms-and-qr.md",
+    "architecture/load-status.md",
+    "shortcodes/index.md",
+    "endpoints/index.md",
+    "hooks/index.md",
+    "processes/index.md",
+    "symbols/index.md",
+    "files/index.md",
+    "security/review.md",
+    "reference/cross-plugin-graph.md",
+    "reference/issues.md",
+    "reference/database-tables.md",
+    "reference/versioning.md",
+    "reference/traits.md"
+  ]
+}

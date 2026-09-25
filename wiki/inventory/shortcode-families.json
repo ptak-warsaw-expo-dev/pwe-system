@@ -1,0 +1,92 @@
+[
+  {
+    "pattern": "pwe_name_{lang}",
+    "field_pattern": "name_{lang}",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "registration": "runtime-map",
+    "callback": "handle_fair_shortcode",
+    "condition": "Dla aktywnych języków WPML innych niż pl/en; bez listy WPML kod używa fallbacku cs,de,it,lt,lv,ru,sk,uk.",
+    "load_status": "active-if-procedural-layer-loaded"
+  },
+  {
+    "pattern": "pwe_desc_{lang}",
+    "field_pattern": "desc_{lang}",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "registration": "runtime-map",
+    "callback": "handle_fair_shortcode",
+    "condition": "Dla aktywnych języków WPML innych niż pl/en; bez listy WPML kod używa fallbacku cs,de,it,lt,lv,ru,sk,uk.",
+    "load_status": "active-if-procedural-layer-loaded"
+  },
+  {
+    "pattern": "pwe_short_desc_{lang}",
+    "field_pattern": "short_desc_{lang}",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "registration": "runtime-map",
+    "callback": "handle_fair_shortcode",
+    "condition": "Dla aktywnych języków WPML innych niż pl/en; bez listy WPML kod używa fallbacku cs,de,it,lt,lv,ru,sk,uk.",
+    "load_status": "active-if-procedural-layer-loaded"
+  },
+  {
+    "pattern": "pwe_full_desc_{lang}",
+    "field_pattern": "full_desc_{lang}",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "registration": "runtime-map",
+    "callback": "handle_fair_shortcode",
+    "condition": "Dla aktywnych języków WPML innych niż pl/en; bez listy WPML kod używa fallbacku cs,de,it,lt,lv,ru,sk,uk.",
+    "load_status": "active-if-procedural-layer-loaded"
+  },
+  {
+    "pattern": "pwe_conference_title_{lang}",
+    "field_pattern": "conference_title_{lang}",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "registration": "runtime-map",
+    "callback": "handle_fair_shortcode",
+    "condition": "Dla aktywnych języków WPML innych niż pl/en; bez listy WPML kod używa fallbacku cs,de,it,lt,lv,ru,sk,uk.",
+    "load_status": "active-if-procedural-layer-loaded"
+  },
+  {
+    "pattern": "pwe_conference_desc_{lang}",
+    "field_pattern": "conference_desc_{lang}",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "registration": "runtime-map",
+    "callback": "handle_fair_shortcode",
+    "condition": "Dla aktywnych języków WPML innych niż pl/en; bez listy WPML kod używa fallbacku cs,de,it,lt,lv,ru,sk,uk.",
+    "load_status": "active-if-procedural-layer-loaded"
+  },
+  {
+    "pattern": "pwe_about_title_{lang}",
+    "field_pattern": "about_title_{lang}",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "registration": "runtime-map",
+    "callback": "handle_fair_shortcode",
+    "condition": "Dla aktywnych języków WPML innych niż pl/en; bez listy WPML kod używa fallbacku cs,de,it,lt,lv,ru,sk,uk.",
+    "load_status": "active-if-procedural-layer-loaded"
+  },
+  {
+    "pattern": "pwe_about_desc_{lang}",
+    "field_pattern": "about_desc_{lang}",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "registration": "runtime-map",
+    "callback": "handle_fair_shortcode",
+    "condition": "Dla aktywnych języków WPML innych niż pl/en; bez listy WPML kod używa fallbacku cs,de,it,lt,lv,ru,sk,uk.",
+    "load_status": "active-if-procedural-layer-loaded"
+  },
+  {
+    "pattern": "pwe_category_{lang}",
+    "field_pattern": "category_{lang}",
+    "source": "modules/shortcodes/backend-shortcodes.php",
+    "registration": "runtime-map",
+    "callback": "handle_fair_shortcode",
+    "condition": "Dla aktywnych języków WPML innych niż pl/en; bez listy WPML kod używa fallbacku cs,de,it,lt,lv,ru,sk,uk.",
+    "load_status": "active-if-procedural-layer-loaded"
+  },
+  {
+    "pattern": "url_{key}",
+    "field_pattern": "website-translation.json key",
+    "source": "modules/shortcodes/class-shortcodes.php",
+    "registration": "runtime-json-map",
+    "callback": "PWE_Shortcodes::show_multilang_url",
+    "condition": "Klucze są ładowane z pwe-multilang/website-translation.json lub fallbacku data/website-translation.json.",
+    "load_status": "active-if-PWE_Shortcodes-loaded"
+  }
+]

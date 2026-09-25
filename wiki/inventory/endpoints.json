@@ -1,0 +1,237 @@
+[
+  {
+    "id": "cap-graphics",
+    "kind": "direct-http",
+    "route": "/wp-content/plugins/pwe-system/api/cap/doc.php",
+    "methods": [
+      "GET",
+      "POST",
+      "OPTIONS"
+    ],
+    "auth": "GET bez klucza; POST wymaga X-PWE-API-Key zgodnego z PWE_API_KEY_2. OPTIONS kończy się 204.",
+    "source": "api/cap/doc.php",
+    "notes": "Operuje wyłącznie na whiteliście plików /doc; POST wysyła powiadomienie po zmianach."
+  },
+  {
+    "id": "news-sync",
+    "kind": "direct-http",
+    "route": "/wp-content/plugins/pwe-system/api/news/index.php",
+    "methods": [
+      "POST"
+    ],
+    "auth": "PWE_API_KEY_2 przez ?key= lub X-API-KEY.",
+    "source": "api/news/index.php",
+    "notes": "JSON action=upsert/delete; synchronizuje wpisy PL/EN, WPML i obrazki wyróżniające."
+  },
+  {
+    "id": "doc-list",
+    "kind": "wp-ajax",
+    "route": "admin-ajax.php?action=pwe_system_doc_list",
+    "methods": [
+      "POST"
+    ],
+    "auth": "Capability pwe_manage_doc + nonce pwe_system_doc_manager.",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "callback": "PWE_System_Doc_Manager::ajax_list",
+    "hook": "wp_ajax_pwe_system_doc_list"
+  },
+  {
+    "id": "doc-mkdir",
+    "kind": "wp-ajax",
+    "route": "admin-ajax.php?action=pwe_system_doc_mkdir",
+    "methods": [
+      "POST"
+    ],
+    "auth": "Capability pwe_manage_doc + nonce pwe_system_doc_manager.",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "callback": "PWE_System_Doc_Manager::ajax_mkdir",
+    "hook": "wp_ajax_pwe_system_doc_mkdir"
+  },
+  {
+    "id": "doc-rename",
+    "kind": "wp-ajax",
+    "route": "admin-ajax.php?action=pwe_system_doc_rename",
+    "methods": [
+      "POST"
+    ],
+    "auth": "Capability pwe_manage_doc + nonce pwe_system_doc_manager.",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "callback": "PWE_System_Doc_Manager::ajax_rename",
+    "hook": "wp_ajax_pwe_system_doc_rename"
+  },
+  {
+    "id": "doc-delete",
+    "kind": "wp-ajax",
+    "route": "admin-ajax.php?action=pwe_system_doc_delete",
+    "methods": [
+      "POST"
+    ],
+    "auth": "Capability pwe_manage_doc + nonce pwe_system_doc_manager.",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "callback": "PWE_System_Doc_Manager::ajax_delete",
+    "hook": "wp_ajax_pwe_system_doc_delete"
+  },
+  {
+    "id": "doc-move",
+    "kind": "wp-ajax",
+    "route": "admin-ajax.php?action=pwe_system_doc_move",
+    "methods": [
+      "POST"
+    ],
+    "auth": "Capability pwe_manage_doc + nonce pwe_system_doc_manager.",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "callback": "PWE_System_Doc_Manager::ajax_move",
+    "hook": "wp_ajax_pwe_system_doc_move"
+  },
+  {
+    "id": "doc-upload",
+    "kind": "wp-ajax",
+    "route": "admin-ajax.php?action=pwe_system_doc_upload",
+    "methods": [
+      "POST"
+    ],
+    "auth": "Capability pwe_manage_doc + nonce pwe_system_doc_manager.",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "callback": "PWE_System_Doc_Manager::ajax_upload",
+    "hook": "wp_ajax_pwe_system_doc_upload"
+  },
+  {
+    "id": "doc-replace",
+    "kind": "wp-ajax",
+    "route": "admin-ajax.php?action=pwe_system_doc_replace",
+    "methods": [
+      "POST"
+    ],
+    "auth": "Capability pwe_manage_doc + nonce pwe_system_doc_manager.",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "callback": "PWE_System_Doc_Manager::ajax_replace",
+    "hook": "wp_ajax_pwe_system_doc_replace"
+  },
+  {
+    "id": "doc-unzip",
+    "kind": "wp-ajax",
+    "route": "admin-ajax.php?action=pwe_system_doc_unzip",
+    "methods": [
+      "POST"
+    ],
+    "auth": "Capability pwe_manage_doc + nonce pwe_system_doc_manager.",
+    "source": "modules/doc-manager/class-pwe-system-doc-manager.php",
+    "callback": "PWE_System_Doc_Manager::ajax_unzip",
+    "hook": "wp_ajax_pwe_system_doc_unzip"
+  },
+  {
+    "id": "replace-content-start",
+    "kind": "wp-ajax",
+    "route": "admin-ajax.php?action=pwe_replace_content_start",
+    "methods": [
+      "POST"
+    ],
+    "auth": "manage_options przez PWE_System_Admin_Access + nonce pwe_system_replace_content.",
+    "source": "modules/replace-content/core/ajax-actions.php",
+    "callback": "PWE_System_Replace_Content_Ajax::start",
+    "hook": "wp_ajax_pwe_replace_content_start"
+  },
+  {
+    "id": "replace-content-step",
+    "kind": "wp-ajax",
+    "route": "admin-ajax.php?action=pwe_replace_content_step",
+    "methods": [
+      "POST"
+    ],
+    "auth": "manage_options przez PWE_System_Admin_Access + nonce pwe_system_replace_content.",
+    "source": "modules/replace-content/core/ajax-actions.php",
+    "callback": "PWE_System_Replace_Content_Ajax::step",
+    "hook": "wp_ajax_pwe_replace_content_step"
+  },
+  {
+    "id": "forms-audit-load",
+    "kind": "wp-ajax",
+    "route": "admin-ajax.php?action=pwe_system_forms_audit_load",
+    "methods": [
+      "POST"
+    ],
+    "auth": "manage_options + nonce pwe_system_forms_audit_load.",
+    "source": "modules/forms-audit/pwe-forms-audit-module.php",
+    "callback": "PWE_System_Forms_Audit_Tool::ajax_load_audit",
+    "hook": "wp_ajax_pwe_system_forms_audit_load"
+  },
+  {
+    "id": "forms-audit-resend",
+    "kind": "wp-ajax",
+    "route": "admin-ajax.php?action=pwe_qr_resend_notifications",
+    "methods": [
+      "POST"
+    ],
+    "auth": "manage_options + nonce pwe_qr_resend_notifications; maks. 10 pozycji na request.",
+    "source": "modules/forms-audit/traits/trait-pwe-forms-audit-notifications.php",
+    "callback": "PWE_System_Forms_Audit_Tool::ajax_resend_notifications",
+    "hook": "wp_ajax_pwe_qr_resend_notifications",
+    "notes": "Runtime callback jest metodą klasy przez trait; definicja: PWE_System_Forms_Audit_Notifications_Trait::ajax_resend_notifications.",
+    "definitionSymbol": "PWE_System_Forms_Audit_Notifications_Trait::ajax_resend_notifications"
+  },
+  {
+    "id": "forms-audit-language-preview",
+    "kind": "wp-ajax",
+    "route": "admin-ajax.php?action=pwe_qr_bulk_language_preview",
+    "methods": [
+      "POST"
+    ],
+    "auth": "manage_options + nonce pwe_qr_bulk_language_preview.",
+    "source": "modules/forms-audit/traits/trait-pwe-forms-audit-notifications.php",
+    "callback": "PWE_System_Forms_Audit_Tool::ajax_bulk_language_preview",
+    "hook": "wp_ajax_pwe_qr_bulk_language_preview",
+    "notes": "Runtime callback jest metodą klasy przez trait; definicja: PWE_System_Forms_Audit_Notifications_Trait::ajax_bulk_language_preview.",
+    "definitionSymbol": "PWE_System_Forms_Audit_Notifications_Trait::ajax_bulk_language_preview"
+  },
+  {
+    "id": "forms-audit-export",
+    "kind": "admin-post",
+    "route": "admin-post.php?action=pwe_qr_export_mismatches",
+    "methods": [
+      "GET"
+    ],
+    "auth": "manage_options + admin nonce pwe_qr_export_mismatches.",
+    "source": "modules/forms-audit/traits/trait-pwe-forms-audit-export.php",
+    "callback": "PWE_System_Forms_Audit_Tool::export_mismatches_csv",
+    "hook": "admin_post_pwe_qr_export_mismatches",
+    "notes": "Runtime callback jest metodą klasy przez trait; definicja: PWE_System_Forms_Audit_Export_Trait::export_mismatches_csv.",
+    "definitionSymbol": "PWE_System_Forms_Audit_Export_Trait::export_mismatches_csv"
+  },
+  {
+    "id": "forms-backfill-scan",
+    "kind": "wp-ajax",
+    "route": "admin-ajax.php?action=pwe_system_forms_backfill_scan",
+    "methods": [
+      "POST"
+    ],
+    "auth": "manage_options + nonce pwe_system_forms_backfill.",
+    "source": "modules/forms-audit/tools/class-pwe-system-forms-backfill-tool.php",
+    "callback": "PWE_System_Forms_Backfill_Tool::ajax_scan",
+    "hook": "wp_ajax_pwe_system_forms_backfill_scan"
+  },
+  {
+    "id": "forms-backfill-generate",
+    "kind": "wp-ajax",
+    "route": "admin-ajax.php?action=pwe_system_forms_backfill_generate",
+    "methods": [
+      "POST"
+    ],
+    "auth": "manage_options + nonce pwe_system_forms_backfill; generowanie partiami.",
+    "source": "modules/forms-audit/tools/class-pwe-system-forms-backfill-tool.php",
+    "callback": "PWE_System_Forms_Backfill_Tool::ajax_generate",
+    "hook": "wp_ajax_pwe_system_forms_backfill_generate"
+  },
+  {
+    "id": "resend-admin-action",
+    "kind": "admin-form",
+    "route": "admin.php?page=pwe-system-resend + POST pwe_resend_action",
+    "methods": [
+      "POST"
+    ],
+    "auth": "manage_options + check_admin_referer(pwe_system_resend_action).",
+    "source": "modules/resend/core/resend-actions.php",
+    "callback": "PWE_System_Resend_Actions::handle",
+    "hook": "admin_init",
+    "notes": "Akcje start/run/pause/resume/reset sterują jobem pwe_system_resend_job."
+  }
+]

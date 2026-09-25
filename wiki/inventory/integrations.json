@@ -1,0 +1,130 @@
+[
+  {
+    "id": "wordpress",
+    "name": "WordPress",
+    "type": "platform",
+    "evidence": [
+      "hooks",
+      "AJAX",
+      "admin pages",
+      "capabilities",
+      "post/meta APIs"
+    ]
+  },
+  {
+    "id": "gravity-forms",
+    "name": "Gravity Forms",
+    "type": "plugin",
+    "evidence": [
+      "GFAPI",
+      "GFCommon",
+      "GF entry/meta",
+      "notifications",
+      "feeds"
+    ]
+  },
+  {
+    "id": "pwe-qr-gravity-forms",
+    "name": "PWE QR Gravity Forms",
+    "type": "pwe-plugin",
+    "mode": "required for Forms Audit QR-aware boot",
+    "evidence": [
+      "PWE_QR_Gravity_Forms::get_instance",
+      "qr object",
+      "pwe_qr feeds"
+    ]
+  },
+  {
+    "id": "pwe-elements",
+    "name": "PWE Elements",
+    "type": "pwe-plugin",
+    "mode": "incoming compatibility consumer",
+    "evidence": [
+      "PWE_Functions alias",
+      "shared pwe_* shortcode layer"
+    ]
+  },
+  {
+    "id": "pwe-elements-auto-switch",
+    "name": "PWE Elements AutoSwitch",
+    "type": "pwe-plugin",
+    "mode": "shared elements/components + target shortcodes + API migration bridges",
+    "evidence": [
+      "PWE_PLUGIN_PATH/PWE_PLUGIN_FILE",
+      "pwe-elements-auto-switch path",
+      "Replace Content shortcode map"
+    ]
+  },
+  {
+    "id": "wpml",
+    "name": "WPML",
+    "type": "plugin",
+    "evidence": [
+      "wpml_active_languages",
+      "wpml_element_trid",
+      "wpml_get_element_translations",
+      "wpml_object_id"
+    ]
+  },
+  {
+    "id": "uncode",
+    "name": "Uncode",
+    "type": "theme",
+    "evidence": [
+      "_uncode_header_type",
+      "_uncode_specific_title",
+      "vc_raw_html",
+      "uncode option colors"
+    ]
+  },
+  {
+    "id": "wp-rocket",
+    "name": "WP Rocket",
+    "type": "plugin",
+    "evidence": [
+      "rocket_clean_post"
+    ]
+  },
+  {
+    "id": "pwe-multilang",
+    "name": "PWE Multilang",
+    "type": "pwe-plugin/data-provider",
+    "mode": "preferred website-translation.json for URL shortcodes",
+    "evidence": [
+      "wp-content/plugins/pwe-multilang/website-translation.json"
+    ]
+  },
+  {
+    "id": "cap-db",
+    "name": "CAP database",
+    "type": "database/external-data",
+    "evidence": [
+      "wpdb connections to PWE DB hosts",
+      "fairs",
+      "translations",
+      "logos",
+      "conferences",
+      "meta_data"
+    ]
+  },
+  {
+    "id": "github",
+    "name": "GitHub Releases",
+    "type": "update-service",
+    "evidence": [
+      "Plugin Update Checker",
+      "ptak-warsaw-expo-dev/pwe-system",
+      "github_secret"
+    ]
+  },
+  {
+    "id": "smtp",
+    "name": "WordPress/PHPMailer SMTP",
+    "type": "mail",
+    "evidence": [
+      "wp_mail",
+      "phpmailer_init",
+      "GFCommon notifications"
+    ]
+  }
+]

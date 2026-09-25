@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "status_definitions": {
+    "bootstrap": "główny plik wtyczki",
+    "active": "ładowany w normalnym cyklu pluginu",
+    "conditional": "ładowany lub aktywowany tylko po spełnieniu warunku",
+    "compatibility": "warstwa dostarczająca zgodność wsteczną dla innych pluginów",
+    "direct-entrypoint": "plik wykonywany bezpośrednio przez HTTP",
+    "third-party": "bundlowana biblioteka zewnętrzna"
+  },
+  "nodes": [
+    {
+      "path": "pwe-system.php",
+      "status": "bootstrap"
+    },
+    {
+      "path": "core/class-pwe-system-functions.php",
+      "status": "active",
+      "notes": "Definiuje PWE_System_Functions i alias PWE_Functions."
+    },
+    {
+      "path": "core/class-pwe-system.php",
+      "status": "active"
+    },
+    {
+      "path": "core/class-pwe-system-updater.php",
+      "status": "active"
+    },
+    {
+      "path": "core/class-pwe-system-admin-access.php",
+      "status": "active",
+      "loaded_from": "PWE_System::init"
+    },
+    {
+      "path": "core/class-pwe-system-admin-ui.php",
+      "status": "active",
+      "loaded_from": "PWE_System::init"
+    },
+    {
+      "path": "core/class-pwe-system-admin.php",
+      "status": "active",
+      "loaded_from": "PWE_System::init"
+    },
+    {
+      "path": "modules/doc-manager/class-pwe-system-doc-manager.php",
+      "status": "active",
+      "loaded_from": "PWE_System::init"
+    },
+    {
+      "path": "modules/replace-content/replace-content-module.php",
+      "status": "active",
+      "loaded_from": "PWE_System::init"
+    },
+    {
+      "path": "modules/resend/resend-module.php",
+      "status": "active",
+      "loaded_from": "PWE_System::init"
+    },
+    {
+      "path": "modules/forms-audit/pwe-forms-audit-module.php",
+      "status": "conditional",
+      "condition": "plik istnieje; narzędzia aktywują się dopiero gdy PWE_QR_Gravity_Forms udostępnia obiekt qr"
+    },
+    {
+      "path": "modules/shortcodes/backend-shortcodes.php",
+      "status": "conditional",
+      "condition": "ładowany gdy nie istnieje globalna funkcja pwe_get_shortcode_map; zabezpiecza zgodność ze starszym PWE Elements"
+    },
+    {
+      "path": "modules/shortcodes/class-shortcodes.php",
+      "status": "conditional",
+      "condition": "ładowany gdy nie istnieje klasa PWE_Shortcodes; klasa sama wywołuje PWE_Shortcodes::init()"
+    },
+    {
+      "path": "plugin-update-checker.php",
+      "status": "active",
+      "loaded_from": "PWE_System_Updater::setup_updater"
+    },
+    {
+      "path": "plugin-update-checker/",
+      "status": "third-party"
+    },
+    {
+      "path": "api/cap/doc.php",
+      "status": "direct-entrypoint",
+      "entrypoint_id": "cap-graphics"
+    },
+    {
+      "path": "api/news/index.php",
+      "status": "direct-entrypoint",
+      "entrypoint_id": "news-sync"
+    },
+    {
+      "external": "pwe-elements",
+      "status": "compatibility",
+      "relationship": "PWE Elements może delegować wspólne PWE_Functions i backend shortcode do PWE System."
+    },
+    {
+      "external": "pwe-elements-auto-switch",
+      "status": "compatibility",
+      "relationship": "PWE_System_Functions czyta elementy/components AutoSwitch; Replace Content zapisuje shortcody AutoSwitch do stron."
+    },
+    {
+      "external": "pwe-qr-gravity-forms",
+      "status": "conditional",
+      "relationship": "Forms Audit używa generatora QR z PWE_QR_Gravity_Forms."
+    }
+  ]
+}

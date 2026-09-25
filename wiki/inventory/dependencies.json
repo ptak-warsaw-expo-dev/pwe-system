@@ -1,0 +1,53 @@
+[
+  {
+    "name": "WordPress",
+    "kind": "runtime-platform",
+    "relationship": "plugin lifecycle, admin UI, AJAX, posts/meta, capabilities"
+  },
+  {
+    "name": "Gravity Forms",
+    "kind": "runtime-plugin",
+    "relationship": "required by Resend and forms audit data/notification operations"
+  },
+  {
+    "name": "PWE QR Gravity Forms",
+    "kind": "conditional-pwe-plugin",
+    "relationship": "required to instantiate Forms Audit tools; supplies QR generator object"
+  },
+  {
+    "name": "PWE Elements AutoSwitch",
+    "kind": "cross-plugin-runtime-data",
+    "relationship": "shared element/component paths and Replace Content target shortcodes"
+  },
+  {
+    "name": "PWE Elements",
+    "kind": "incoming-compatibility-consumer",
+    "relationship": "can use PWE_System_Functions via PWE_Functions alias and system shortcodes"
+  },
+  {
+    "name": "WPML",
+    "kind": "optional-plugin",
+    "relationship": "Replace Content translation graph and language-aware shortcode data"
+  },
+  {
+    "name": "Uncode",
+    "kind": "optional-theme-contract",
+    "relationship": "Replace Content updates Uncode page metadata; News API emits vc_raw_html"
+  },
+  {
+    "name": "WP Rocket",
+    "kind": "optional-plugin",
+    "relationship": "Replace Content clears page cache after update"
+  },
+  {
+    "name": "PWE Multilang",
+    "kind": "optional-pwe-plugin",
+    "relationship": "primary website-translation.json source for URL shortcodes"
+  },
+  {
+    "name": "Plugin Update Checker",
+    "kind": "bundled-third-party",
+    "relationship": "bundled library loaded through first-party updater wrapper",
+    "path": "plugin-update-checker/"
+  }
+]

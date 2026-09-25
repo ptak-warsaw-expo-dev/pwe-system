@@ -1,0 +1,62 @@
+[
+  {
+    "id": "version-metadata-mismatch",
+    "severity": "review",
+    "status": "confirmed",
+    "summary": "Wersja jest niespójna pomiędzy nagłówkiem pluginu, stałą runtime i README.",
+    "source": "pwe-system.php",
+    "lines": [
+      6,
+      21
+    ],
+    "details": "Plugin header: 1.0.2; PWE_SYSTEM_VERSION: 1.0.0; README deklaruje 1.2.0. Może to wpływać na cache-busting i diagnostykę wersji."
+  },
+  {
+    "id": "news-api-query-key",
+    "severity": "review",
+    "status": "design-review",
+    "summary": "News API dopuszcza PWE_API_KEY_2 w parametrze query `?key=` oprócz nagłówka X-API-KEY.",
+    "source": "api/news/index.php",
+    "lines": [
+      114,
+      116
+    ],
+    "reason": "Sekrety w query string mogą trafić do logów serwera/proxy/history; nagłówek ogranicza ten kanał ekspozycji."
+  },
+  {
+    "id": "cap-public-status",
+    "severity": "review",
+    "status": "intentional-behavior",
+    "summary": "CAP Graphics API udostępnia GET statusu wymaganych plików bez klucza i zezwala na CORS `*`.",
+    "source": "api/cap/doc.php",
+    "lines": [
+      11,
+      116
+    ],
+    "reason": "Kod rozdziela publiczny odczyt statusu od autoryzowanego POST; warto potwierdzić, że zakres zwracanych informacji ma pozostać publiczny."
+  },
+  {
+    "id": "forms-audit-conditional-boot",
+    "severity": "info",
+    "status": "architecture",
+    "summary": "Forms Audit nie aktywuje się bez PWE QR Gravity Forms i dostępnego obiektu generatora QR.",
+    "source": "modules/forms-audit/pwe-forms-audit-module.php",
+    "lines": [
+      192,
+      210
+    ],
+    "reason": "To celowa zależność cross-plugin; UI audytu może być niedostępne mimo aktywnego PWE System, jeśli zależność nie jest gotowa."
+  },
+  {
+    "id": "trait-method-resolution",
+    "severity": "info",
+    "status": "indexer-design",
+    "summary": "Część callbacków Forms Audit jest dostępna runtime przez use Trait, ale definicje metod należą do traitów.",
+    "source": "modules/forms-audit/pwe-forms-audit-module.php",
+    "lines": [
+      17,
+      23
+    ],
+    "reason": "Indexer callbacków/call graph powinien być trait-aware; inaczej może oznaczyć poprawny callback PWE_System_Forms_Audit_Tool jako missing_method. Powiązania są zapisane w inventory/trait-uses.json oraz definitionSymbol endpointów."
+  }
+]
