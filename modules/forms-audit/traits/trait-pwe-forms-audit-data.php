@@ -349,9 +349,14 @@ trait PWE_System_Forms_Audit_Data_Trait {
                         $stats['notification_error']++;
                     } elseif (!$has_active_notifications) {
                         $stats['notification_none']++;
-                    } else {
+                    } elseif (!$has_resend) {
+                        // Once any resend exists, keep the row-level "Nie wysłane"
+                        // badge but do not count it as unresolved work in the form summary.
                         $stats['notification_missing']++;
                     }
+                } elseif ($comparison === 'bad' && $has_resend) {
+                    // Same rule as in the top summary: a resent mismatch stays visible
+                    // on the entry row, but no longer inflates the form-level "Rozbieżne" count.
                 } elseif (isset($stats[$comparison])) {
                     $stats[$comparison]++;
                 }
@@ -460,9 +465,14 @@ trait PWE_System_Forms_Audit_Data_Trait {
                     $stats['notification_error']++;
                 } elseif (!$has_active_notifications) {
                     $stats['notification_none']++;
-                } else {
+                } elseif (!$has_resend) {
+                    // A resend resolves the form-summary "Nie wysłane" counter only.
+                    // The entry itself still keeps both "Nie wysłane" and "Resend" badges.
                     $stats['notification_missing']++;
                 }
+            } elseif ($comparison === 'bad' && $has_resend) {
+                // A resent mismatch remains visible on the entry row, but it is no
+                // longer unresolved work in "Aktywne formularze i feedy QR".
             } elseif (isset($stats[$comparison])) {
                 $stats[$comparison]++;
             }
@@ -632,22 +642,28 @@ trait PWE_System_Forms_Audit_Data_Trait {
 
 
     private function get_pwe_feeds($form_id) {
-        $all_feeds = [];
+        // The new pwe_qr feed has priority over the legacy qr-code feed.
+        // If a form contains at least one pwe_qr feed, ignore qr-code entirely.
+        // qr-code remains only as a fallback for older forms that do not have pwe_qr yet.
+        $pwe_feeds = GFAPI::get_feeds(null, $form_id, 'pwe_qr');
 
-        foreach (['pwe_qr', 'qr-code'] as $addon_slug) {
-            $feeds = GFAPI::get_feeds(null, $form_id, $addon_slug);
-
-            if (is_wp_error($feeds) || empty($feeds) || !is_array($feeds)) {
-                continue;
-            }
-
-            foreach ($feeds as $feed) {
-                $feed['_qr_system'] = $addon_slug;
-                $all_feeds[] = $feed;
-            }
+        if (!is_wp_error($pwe_feeds) && is_array($pwe_feeds) && !empty($pwe_feeds)) {
+            return array_map(static function ($feed) {
+                $feed['_qr_system'] = 'pwe_qr';
+                return $feed;
+            }, $pwe_feeds);
         }
 
-        return $all_feeds;
+        $legacy_feeds = GFAPI::get_feeds(null, $form_id, 'qr-code');
+
+        if (is_wp_error($legacy_feeds) || empty($legacy_feeds) || !is_array($legacy_feeds)) {
+            return [];
+        }
+
+        return array_map(static function ($feed) {
+            $feed['_qr_system'] = 'qr-code';
+            return $feed;
+        }, $legacy_feeds);
     }
 
 

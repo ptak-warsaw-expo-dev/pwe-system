@@ -1474,10 +1474,18 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
             }
 
             $notification = $notifications[$notification_id];
+            $notification_name = trim((string) ($notification['name'] ?? $historical['name'] ?? ''));
 
-            // For a QR mismatch resend ONLY the notification that actually carried
-            // the QR code is eligible. Admin/other notifications are not resent
-            // merely because they share the same language.
+            // If the entry already has a successful original send and only the QR
+            // value is mismatched, never send Admin Notification a second time.
+            // Admin notifications are proposed only by get_never_sent_notifications_for_entry()
+            // when the original notification was not sent at all.
+            if (stripos($notification_name, 'Admin Notification') !== false) {
+                continue;
+            }
+
+            // For a QR mismatch resend ONLY the participant notification that
+            // actually carried the QR code is eligible.
             if (!$this->notification_contains_qr($notification)) {
                 continue;
             }
