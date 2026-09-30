@@ -375,7 +375,7 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
                 gform_delete_meta($entry_id, 'pwe_qr_resend_success');
 
                 $sent_notification_names = [];
-                $sent_recipients = [];
+                $sent_deliveries = [];
 
                 foreach ($notification_ids as $notification_id) {
                     $notification = $notifications[$notification_id] ?? null;
@@ -385,6 +385,16 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
                             'Powiadomienie ' . $notification_id . ' jest nieaktywne lub nie istnieje.'
                         );
                     }
+
+                    $resolved_recipients = $this->resolve_notification_recipients(
+                        $notification,
+                        $form,
+                        $entry
+                    );
+
+                    $recipient_label = !empty($resolved_recipients)
+                        ? implode(', ', array_unique(array_filter(array_map('trim', $resolved_recipients))))
+                        : trim((string) $email);
 
                     $mail_result = [
                         'called'  => false,
@@ -443,26 +453,41 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
                     }
 
                     if (!$mail_result['called']) {
+                        $failed_recipient = $recipient_label !== '' ? $recipient_label : 'nie ustalono';
+
                         throw new RuntimeException(
                             'Gravity Forms nie uruchomił faktycznej wysyłki e-mail dla "' .
                             (string) ($notification['name'] ?? $notification_id) .
-                            '".'
+                            '". Adres: ' . $failed_recipient . '.'
                         );
                     }
 
                     if (!$mail_result['success']) {
+                        $failed_recipient = trim((string) $mail_result['to']);
+
+                        if ($failed_recipient === '') {
+                            $failed_recipient = $recipient_label !== '' ? $recipient_label : 'nie ustalono';
+                        }
+
                         throw new RuntimeException(
                             'wp_mail() zwrócił błąd dla "' .
                             (string) ($notification['name'] ?? $notification_id) .
-                            '".'
+                            '". Adres: ' . $failed_recipient . '.'
                         );
                     }
 
-                    $sent_notification_names[] = (string) ($notification['name'] ?? $notification_id);
+                    $sent_notification_name = (string) ($notification['name'] ?? $notification_id);
+                    $sent_notification_names[] = $sent_notification_name;
 
-                    if ($mail_result['to'] !== '') {
-                        $sent_recipients[] = $mail_result['to'];
+                    $sent_to = trim((string) $mail_result['to']);
+                    if ($sent_to === '') {
+                        $sent_to = $recipient_label !== '' ? $recipient_label : 'nie ustalono';
                     }
+
+                    $sent_deliveries[] = [
+                        'name' => $sent_notification_name,
+                        'to'   => $sent_to,
+                    ];
                 }
 
                 $generated_qr_url = (string) gform_get_meta($entry_id, 'pwe_qr_code_url');
@@ -524,12 +549,21 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
                 if (method_exists('GFAPI', 'add_note')) {
                     $current_user = wp_get_current_user();
 
-                    $note = 'PWE QR: ponownie wysłano powiadomienia: ' .
-                        implode(', ', $sent_notification_names);
+                    $note_parts = [];
 
-                    if (!empty($sent_recipients)) {
-                        $note .= ' | odbiorcy: ' . implode(' ; ', array_unique($sent_recipients));
+                    foreach ($sent_deliveries as $delivery) {
+                        $delivery_name = trim((string) ($delivery['name'] ?? ''));
+                        $delivery_to = trim((string) ($delivery['to'] ?? ''));
+
+                        if ($delivery_name === '') {
+                            continue;
+                        }
+
+                        $note_parts[] = $delivery_name . ' → ' . ($delivery_to !== '' ? $delivery_to : 'nie ustalono');
                     }
+
+                    $note = 'PWE QR: ponownie wysłano powiadomienia: ' .
+                        (!empty($note_parts) ? implode(' ; ', $note_parts) : implode(', ', $sent_notification_names));
 
                     GFAPI::add_note(
                         $entry_id,
@@ -1240,19 +1274,54 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
         $resend_success = (string) gform_get_meta($entry_id, 'pwe_qr_resend_success');
         $resend_url = (string) gform_get_meta($entry_id, 'pwe_qr_resend_code_url');
         $stored_resend_names = gform_get_meta($entry_id, 'pwe_qr_resend_notification_names');
+        $stored_resend_ids = gform_get_meta($entry_id, 'pwe_qr_resend_notification_ids');
 
         if (!is_array($stored_resend_names)) {
             $stored_resend_names = [];
         }
 
-        if ($resend_success === '1' || $resend_url !== '') {
-            $resend_names = array_merge(
-                $resend_names,
-                array_values(array_filter(array_map('strval', $stored_resend_names)))
-            );
+        if (!is_array($stored_resend_ids)) {
+            $stored_resend_ids = [];
+        }
 
-            // Older audit resends may not have stored names. The resend metadata is
-            // still explicit proof of a repair send.
+        if ($resend_success === '1' || $resend_url !== '') {
+            $audit_resend_names = array_values(array_filter(array_map('strval', $stored_resend_names)));
+
+            // Older audit resends stored notification IDs but not their names.
+            // Resolve those IDs against the current Gravity Forms configuration so
+            // the audit can display e.g. "Resend: Registration - PL" instead of the
+            // meaningless generic "Resend: Resend".
+            if (empty($audit_resend_names) && !empty($stored_resend_ids) && is_array($notifications)) {
+                foreach ($stored_resend_ids as $stored_notification_id) {
+                    $stored_notification_id = (string) $stored_notification_id;
+                    $resolved_notification = $notifications[$stored_notification_id] ?? null;
+
+                    if (!$resolved_notification) {
+                        foreach ($notifications as $notification_key => $notification) {
+                            $candidate_id = (string) ($notification['id'] ?? $notification_key);
+
+                            if ($candidate_id === $stored_notification_id) {
+                                $resolved_notification = $notification;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (is_array($resolved_notification)) {
+                        $resolved_name = trim((string) ($resolved_notification['name'] ?? ''));
+
+                        if ($resolved_name !== '') {
+                            $audit_resend_names[] = $resolved_name;
+                        }
+                    }
+                }
+            }
+
+            $resend_names = array_merge($resend_names, $audit_resend_names);
+
+            // Very old entries may contain only the success marker, without names or
+            // IDs. Keep the resend status visible, but use the generic label only as
+            // the absolute last fallback.
             if (empty($resend_names)) {
                 $resend_names[] = 'Resend';
             }

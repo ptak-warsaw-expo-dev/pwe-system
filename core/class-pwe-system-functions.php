@@ -560,37 +560,38 @@ class PWE_System_Functions {
         static $allowed_paths = null;
 
         if ($allowed_paths === null) {
+
+            $default_language = apply_filters('wpml_default_language', null);
+
             $allowed_paths = [
                 '/potwierdzenie-rejestracji',
             ];
 
-            foreach (self::get_website_translation_files() as $json_file) {
-                if (!is_file($json_file) || !is_readable($json_file)) {
-                    continue;
-                }
+            if ($default_language && $default_language !== 'pl') {
+                $allowed_paths[] = '/pl/potwierdzenie-rejestracji';
+            }
 
+            // Poprawiona ścieżka do pliku JSON wewnątrz wtyczki pwe-multilang
+            $json_file = WP_PLUGIN_DIR . '/pwe-multilang/website-translation.json';
+
+            if (file_exists($json_file)) {
                 $json_content = file_get_contents($json_file);
-                $translations = json_decode((string) $json_content, true);
+                $translations = json_decode($json_content, true);
 
-                if (!is_array($translations) || json_last_error() !== JSON_ERROR_NONE) {
-                    continue;
-                }
+                if (is_array($translations)) {
+                    // DODANO: 'krok2' do tablicy kluczy
+                    $target_keys = ['rejestracja', 'zostan_wystawca', 'potwierdzenie_rejestracji_wystawcy', 'krok2'];
 
-                $target_keys = ['rejestracja', 'zostan_wystawca', 'potwierdzenie_rejestracji_wystawcy', 'krok2'];
-
-                foreach ($target_keys as $key) {
-                    if (!empty($translations[$key]) && is_array($translations[$key])) {
-                        foreach ($translations[$key] as $lang_data) {
-                            if (!empty($lang_data['url'])) {
-                                $allowed_paths[] = $lang_data['url'];
+                    foreach ($target_keys as $key) {
+                        if (!empty($translations[$key]) && is_array($translations[$key])) {
+                            foreach ($translations[$key] as $lang_data) {
+                                if (!empty($lang_data['url'])) {
+                                    $allowed_paths[] = $lang_data['url'];
+                                }
                             }
                         }
                     }
                 }
-
-                // Pierwszy poprawny plik jest źródłem danych.
-                // PWE System sięga po fallback dopiero, gdy plik główny jest niedostępny lub błędny.
-                break;
             }
         }
 
@@ -606,7 +607,7 @@ class PWE_System_Functions {
             }
 
             // 2. Dopasowanie wielojęzyczne (np. gdy URL to /en/registration/ a $normalized_path to /registration/)
-            if ($normalized_path !== '/' && strlen($normalized_path) <= strlen($current_path) && substr($current_path, -strlen($normalized_path)) === $normalized_path) {
+            if ($normalized_path !== '/' && str_ends_with($current_path, $normalized_path)) {
                 return true;
             }
         }

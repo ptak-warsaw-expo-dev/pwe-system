@@ -4093,9 +4093,18 @@ class PWE_Shortcodes {
             $url_path = '/' . ltrim($url, '/');
 
             /*
-            * Do not add a language prefix for Polish.
+            * Add language prefix only when the requested language
+            * is not the default WPML language.
             */
-            if ($lang !== 'pl') {
+            $default_language = apply_filters( 
+                'wpml_default_language',
+                null
+            );
+
+            if (
+                !empty($default_language) &&
+                $lang !== $default_language
+            ) {
 
                 $language_prefix = '/' . $lang . '/';
 
