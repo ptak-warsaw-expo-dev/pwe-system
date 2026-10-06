@@ -26,6 +26,7 @@ trait PWE_System_Forms_Audit_Render_Trait {
                 padding: 8px 10px;
                 background: #f6f7f7;
                 border-left: 3px solid #8c8f94;
+                border-radius: 0 8px 8px 0;
                 line-height: 1.5;
             }
             .pwe-forms-audit .pwe-qr-feed:last-child {
@@ -52,6 +53,46 @@ trait PWE_System_Forms_Audit_Render_Trait {
             }
             .pwe-forms-audit .pwe-qr-feed.is-inactive {
                 opacity: .72;
+            }
+            .pwe-forms-audit .pwe-qr-feed__actions {
+                margin-top: 7px;
+            }
+            .pwe-forms-audit .pwe-delete-qr-feed {
+                -webkit-appearance: none !important;
+                appearance: none !important;
+                display: inline-block !important;
+                width: auto !important;
+                min-width: 0 !important;
+                min-height: 0 !important;
+                height: auto !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                border: 0 !important;
+                border-radius: 0 !important;
+                outline: 0;
+                background: transparent !important;
+                box-shadow: none !important;
+                color: #d63638 !important;
+                font-family: inherit;
+                font-size: 12px !important;
+                font-weight: 400;
+                line-height: 1.4 !important;
+                text-decoration: none !important;
+                cursor: pointer;
+            }
+            .pwe-forms-audit .pwe-delete-qr-feed:hover,
+            .pwe-forms-audit .pwe-delete-qr-feed:focus {
+                -webkit-appearance: none !important;
+                appearance: none !important;
+                border: 0 !important;
+                background: transparent !important;
+                color: #b32d2e !important;
+                box-shadow: none !important;
+                text-decoration: underline !important;
+            }
+            .pwe-forms-audit .pwe-delete-qr-feed.is-busy {
+                pointer-events: none;
+                opacity: .65;
             }
             .pwe-forms-audit .pwe-qr-code {
                 font-family: monospace;
@@ -368,6 +409,7 @@ margin-top: 6px;
             foreach ($forms as $form) {
                 $form_id = absint($form['id'] ?? 0);
                 $feeds = $this->get_pwe_feeds($form_id);
+                $display_feeds = $this->get_all_qr_feeds($form_id);
 
                 $registration_stats = !empty($feeds)
                     ? $this->get_form_registration_stats($form_id, $feeds)
@@ -406,7 +448,7 @@ margin-top: 6px;
                     echo '<td>—</td>';
                 }
 
-                if (empty($feeds)) {
+                if (empty($display_feeds)) {
                     echo '<td><span class="pwe-qr-status none">Brak feedu QR</span></td>';
                     echo '<td>—</td><td>—</td>';
                     echo '</tr>';
@@ -417,7 +459,9 @@ margin-top: 6px;
                 $key1_values = [];
                 $key2_values = [];
 
-                foreach ($feeds as $feed) {
+                $display_feed_count = count($display_feeds);
+
+                foreach ($display_feeds as $feed) {
                     $feed_name = $this->get_feed_name($feed);
                     $keys = $this->get_feed_custom_keys($feed);
                     $active = !empty($feed['is_active']);
@@ -428,11 +472,27 @@ margin-top: 6px;
                         $feed_class .= ' ' . $form_feed_status_class;
                     }
 
+                    $feed_id = absint($feed['id'] ?? 0);
+                    $feed_actions = '';
+
+                    if ($system === 'qr-code' && $display_feed_count > 1 && $feed_id) {
+                        $feed_actions =
+                            '<div class="pwe-qr-feed__actions">' .
+                            '<button type="button" class="pwe-delete-qr-feed" ' .
+                            'data-form-id="' . absint($form_id) . '" ' .
+                            'data-feed-id="' . $feed_id . '" ' .
+                            'data-feed-name="' . esc_attr($feed_name ?: '(bez nazwy)') . '">' .
+                            'Usuń' .
+                            '</button>' .
+                            '</div>';
+                    }
+
                     $feed_names[] =
                         '<div class="pwe-qr-feed ' . esc_attr($feed_class) . '">' .
                         '<strong>' . esc_html($feed_name ?: '(bez nazwy)') . '</strong><br>' .
-                        '<code>' . esc_html($system) . '</code> · ID feedu: ' . absint($feed['id'] ?? 0) . ' · ' .
+                        '<code>' . esc_html($system) . '</code> · ID feedu: ' . $feed_id . ' · ' .
                         ($active ? 'Aktywny' : 'Nieaktywny') .
+                        $feed_actions .
                         '</div>';
 
                     $key1_values[] = '<div class="pwe-qr-feed ' . esc_attr($feed_class) . '"><code>' . esc_html($keys[0] ?: '—') . '</code></div>';

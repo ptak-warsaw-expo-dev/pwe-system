@@ -641,6 +641,37 @@ trait PWE_System_Forms_Audit_Data_Trait {
     }
 
 
+    private function get_all_qr_feeds($form_id) {
+        $form_id = absint($form_id);
+
+        if (!$form_id || !class_exists('GFAPI')) {
+            return [];
+        }
+
+        $feeds = [];
+        $systems = ['pwe_qr', 'qr-code'];
+
+        foreach ($systems as $system) {
+            $system_feeds = GFAPI::get_feeds(null, $form_id, $system);
+
+            if (is_wp_error($system_feeds) || !is_array($system_feeds) || empty($system_feeds)) {
+                continue;
+            }
+
+            foreach ($system_feeds as $feed) {
+                if (!is_array($feed)) {
+                    continue;
+                }
+
+                $feed['_qr_system'] = $system;
+                $feeds[] = $feed;
+            }
+        }
+
+        return $feeds;
+    }
+
+
     private function get_pwe_feeds($form_id) {
         // The new pwe_qr feed has priority over the legacy qr-code feed.
         // If a form contains at least one pwe_qr feed, ignore qr-code entirely.

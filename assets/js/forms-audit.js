@@ -166,6 +166,59 @@
         loadAudit(window.location.href, { forceRefresh: true });
     });
 
+    $(document).on('click.pweFormsAudit', '#pwe-forms-audit-async .pwe-delete-qr-feed', function(event) {
+        event.preventDefault();
+
+        const $button = $(this);
+        const formId = parseInt($button.data('form-id'), 10) || 0;
+        const feedId = parseInt($button.data('feed-id'), 10) || 0;
+        const feedName = String($button.data('feed-name') || '');
+
+        if (!formId || !feedId) {
+            window.alert('Nieprawidłowy formularz lub feed.');
+            return;
+        }
+
+        const label = feedName ? ' „' + feedName + '”' : '';
+        if (!window.confirm('Usunąć feed qr-code' + label + ' z bazy danych? Tej operacji nie można cofnąć.')) {
+            return;
+        }
+
+        $button.addClass('is-busy').prop('disabled', true).text('Usuwanie…');
+
+        $.ajax({
+            url: PWEFormsAudit.ajaxUrl,
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                action: 'pwe_system_forms_audit_delete_feed',
+                nonce: PWEFormsAudit.deleteNonce,
+                form_id: formId,
+                feed_id: feedId
+            }
+        }).done(function(response) {
+            if (!response || !response.success) {
+                const message = response && response.data && response.data.message
+                    ? response.data.message
+                    : 'Nie udało się usunąć feedu.';
+                window.alert(message);
+                $button.removeClass('is-busy').prop('disabled', false).text('Usuń');
+                return;
+            }
+
+            loadAudit(window.location.href, { forceRefresh: true });
+        }).fail(function(xhr) {
+            let message = 'Nie udało się usunąć feedu.';
+
+            if (xhr.responseJSON && xhr.responseJSON.data && xhr.responseJSON.data.message) {
+                message = xhr.responseJSON.data.message;
+            }
+
+            window.alert(message);
+            $button.removeClass('is-busy').prop('disabled', false).text('Usuń');
+        });
+    });
+
     window.addEventListener('popstate', function() {
         loadAudit(window.location.href);
     });

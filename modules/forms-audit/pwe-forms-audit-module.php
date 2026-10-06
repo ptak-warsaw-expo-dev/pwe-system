@@ -47,6 +47,7 @@ class PWE_System_Forms_Audit_Tool {
         add_action('wp_ajax_pwe_qr_resend_notifications', [$this, 'ajax_resend_notifications']);
         add_action('wp_ajax_pwe_qr_bulk_language_preview', [$this, 'ajax_bulk_language_preview']);
         add_action('wp_ajax_pwe_system_forms_audit_load', [$this, 'ajax_load_audit']);
+        add_action('wp_ajax_pwe_system_forms_audit_delete_feed', [$this, 'ajax_delete_qr_feed']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_assets']);
         add_action('pwe_system_forms_audit_cache_invalidate', [$this, 'clear_audit_session_cache']);
     }
@@ -122,9 +123,78 @@ class PWE_System_Forms_Audit_Tool {
 
         wp_localize_script('pwe-system-forms-audit', 'PWEFormsAudit', [
             'ajaxUrl' => admin_url('admin-ajax.php'),
-            'nonce'   => wp_create_nonce('pwe_system_forms_audit_load'),
+            'nonce'       => wp_create_nonce('pwe_system_forms_audit_load'),
+            'deleteNonce' => wp_create_nonce('pwe_system_forms_audit_delete_feed'),
         ]);
     }
+
+    public function ajax_delete_qr_feed(): void {
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => 'Brak uprawnień.'], 403);
+        }
+
+        if (!check_ajax_referer('pwe_system_forms_audit_delete_feed', 'nonce', false)) {
+            wp_send_json_error(['message' => 'Sesja wygasła. Odśwież stronę.'], 403);
+        }
+
+        if (!class_exists('GFAPI')) {
+            wp_send_json_error(['message' => 'Gravity Forms nie jest dostępne.'], 500);
+        }
+
+        $form_id = absint($_POST['form_id'] ?? 0);
+        $feed_id = absint($_POST['feed_id'] ?? 0);
+
+        if (!$form_id || !$feed_id) {
+            wp_send_json_error(['message' => 'Nieprawidłowy formularz lub feed.'], 400);
+        }
+
+        $feeds = $this->get_all_qr_feeds($form_id);
+
+        if (count($feeds) <= 1) {
+            wp_send_json_error(['message' => 'Nie można usunąć jedynego feedu QR formularza.'], 400);
+        }
+
+        $target_feed = null;
+        foreach ($feeds as $feed) {
+            if (absint($feed['id'] ?? 0) === $feed_id) {
+                $target_feed = $feed;
+                break;
+            }
+        }
+
+        if (!$target_feed) {
+            wp_send_json_error(['message' => 'Feed nie należy do tego formularza albo już nie istnieje.'], 404);
+        }
+
+        $system = (string) ($target_feed['_qr_system'] ?? '');
+
+        if ($system === 'pwe_qr') {
+            wp_send_json_error(['message' => 'Feed pwe_qr ma priorytet i nie może zostać usunięty z poziomu audytu.'], 400);
+        }
+
+        if ($system !== 'qr-code') {
+            wp_send_json_error(['message' => 'Ten typ feedu nie może zostać usunięty z poziomu audytu.'], 400);
+        }
+
+        $result = GFAPI::delete_feed($feed_id);
+
+        if (is_wp_error($result)) {
+            wp_send_json_error(['message' => $result->get_error_message()], 500);
+        }
+
+        if ($result === false) {
+            wp_send_json_error(['message' => 'Gravity Forms nie usunął feedu.'], 500);
+        }
+
+        $this->clear_audit_session_cache();
+
+        wp_send_json_success([
+            'message' => 'Feed qr-code został usunięty.',
+            'form_id' => $form_id,
+            'feed_id' => $feed_id,
+        ]);
+    }
+
 
     public function ajax_load_audit(): void {
         if (!current_user_can('manage_options')) {

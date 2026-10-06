@@ -195,7 +195,8 @@ function pwe_get_shortcode_map() {
         'pwe_about_title_pl'        => 'about_title_pl',
         'pwe_about_title_en'        => 'about_title_en',
         'pwe_about_desc_pl'         => 'about_desc_pl',
-        'pwe_about_desc_en'         => 'about_desc_en'
+        'pwe_about_desc_en'         => 'about_desc_en',
+        'pwe_available_languages'   => 'available_languages',
     ];
 
     // WPML languages

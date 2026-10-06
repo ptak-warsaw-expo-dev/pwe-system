@@ -89,6 +89,7 @@ class PWE_Shortcodes {
             'pwe_lang_domain' => 'get_lang_domain',
             'trade_fair_domainadress' => 'show_trade_fair_domainadress',
             'trade_fair_actualyear' => 'show_trade_fair_actualyear',
+            
             'trade_fair_rejestracja' => 'show_trade_fair_rejestracja',
             'trade_fair_contact' => 'show_trade_fair_contact',
             'trade_fair_contact_service_name' => 'show_trade_fair_contact_service_name',
