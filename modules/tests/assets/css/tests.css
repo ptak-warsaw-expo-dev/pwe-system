@@ -1,0 +1,89 @@
+/* Diagnostics use the shared PWE System palette. */
+#pwe-diagnostics { color:var(--pwe-ink); min-width:0; }
+#pwe-diagnostics *, #pwe-diagnostics *::before, #pwe-diagnostics *::after { box-sizing:border-box; }
+#pwe-diagnostics [hidden] { display:none!important; }
+#pwe-diagnostics .diag-icon { width:19px; height:19px; flex:0 0 19px; vertical-align:middle; }
+#pwe-diagnostics .diag-sprite { position:absolute; overflow:hidden; }
+#pwe-diagnostics button, #pwe-diagnostics .diag-report-link { display:inline-flex; align-items:center; justify-content:center; gap:7px; padding:9px 13px; border:1px solid var(--pwe-line); border-radius:9px; background:#fff; color:var(--pwe-ink); cursor:pointer; font:inherit; text-decoration:none; }
+#pwe-diagnostics button:hover, #pwe-diagnostics .diag-report-link:hover { background:var(--pwe-soft); border-color:#9ca3af; }
+#pwe-diagnostics button:focus-visible, #pwe-diagnostics summary:focus-visible, #pwe-diagnostics .diag-report-link:focus-visible { outline:2px solid #2271b1; outline-offset:3px; }
+#pwe-diagnostics button:disabled { opacity:.5; cursor:wait; }
+#pwe-diagnostics button.diag-primary, #pwe-diagnostics button[aria-pressed="true"] { background:var(--pwe-ink); color:#fff; border-color:var(--pwe-ink); }
+#pwe-diagnostics .diag-report-link { margin-left:auto; }
+#pwe-diagnostics .diag-toolbar, #pwe-diagnostics .diag-filters, #pwe-diagnostics .diag-category { background:#fff; border:1px solid var(--pwe-line); border-radius:18px; padding:20px; margin-bottom:18px; box-shadow:0 10px 26px rgba(15,23,42,.04); }
+#pwe-diagnostics .diag-toolbar, #pwe-diagnostics .diag-summary, #pwe-diagnostics .diag-views, #diag-counts, #pwe-diagnostics .diag-category-counts { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
+#pwe-diagnostics .diag-toolbar > strong { width:100%; margin-bottom:4px; }
+#pwe-diagnostics .diag-filters { display:grid; grid-template-columns:2fr repeat(3,1fr) auto; align-items:end; gap:14px; }
+#pwe-diagnostics label { display:flex; flex-direction:column; gap:6px; font-weight:600; }
+#pwe-diagnostics input, #pwe-diagnostics select { min-height:38px; border:1px solid #d1d5db; border-radius:8px; max-width:100%; margin:0; }
+#pwe-diagnostics .diag-summary { justify-content:space-between; margin:22px 0 12px; }
+#diag-progress, #pwe-diagnostics .diag-muted, #pwe-diagnostics small { color:var(--pwe-muted); }
+#pwe-diagnostics .diag-badge { display:inline-flex; align-items:center; gap:5px; border-radius:999px; padding:5px 9px; font-size:12px; font-weight:600; background:#f3f4f6; color:#4b5563; white-space:nowrap; }
+#pwe-diagnostics .diag-success { background:#ecfdf3; color:#166534; }
+#pwe-diagnostics .diag-error { background:#fef2f2; color:#b91c1c; }
+#pwe-diagnostics .diag-warning { background:#fffbeb; color:#92400e; }
+#pwe-diagnostics .diag-running { background:#eff6ff; color:#1d4ed8; }
+#pwe-diagnostics .diag-category > summary { display:flex; gap:12px; align-items:center; cursor:pointer; list-style:none; }
+#pwe-diagnostics .diag-category > summary::-webkit-details-marker { display:none; }
+#pwe-diagnostics .diag-category-counts { margin-left:auto; }
+#pwe-diagnostics .diag-section-icon, #pwe-diagnostics .diag-card-icon, #pwe-diagnostics .diag-modal-symbol { display:inline-flex; align-items:center; justify-content:center; padding:11px; border-radius:12px; background:var(--pwe-soft); }
+#pwe-diagnostics .diag-cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-top:20px; }
+#pwe-diagnostics.diag-list .diag-cards { grid-template-columns:1fr; }
+#pwe-diagnostics .diag-card { display:flex; align-items:flex-start; gap:12px; padding:20px; border:1px solid var(--pwe-line); border-radius:14px; min-width:0; }
+#pwe-diagnostics .diag-card-content { flex:1; min-width:0; }
+#pwe-diagnostics h3 { margin:0 0 8px; font-size:15px; }
+#pwe-diagnostics .diag-card p { color:var(--pwe-muted); line-height:1.6; margin:0 0 16px; }
+#diag-dialog { width:min(1200px,95vw); max-height:90vh; max-height:90dvh; overflow:hidden; padding:0; border:1px solid var(--pwe-line); border-radius:20px; background:#fff; color:var(--pwe-ink); box-shadow:0 24px 80px #0004; }
+#diag-dialog[open] { display:flex; flex-direction:column; }
+#diag-dialog::backdrop { background:#10111499; }
+#pwe-diagnostics .diag-modal-header, #pwe-diagnostics .diag-dialog-actions { display:flex; gap:16px; align-items:center; padding:22px; background:var(--pwe-soft); flex-shrink:0; }
+#pwe-diagnostics .diag-modal-header { border-bottom:1px solid var(--pwe-line); }
+#pwe-diagnostics .diag-dialog-actions { border-top:1px solid var(--pwe-line); justify-content:space-between; }
+#pwe-diagnostics .diag-modal-heading { flex:1; min-width:0; overflow-wrap:anywhere; }
+#pwe-diagnostics .diag-modal-heading h2 { margin:0; }
+#pwe-diagnostics .diag-modal-heading p { color:var(--pwe-muted); }
+#diag-detail-meta, #pwe-diagnostics .diag-duration { display:flex; gap:7px; align-items:center; color:var(--pwe-muted); }
+#pwe-diagnostics .diag-modal-body { padding:24px; flex:1 1 auto; min-height:0; overflow-y:auto; overscroll-behavior:contain; scrollbar-gutter:stable; }
+#pwe-diagnostics .diag-result-banner, #pwe-diagnostics .diag-next-step { display:flex; gap:16px; align-items:center; padding:20px; background:var(--pwe-soft); border-radius:12px; margin-bottom:20px; }
+#pwe-diagnostics .diag-banner-error { background:#fef2f2; }
+#pwe-diagnostics .diag-banner-warning { background:#fffbeb; }
+#pwe-diagnostics .diag-banner-success { background:#ecfdf3; }
+#pwe-diagnostics .diag-result-copy { flex:1; }
+#pwe-diagnostics .diag-metrics, #pwe-diagnostics .diag-metric { display:flex; gap:12px; align-items:center; }
+#pwe-diagnostics .diag-metric strong, #pwe-diagnostics .diag-metric small { display:block; }
+#pwe-diagnostics .diag-metric strong { font-size:20px; margin-top:5px; }
+#pwe-diagnostics .diag-diagnosis-head, #pwe-diagnostics .diag-table-toolbar { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; margin:18px 0; }
+#pwe-diagnostics .diag-results-scroll { overflow-x:auto; }
+#pwe-diagnostics .diag-results-table { width:100%; border-collapse:collapse; text-align:left; }
+#pwe-diagnostics .diag-results-table th { background:var(--pwe-soft); }
+#pwe-diagnostics .diag-results-table th, #pwe-diagnostics .diag-results-table td { padding:12px; border-bottom:1px solid var(--pwe-line); vertical-align:top; }
+#pwe-diagnostics .diag-results-table small { display:block; }
+#pwe-diagnostics pre, #pwe-diagnostics code { white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; }
+#pwe-diagnostics pre { max-height:400px; overflow:auto; padding:16px; background:var(--pwe-soft); border-radius:10px; }
+#pwe-diagnostics .diag-row-comparison { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+#pwe-diagnostics .diag-compare-panel { padding:16px; background:var(--pwe-soft); border-radius:10px; min-width:0; }
+#pwe-diagnostics .diag-saved-values dt { font-weight:600; }
+#pwe-diagnostics dd { margin:5px 0 12px; overflow-wrap:anywhere; }
+#pwe-diagnostics .diag-flag-icon { width:20px; height:auto; }
+#pwe-diagnostics .diag-flag-row { display:flex; flex-wrap:wrap; gap:8px; }
+#pwe-diagnostics .diag-value-fold, #diag-raw { margin:16px 0; }
+#pwe-diagnostics summary { cursor:pointer; }
+#diag-dialog .diag-modal-body, #diag-dialog .diag-results-scroll, #diag-dialog pre { scrollbar-width:thin; scrollbar-color:#a1a1aa var(--pwe-soft); }
+#diag-dialog ::-webkit-scrollbar { width:8px; height:8px; }
+#diag-dialog ::-webkit-scrollbar-track { background:var(--pwe-soft); border-radius:8px; }
+#diag-dialog ::-webkit-scrollbar-thumb { background:#a1a1aa; border:2px solid var(--pwe-soft); border-radius:8px; }
+#diag-dialog ::-webkit-scrollbar-thumb:hover { background:#71717a; }
+#diag-dialog ::-webkit-scrollbar-corner { background:var(--pwe-soft); }
+@media(max-width:1200px) {
+ #pwe-diagnostics .diag-filters { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ #pwe-diagnostics .diag-cards { grid-template-columns:1fr; }
+ #pwe-diagnostics .diag-result-banner { flex-wrap:wrap; }
+}
+@media(max-width:600px) {
+ #pwe-diagnostics .diag-filters, #pwe-diagnostics .diag-row-comparison { grid-template-columns:1fr; }
+ #pwe-diagnostics .diag-card, #pwe-diagnostics .diag-category > summary { flex-wrap:wrap; }
+ #pwe-diagnostics .diag-category-counts { margin-left:0; }
+ #pwe-diagnostics .diag-modal-header, #pwe-diagnostics .diag-modal-body { padding:14px; }
+ #pwe-diagnostics .diag-modal-symbol { display:none; }
+}
+

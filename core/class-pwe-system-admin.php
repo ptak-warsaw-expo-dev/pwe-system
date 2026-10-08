@@ -30,6 +30,17 @@ final class PWE_System_Admin {
             [self::class, 'render_dashboard']
         );
 
+        if (PWE_System_Tests::is_available()) {
+            add_submenu_page(
+                'pwe-system', 
+                'Testy', 
+                'Testy', 
+                'manage_options', 
+                PWE_System_Tests::PAGE_SLUG, 
+                [self::class, 'render_tests']
+            );
+        }
+
         if (class_exists('PWE_System_Replace_Content', false)) {
             add_submenu_page(
                 'pwe-system',
@@ -51,6 +62,20 @@ final class PWE_System_Admin {
                 [self::class, 'render_resend']
             );
         }
+    }
+
+    public static function render_tests(): void {
+        if (!current_user_can('manage_options')) {
+            wp_die(esc_html__('Brak uprawnień.', 'pwe-system'));
+        }
+        if (!PWE_System_Tests::is_available()) {
+            wp_die(esc_html__('Moduł Testy wymaga aktywnej wtyczki PWE Multilang w wersji 1.1.5 lub nowszej.', 'pwe-system'));
+        }
+        echo '<div class="wrap pwe-system-wrap pwe-system-module-page pwe-module-tests">';
+        self::render_module_header('PWE SYSTEM / DIAGNOSTYKA', 'Testy', 'Diagnostyka formularzy, tłumaczeń, stron i integracji. Uruchom testy i sprawdź szczegółowe wyniki.', 'dashicons-yes-alt');
+        echo '<div class="pwe-module-content">';
+        PWE_System_Tests::render_admin_page();
+        echo '</div></div>';
     }
 
     public static function render_replace_content(): void {
@@ -196,6 +221,14 @@ final class PWE_System_Admin {
                 </a>
 
                 <?php if ($is_admin) : ?>
+                    <?php if (PWE_System_Tests::is_available()) : ?>
+                        <a class="pwe-system-card" href="<?php echo esc_url(admin_url('admin.php?page=pwe-system-tests')); ?>">
+                            <span class="dashicons dashicons-yes-alt"></span>
+                            <h2>Testy</h2>
+                            <p>Diagnostyka formularzy, tłumaczeń, stron i integracji z wynikami oraz sugestiami.</p>
+                            <strong>Otwórz testy →</strong>
+                        </a>
+                    <?php endif; ?>
                     <a class="pwe-system-card" href="<?php echo esc_url($shortcodes_url); ?>">
                         <span class="dashicons dashicons-editor-code"></span>
                         <h2>Shortcody</h2>

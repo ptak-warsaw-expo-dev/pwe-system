@@ -615,9 +615,7 @@ class PWE_System_Functions {
         return false;
     }
 
-    // <============================================================================================>
-    // Synchronized functions from plugin PWElements 3.6.1 (20.08.2026) <========================================================>
-    // <============================================================================================>
+    // <============================================================================================================================================================>
 
     /**
      * Random number
@@ -1642,7 +1640,8 @@ class PWE_System_Functions {
                 MAX(CASE WHEN fa.slug = 'fair_kw_old_arch' THEN fa.data END) AS fair_kw_old_arch,
                 MAX(CASE WHEN fa.slug = 'fair_kw_new_arch' THEN fa.data END) AS fair_kw_new_arch,
                 MAX(CASE WHEN fa.slug = 'catalog_type' THEN fa.data END) AS catalog_type,
-                MAX(CASE WHEN fa.slug = 'fair_entrance' THEN fa.data END) AS fair_entrance
+                MAX(CASE WHEN fa.slug = 'fair_entrance' THEN fa.data END) AS fair_entrance,
+                MAX(CASE WHEN fa.slug = 'available_languages' THEN fa.data END) AS available_languages
 
             FROM fairs f
             LEFT JOIN fair_adds fa
@@ -1666,7 +1665,8 @@ class PWE_System_Functions {
                     'konf_title_pl',
                     'konf_title_en',
                     'konf_desc_pl',
-                    'konf_desc_en'
+                    'konf_desc_en',
+                    'available_languages'
                 )
         ";
 
@@ -4390,7 +4390,8 @@ class PWE_System_Functions {
             'about_title_pl' => $fair->about_title_pl ?? '',
             'about_title_en' => $fair->about_title_en ?? '',
             'about_desc_pl' => $fair->about_desc_pl ?? '',
-            'about_desc_en' => $fair->about_desc_en ?? ''
+            'about_desc_en' => $fair->about_desc_en ?? '',
+            'available_languages' => $fair->available_languages ?? ''
         ];
 
         // Add estimations to data
