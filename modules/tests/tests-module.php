@@ -70,7 +70,7 @@ final class PWE_System_Tests
 
         self::$available = false;
 
-        // Ensure that the PWE Multilang plugin is installed and active
+        // Ensure that the PWE Multilang plugin is active
         if (!defined('PWE_MULTILANG_PATH')) {
             return false;
         }
@@ -79,7 +79,7 @@ final class PWE_System_Tests
             require_once ABSPATH . 'wp-admin/includes/plugin.php';
         }
 
-        foreach (get_plugins('pwe-multilang') as $file => $data) {
+        foreach (get_plugins('/pwe-multilang') as $file => $data) {
             // is_plugin_active() uwzględnia również aktywację sieciową.
             if (is_plugin_active('pwe-multilang/' . $file)
                 && !empty($data['Version'])
