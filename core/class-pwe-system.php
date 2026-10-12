@@ -15,6 +15,7 @@ final class PWE_System {
         require_once PWE_SYSTEM_PATH . 'core/class-pwe-system-admin-access.php';
         require_once PWE_SYSTEM_PATH . 'core/class-pwe-system-admin-ui.php';
         require_once PWE_SYSTEM_PATH . 'core/class-pwe-system-admin.php';
+        require_once PWE_SYSTEM_PATH . 'core/class-pwe-system-hooks.php';
         require_once PWE_SYSTEM_PATH . 'modules/doc-manager/class-pwe-system-doc-manager.php';
         require_once PWE_SYSTEM_PATH . 'modules/replace-content/replace-content-module.php';
         require_once PWE_SYSTEM_PATH . 'modules/resend/resend-module.php';
@@ -23,6 +24,7 @@ final class PWE_System {
         self::sync_capabilities();
         add_action('init', [self::class, 'sync_capabilities'], 99);
 
+        PWE_System_Hooks::init();
         PWE_System_Replace_Content::init();
         PWE_System_Resend::init();
         PWE_System_Tests::init();
