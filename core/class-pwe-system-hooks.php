@@ -20,7 +20,20 @@ final class PWE_System_Hooks {
 
         self::$initialized = true;
 
+        self::normalize_http_host();
+
         add_action('gform_post_form_restored', [self::class, 'log_form_restored'], 10, 1);
+    }
+
+    /**
+     * Remove the optional leading www. prefix from the current request host.
+     */
+    public static function normalize_http_host(): void {
+        if (!isset($_SERVER['HTTP_HOST']) || !is_string($_SERVER['HTTP_HOST'])) {
+            return;
+        }
+
+        $_SERVER['HTTP_HOST'] = preg_replace('/^www\./i', '', $_SERVER['HTTP_HOST']);
     }
 
     /**

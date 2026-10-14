@@ -215,7 +215,7 @@ function pwe_get_shortcode_map() {
             $langs[] = $code;
         }
     } else {
-        $langs = ['cs','de','it','lt','lv','ru','sk','uk'];
+        $langs = ['cs','de','it','lt','lv','ru','sk','uk','et','es','fr','ro','hu'];
     }
 
     // Dynamic fields
@@ -234,21 +234,98 @@ function pwe_get_shortcode_map() {
     return $shortcodes;
 }
 
+/**
+ * Language-specific fair name phrase for email templates.
+ * The {name} placeholder may appear before or after the fair descriptor.
+ */
+function pwe_fair_name_label($lang) {
+    $templates = [
+        'pl' => 'Targi {name}',
+        'en' => 'The {name} fair',
+        'de' => 'Die Messe {name}',
+        'cs' => 'Veletrh {name}',
+        'sk' => 'Veľtrh {name}',
+        'es' => 'La feria {name}',
+        'et' => 'Mess {name}',
+        'fr' => 'Le salon {name}',
+        'hu' => 'A {name} vásár',
+        'it' => 'La fiera {name}',
+        'lt' => 'Paroda {name}',
+        'lv' => 'Izstāde {name}',
+        'ro' => 'Târgul {name}',
+        'uk' => 'Виставка {name}',
+        'ru' => 'Выставка {name}',
+    ];
+
+    $lang = strtolower(substr(str_replace('_', '-', trim((string) $lang)), 0, 2));
+    return $templates[$lang] ?? $templates['en'];
+}
+
+/**
+ * Remove a fair descriptor already included at the beginning or end of a name.
+ * Exact edge phrases only: do not remove words occurring inside event names.
+ */
+function pwe_strip_label($name) {
+    $name = trim((string) $name);
+    $labels = [
+        'Trade fairs', 'Trade fair', 'The fair', 'Fair', 'Targi',
+        'Die Messe', 'Messe', 'Veletrh', 'Veľtrh',
+        'La feria', 'Feria', 'Mess', 'Le salon', 'Salon',
+        'La fiera', 'Fiera', 'Paroda', 'Izstāde',
+        'Târgul', 'Târg', 'Виставка', 'Выставка', 'Vásár',
+    ];
+
+    usort($labels, static function ($a, $b) {
+        return strlen($b) <=> strlen($a);
+    });
+    $escaped = array_map(static function ($label) {
+        return preg_quote($label, '/');
+    }, $labels);
+    $alternatives = implode('|', $escaped);
+
+    // Multiple iterations handle doubled forms such as "Targi Targi Rehabilitacji".
+    for ($i = 0; $i < 3; $i++) {
+        $updated = preg_replace('/^(?:' . $alternatives . ')(?:\s+|\s*[:\-–]\s*)/iu', '', $name, 1);
+        if ($updated !== $name) {
+            $name = trim($updated);
+            continue;
+        }
+        $updated = preg_replace('/\s+(?:' . $alternatives . ')$/iu', '', $name, 1);
+        if ($updated !== $name) {
+            $name = trim($updated);
+            continue;
+        }
+        break;
+    }
+    return $name;
+}
+
 function register_dynamic_shortcodes() {
-    // List of shortcodes and their corresponding fields
     $shortcodes = pwe_get_shortcode_map();
 
-    // Shortcode handler
-    function handle_fair_shortcode($atts, $field) {
-        $atts = shortcode_atts(['domain' => null], $atts);
-        $fair_data = get_fair_data($atts['domain']);
-        return $fair_data[$field] ?? '';
-    }
-
-    // Registering shortcodes
     foreach ($shortcodes as $shortcode => $field) {
-        add_shortcode($shortcode, function($atts) use ($field) {
-            return handle_fair_shortcode($atts, $field);
+        add_shortcode($shortcode, function ($atts) use ($shortcode, $field) {
+            $atts = shortcode_atts([
+                'domain' => null,
+                'label' => '0',
+            ], $atts, $shortcode);
+
+            $fair_data = get_fair_data($atts['domain']);
+            $value = $fair_data[$field] ?? '';
+
+            // Existing shortcodes remain unchanged unless explicitly enabled.
+            if (!preg_match('/^pwe_name_([a-z]{2})$/', $shortcode, $matches)
+                || !in_array(strtolower((string) $atts['label']), ['targi_targi', 'true', 'yes'], true)
+                || !is_string($value) || trim($value) === '') {
+                return $value;
+            }
+
+            $name = pwe_strip_label($value);
+            if ($name === '') {
+                return $value;
+            }
+
+            return str_replace('{name}', $name, pwe_fair_name_label($matches[1]));
         });
     }
 }
@@ -279,7 +356,7 @@ function PWE_GF_shortcodes($text, $form, $entry, $url_encode, $esc_html, $nl2br,
             continue;
         }
 
-        // Downloading trade fair data
+        // Get trade fair data
         $fair_data = get_fair_data($domain);
 
         if (!$fair_data || !is_array($fair_data)) {

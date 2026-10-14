@@ -19,6 +19,11 @@ trait PWE_System_Functions_Database_Cache {
     private static $database_cache_force_refresh = false;
 
     /**
+     * Cache write outcomes collected for the current forced-refresh job.
+     */
+    private static $database_cache_write_results = [];
+
+    /**
      * Resolve and protect the persistent CAP JSON cache directory.
      */
     private static function get_database_json_cache_dir() {
@@ -162,6 +167,11 @@ trait PWE_System_Functions_Database_Cache {
      * Atomically write data and getter arguments to the persistent JSON cache.
      */
     private static function write_database_json_cache($source, $cache_key, $data, array $args = []): bool {
+        $write_key = $source . '|' . (string) $cache_key;
+        if (self::$database_cache_force_refresh) {
+            self::$database_cache_write_results[$write_key] = false;
+        }
+
         $path = self::get_database_json_cache_path($source, $cache_key);
 
         if (!$path) {
@@ -201,6 +211,10 @@ trait PWE_System_Functions_Database_Cache {
             return false;
         }
 
+        if (self::$database_cache_force_refresh) {
+            self::$database_cache_write_results[$write_key] = true;
+        }
+
         return true;
     }
 
@@ -219,6 +233,11 @@ trait PWE_System_Functions_Database_Cache {
 
         if (empty($domain)) {
             $domain = $_SERVER['HTTP_HOST'] ?? '';
+
+            // CLI cron has no browser Host header; resolve the WordPress site instead.
+            if (empty($domain) && function_exists('home_url')) {
+                $domain = wp_parse_url(home_url('/'), PHP_URL_HOST) ?: '';
+            }
         }
 
         $domain = strtolower(trim((string) $domain));
@@ -423,7 +442,7 @@ trait PWE_System_Functions_Database_Cache {
 
         // Prepare report.
         $report = [
-            'success' => true,
+            'success' => !empty($jobs),
             'domain' => $domain,
             'started_at' => date('Y-m-d H:i:s'),
             'files_found' => count($files),
@@ -437,6 +456,10 @@ trait PWE_System_Functions_Database_Cache {
         // STATIC TRANSIENT JSON.
         //
         // And query DATABASE directly.
+        if (empty($jobs)) {
+            $report['error'] = 'no_cache_jobs';
+        }
+
         self::$database_cache_force_refresh = true;
 
 
@@ -451,6 +474,7 @@ trait PWE_System_Functions_Database_Cache {
 
                 try {
 
+                    self::$database_cache_write_results = [];
                     $start_time = microtime(true);
 
 
@@ -481,8 +505,19 @@ trait PWE_System_Functions_Database_Cache {
                     }
 
 
+                    // A getter may return without throwing after an SQL or file-write failure.
+                    // Only report success when a complete JSON cache file was actually replaced.
+                    $cache_written = !empty(self::$database_cache_write_results)
+                        && !in_array(false, self::$database_cache_write_results, true);
+
+                    if (!$cache_written) {
+                        $report['success'] = false;
+                    }
+
                     $report['jobs'][$signature] = [
-                        'status' => 'ok',
+                        'status' => $cache_written ? 'ok' : 'error',
+                        'cache_written' => $cache_written,
+                        'error' => $cache_written ? null : 'cache_not_written',
                         'method' => $method,
                         'args' => $args,
                         'file' => $file,
@@ -493,7 +528,7 @@ trait PWE_System_Functions_Database_Cache {
 
                     self::debug_log(
                         __FUNCTION__ .
-                        ': OK → ' .
+                        ($cache_written ? ': OK → ' : ': CACHE NOT WRITTEN → ') .
                         $method .
                         ' → args=' .
                         wp_json_encode($args) .
@@ -540,6 +575,7 @@ trait PWE_System_Functions_Database_Cache {
 
             // Restore normal frontend cache behaviour.
             self::$database_cache_force_refresh = false;
+            self::$database_cache_write_results = [];
 
 
             // Restore original HTTP_HOST.
