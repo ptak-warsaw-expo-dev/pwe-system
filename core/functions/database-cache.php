@@ -477,6 +477,15 @@ trait PWE_System_Functions_Database_Cache {
                     self::$database_cache_write_results = [];
                     $start_time = microtime(true);
 
+                    // // Diagnostic marker is written before the getter, so a memory fatal identifies the failing job.
+                    // if (function_exists('pwe_mass_vip_cron_log')) {
+                    //     pwe_mass_vip_cron_log(
+                    //         'CACHE JOB START | method=' . $method .
+                    //         ' | file=' . $file .
+                    //         ' | usage=' . round(memory_get_usage(true) / 1048576, 2) . 'MB' .
+                    //         ' | peak=' . round(memory_get_peak_usage(true) / 1048576, 2) . 'MB'
+                    //     );
+                    // }
 
                     // Execute getter using exactly the same arguments that originally created the JSON cache file.
                     $result = call_user_func_array(
@@ -489,6 +498,16 @@ trait PWE_System_Functions_Database_Cache {
                         (microtime(true) - $start_time) * 1000,
                         2
                     );
+
+                    // if (function_exists('pwe_mass_vip_cron_log')) {
+                    //     pwe_mass_vip_cron_log(
+                    //         'CACHE JOB END | method=' . $method .
+                    //         ' | file=' . $file .
+                    //         ' | usage=' . round(memory_get_usage(true) / 1048576, 2) . 'MB' .
+                    //         ' | peak=' . round(memory_get_peak_usage(true) / 1048576, 2) . 'MB' .
+                    //         ' | time_ms=' . $time
+                    //     );
+                    // }
 
 
                     if (is_array($result)) {

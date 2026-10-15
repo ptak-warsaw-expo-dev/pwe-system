@@ -466,59 +466,23 @@ trait PWE_System_Functions_Database_Data {
             return [];
         }
 
-        // SQL.
-        $sql = "
-            SELECT
-                f.id,
-                f.fair_domain,
-
-                f.fair_name_pl,
-                f.fair_desc_pl,
-                f.fair_short_desc_pl,
-                f.fair_full_desc_pl,
-
-                f.fair_name_en,
-                f.fair_desc_en,
-                f.fair_short_desc_en,
-                f.fair_full_desc_en,
-
-                fa.slug,
-                fa.data,
-
-                t.language,
-                t.translation
-            FROM fairs f
-            LEFT JOIN fair_adds fa
-                ON fa.fair_id = f.id
-                AND fa.slug IN (
-                    'category_pl',
-                    'category_en',
-                    'about_title_pl',
-                    'about_title_en',
-                    'about_desc_pl',
-                    'about_desc_en',
-                    'konf_title_pl',
-                    'konf_title_en',
-                    'konf_desc_pl',
-                    'konf_desc_en'
-                )
-            LEFT JOIN translations t ON t.fair_id = f.id
-        ";
-
+        // Fetch fairs, additional fields and translations independently.
+        // Joining both one-to-many tables multiplies result rows and memory use.
         $start_time = microtime(true);
+        $where = $fair_domain !== null ? ' WHERE f.fair_domain = %s' : '';
 
-        if ($fair_domain !== null) {
-            $sql .= " WHERE f.fair_domain = %s";
-            $rows = $cap_db->get_results($cap_db->prepare($sql, $fair_domain));
-        } else {
-            $rows = $cap_db->get_results($sql);
-        }
+        $fairs_sql = "
+            SELECT
+                f.id, f.fair_domain,
+                f.fair_name_pl, f.fair_desc_pl, f.fair_short_desc_pl, f.fair_full_desc_pl,
+                f.fair_name_en, f.fair_desc_en, f.fair_short_desc_en, f.fair_full_desc_en
+            FROM fairs f" . $where;
+        $fairs_rows = $fair_domain !== null
+            ? $cap_db->get_results($cap_db->prepare($fairs_sql, $fair_domain))
+            : $cap_db->get_results($fairs_sql);
 
-        $time = round((microtime(true) - $start_time) * 1000, 2);
-
-        // SQL error.
-        if ($cap_db->last_error) {
-            self::debug_log(__FUNCTION__ . ': SQL error: ' . addslashes($cap_db->last_error), 'error');
+        if ($cap_db->last_error || !is_array($fairs_rows)) {
+            self::debug_log(__FUNCTION__ . ': fairs SQL error: ' . addslashes($cap_db->last_error), 'error');
             if ($cached !== false) {
                 set_transient($transient_key, $cached, 3600);
                 self::$translations_cache[$cache_key] = $cached;
@@ -528,66 +492,93 @@ trait PWE_System_Functions_Database_Data {
             return [];
         }
 
-        // Map results.
         $results = [];
-        foreach ($rows as $row) {
-            $fair_id = $row->id;
-            if (!isset($results[$fair_id])) {
-                $results[$fair_id] = [
-                    'fair_domain' => $row->fair_domain,
-
-                    'fair_name_pl' => $row->fair_name_pl,
-                    'fair_desc_pl' => $row->fair_desc_pl,
-                    'fair_short_desc_pl' => $row->fair_short_desc_pl,
-                    'fair_full_desc_pl' => $row->fair_full_desc_pl,
-
-                    'fair_short_desc_en' => $row->fair_short_desc_en,
-                    'fair_name_en' => $row->fair_name_en,
-                    'fair_desc_en' => $row->fair_desc_en,
-                    'fair_full_desc_en' => $row->fair_full_desc_en,
-                ];
-            }
-
-            $adds_fields = [
-                'category_pl',
-                'about_title_pl',
-                'about_desc_pl',
-                'konf_title_pl',
-                'konf_desc_pl',
-                'category_en',
-                'about_title_en',
-                'about_desc_en',
-                'konf_title_en',
-                'konf_desc_en'
+        foreach ($fairs_rows as $row) {
+            $results[$row->id] = [
+                'fair_domain' => $row->fair_domain,
+                'fair_name_pl' => $row->fair_name_pl,
+                'fair_desc_pl' => $row->fair_desc_pl,
+                'fair_short_desc_pl' => $row->fair_short_desc_pl,
+                'fair_full_desc_pl' => $row->fair_full_desc_pl,
+                'fair_short_desc_en' => $row->fair_short_desc_en,
+                'fair_name_en' => $row->fair_name_en,
+                'fair_desc_en' => $row->fair_desc_en,
+                'fair_full_desc_en' => $row->fair_full_desc_en,
             ];
+        }
+        unset($fairs_rows, $row);
+        $cap_db->flush();
 
-            if (!empty($row->slug) && in_array($row->slug, $adds_fields, true)) {
-                $results[$fair_id][$row->slug] = $row->data;
+        $adds_fields = [
+            'category_pl', 'category_en',
+            'about_title_pl', 'about_title_en',
+            'about_desc_pl', 'about_desc_en',
+            'konf_title_pl', 'konf_title_en',
+            'konf_desc_pl', 'konf_desc_en',
+        ];
+        $placeholders = implode(', ', array_fill(0, count($adds_fields), '%s'));
+        $adds_sql = "
+            SELECT fa.fair_id, fa.slug, fa.data
+            FROM fair_adds fa
+            INNER JOIN fairs f ON f.id = fa.fair_id
+            WHERE fa.slug IN ($placeholders)";
+        $adds_params = $adds_fields;
+        if ($fair_domain !== null) {
+            $adds_sql .= ' AND f.fair_domain = %s';
+            $adds_params[] = $fair_domain;
+        }
+        $adds_rows = $cap_db->get_results($cap_db->prepare($adds_sql, ...$adds_params));
+
+        if ($cap_db->last_error || !is_array($adds_rows)) {
+            self::debug_log(__FUNCTION__ . ': adds SQL error: ' . addslashes($cap_db->last_error), 'error');
+            self::$translations_cache[$cache_key] = [];
+            return [];
+        }
+        foreach ($adds_rows as $row) {
+            if (isset($results[$row->fair_id])) {
+                $results[$row->fair_id][$row->slug] = $row->data;
             }
+        }
+        unset($adds_rows, $row);
+        $cap_db->flush();
 
-            if (!empty($row->translation)) {
-                $lang = strtolower($row->language);
-                $data = json_decode($row->translation, true);
-                if ($data) {
-                    foreach ([
-                        'fair_name',
-                        'fair_desc',
-                        'fair_short_desc',
-                        'fair_full_desc',
-                        'category',
-                        'about_title',
-                        'about_desc',
-                        'konf_title',
-                        'konf_desc'
-                    ] as $field) {
-                        if (isset($data[$field])) {
-                            $results[$fair_id]["{$field}_$lang"] = $data[$field];
-                        }
-                    }
+        $translations_sql = "
+            SELECT t.fair_id, t.language, t.translation
+            FROM translations t
+            INNER JOIN fairs f ON f.id = t.fair_id" . $where;
+        $translations_rows = $fair_domain !== null
+            ? $cap_db->get_results($cap_db->prepare($translations_sql, $fair_domain))
+            : $cap_db->get_results($translations_sql);
+
+        if ($cap_db->last_error || !is_array($translations_rows)) {
+            self::debug_log(__FUNCTION__ . ': translations SQL error: ' . addslashes($cap_db->last_error), 'error');
+            self::$translations_cache[$cache_key] = [];
+            return [];
+        }
+
+        $translation_fields = [
+            'fair_name', 'fair_desc', 'fair_short_desc', 'fair_full_desc',
+            'category', 'about_title', 'about_desc', 'konf_title', 'konf_desc',
+        ];
+        foreach ($translations_rows as $row) {
+            if (!isset($results[$row->fair_id]) || empty($row->translation)) {
+                continue;
+            }
+            $lang = strtolower((string) $row->language);
+            $data = json_decode($row->translation, true);
+            if (!is_array($data)) {
+                continue;
+            }
+            foreach ($translation_fields as $field) {
+                if (isset($data[$field])) {
+                    $results[$row->fair_id]["{$field}_$lang"] = $data[$field];
                 }
             }
         }
+        unset($translations_rows, $row, $data);
+        $cap_db->flush();
 
+        $time = round((microtime(true) - $start_time) * 1000, 2);
         $results = array_values($results);
 
         // WPML languages.
