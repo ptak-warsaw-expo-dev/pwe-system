@@ -88,6 +88,63 @@ final class PWE_System_Resend_Actions
             self::safe_redirect(self::admin_url(['pwe_resend_autorun' => 1]));
         }
 
+        if ($action === 'skip_blocked') {
+
+            $entry_id = absint(
+                wp_unslash($_POST['blocked_entry_id'] ?? 0)
+            );
+
+            $event_id = sanitize_text_field(
+                wp_unslash($_POST['blocked_event_id'] ?? '')
+            );
+
+            $job_id = sanitize_text_field(
+                wp_unslash($_POST['blocked_job_id'] ?? '')
+            );
+
+            $skipped = false;
+
+            $saved = PWE_System_Resend_Job::mutate(
+                static function (
+                    array &$job,
+                    string $lock_token
+                ) use (
+                    $entry_id,
+                    $event_id,
+                    $job_id,
+                    &$skipped
+                ): void {
+
+                    if (
+                        hash_equals(
+                            (string) ($job['id'] ?? ''),
+                            $job_id
+                        )
+                    ) {
+                        $skipped =
+                            PWE_System_Resend_Job::skip_blocked_entry(
+                                $job,
+                                $entry_id,
+                                $event_id
+                            );
+                    }
+                }
+            );
+
+            if (!$saved || !$skipped) {
+                wp_die(
+                    'Nie pominięto wpisu. Blokada jest nieaktualna '
+                    . 'albo kolejka się zmieniła. Odśwież stronę.',
+                    '',
+                    ['response' => 409]
+                );
+            }
+
+            self::safe_redirect(
+                self::admin_url(['pwe_resend_autorun' => 1])
+            );
+        }
+
         if ($action === 'reset') {
             PWE_System_Resend_Job::delete();
             self::safe_redirect(self::admin_url());

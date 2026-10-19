@@ -202,6 +202,14 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
     }
 
 
+    /**
+     * Return the language codes supported by the forms audit.
+     */
+    private function get_audit_language_codes(): array {
+        return ['PL', 'EN', 'CS', 'DE', 'IT', 'LT', 'LV', 'SK', 'UK', 'RO', 'ET', 'HU', 'FR', 'ES'];
+    }
+
+
     private function detect_language_from_source_url($source_url) {
         $source_url = trim((string) $source_url);
 
@@ -212,7 +220,9 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
         $path = (string) wp_parse_url($source_url, PHP_URL_PATH);
         $path = '/' . ltrim(strtolower($path), '/');
 
-        if (preg_match('#^/(en|de|cs)(?:/|$)#i', $path, $match)) {
+        $language_pattern = implode('|', $this->get_audit_language_codes());
+
+        if (preg_match('#^/(' . $language_pattern . ')(?:/|$)#i', $path, $match)) {
             return strtoupper($match[1]);
         }
 
@@ -221,12 +231,9 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
 
 
     private function get_active_notifications_by_language($form) {
-        $result = [
-            'PL' => [],
-            'EN' => [],
-            'DE' => [],
-            'CS' => [],
-        ];
+        $languages = $this->get_audit_language_codes();
+        $result = array_fill_keys($languages, []);
+        $language_pattern = implode('|', $languages);
 
         $notifications = $form['notifications'] ?? [];
 
@@ -241,7 +248,7 @@ trait PWE_System_Forms_Audit_Notifications_Trait {
 
             $name = trim((string) ($notification['name'] ?? ''));
 
-            if (!preg_match('/(?:-|–|—)\s*(PL|EN|DE|CS)\s*$/iu', $name, $match)) {
+            if (!preg_match('/(?:-|–|—)\s*(' . $language_pattern . ')\s*$/iu', $name, $match)) {
                 continue;
             }
 

@@ -131,6 +131,7 @@ final class PWE_System_Doc_Manager {
             <div class="pwe-doc-toolbar">
                 <div id="pwe-doc-breadcrumbs" class="pwe-doc-breadcrumbs"></div>
                 <div class="pwe-doc-toolbar-right">
+                    <button type="button" class="button pwe-doc-delete-selected" id="pwe-doc-delete-selected" disabled>Usuń zaznaczone (<span id="pwe-doc-selected-count">0</span>)</button>
                     <input type="search" id="pwe-doc-filter" placeholder="Filtruj w tym folderze…">
                     <button type="button" class="button" data-action="refresh"><span class="dashicons dashicons-update"></span></button>
                 </div>
@@ -151,6 +152,7 @@ final class PWE_System_Doc_Manager {
                 <table class="widefat fixed striped pwe-doc-table">
                     <thead>
                         <tr>
+                            <th class="column-select"><input type="checkbox" id="pwe-doc-select-all" aria-label="Zaznacz wszystkie widoczne pliki" disabled></th>
                             <th class="column-name">Nazwa</th>
                             <th>Typ</th>
                             <th>Rozmiar</th>
@@ -160,7 +162,7 @@ final class PWE_System_Doc_Manager {
                         </tr>
                     </thead>
                     <tbody id="pwe-doc-list">
-                        <tr><td colspan="6" class="pwe-doc-loading">Wczytywanie…</td></tr>
+                        <tr><td colspan="7" class="pwe-doc-loading">Wczytywanie…</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -296,7 +298,15 @@ final class PWE_System_Doc_Manager {
         $path = self::resolve_existing($path_rel, false);
         if (!$path) self::error('Element nie istnieje.', 404);
 
-        if (!self::delete_tree($path)) self::error('Nie udało się usunąć elementu.', 500);
+        // Bulk deletion must never recurse into a directory.
+        if (self::post('filesOnly') === '1') {
+            if (!is_file($path)) self::error('Masowo można usuwać tylko pliki.', 409);
+            $deleted = @unlink($path);
+        } else {
+            $deleted = self::delete_tree($path);
+        }
+
+        if (!$deleted) self::error('Nie udało się usunąć elementu.', 500);
         self::log('delete', $path_rel, null);
         wp_send_json_success(['message' => 'Element został usunięty.']);
     }

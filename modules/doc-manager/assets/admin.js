@@ -5,10 +5,13 @@
     const app = document.getElementById('pwe-doc-app');
     if (!cfg || !app) return;
 
-    const state = { dir: '', items: [], draggedPath: null };
+    const state = { dir: '', items: [], draggedPath: null, selected: new Set(), loading: false, deleting: false };
     const list = document.getElementById('pwe-doc-list');
     const crumbs = document.getElementById('pwe-doc-breadcrumbs');
     const filter = document.getElementById('pwe-doc-filter');
+    const selectAll = document.getElementById('pwe-doc-select-all');
+    const deleteSelected = document.getElementById('pwe-doc-delete-selected');
+    const selectedCount = document.getElementById('pwe-doc-selected-count');
     const dropzone = document.getElementById('pwe-doc-dropzone');
     const filesInput = document.getElementById('pwe-doc-files');
     const folderInput = document.getElementById('pwe-doc-folder');
@@ -48,7 +51,10 @@
     }
 
     async function load(dir = state.dir) {
-        list.innerHTML = '<tr><td colspan="6" class="pwe-doc-loading">Wczytywanie…</td></tr>';
+        state.loading = true;
+        state.selected.clear();
+        updateSelection();
+        list.innerHTML = '<tr><td colspan="7" class="pwe-doc-loading">Wczytywanie…</td></tr>';
         try {
             const data = await request('list', { dir });
             state.dir = data.dir || '';
@@ -56,8 +62,12 @@
             renderBreadcrumbs(data.breadcrumbs || []);
             renderList();
         } catch (e) {
-            list.innerHTML = `<tr><td colspan="6" class="pwe-doc-empty">${esc(e.message)}</td></tr>`;
+            state.items = [];
+            list.innerHTML = `<tr><td colspan="7" class="pwe-doc-empty">${esc(e.message)}</td></tr>`;
             toast(e.message, true);
+        } finally {
+            state.loading = false;
+            updateSelection();
         }
     }
 
@@ -75,11 +85,34 @@
         return '<span class="dashicons dashicons-media-default"></span>';
     }
 
+    function visibleItems() {
+        const q = (filter.value || '').trim().toLowerCase();
+        return state.items.filter(item => !q || item.name.toLowerCase().includes(q));
+    }
+
+    function updateSelection() {
+        const files = visibleItems().filter(item => item.type === 'file');
+        const visiblePaths = new Set(files.map(item => item.path));
+        // Never keep hidden files or folders selected for a destructive action.
+        state.selected.forEach(path => { if (!visiblePaths.has(path)) state.selected.delete(path); });
+        const count = state.selected.size;
+        selectedCount.textContent = String(count);
+        deleteSelected.disabled = !count || state.loading || state.deleting;
+        selectAll.disabled = !files.length || state.loading || state.deleting;
+        selectAll.checked = files.length > 0 && count === files.length;
+        selectAll.indeterminate = count > 0 && count < files.length;
+        list.querySelectorAll('[data-select-file]').forEach(checkbox => {
+            checkbox.checked = state.selected.has(checkbox.dataset.selectFile);
+            checkbox.disabled = state.loading || state.deleting;
+        });
+    }
+
     function renderList() {
         const q = (filter.value || '').trim().toLowerCase();
-        const items = state.items.filter(item => !q || item.name.toLowerCase().includes(q));
+        const items = visibleItems();
+        updateSelection();
         if (!items.length) {
-            list.innerHTML = `<tr><td colspan="6" class="pwe-doc-empty">${q ? 'Brak pasujących elementów.' : 'Ten folder jest pusty.'}</td></tr>`;
+            list.innerHTML = `<tr><td colspan="7" class="pwe-doc-empty">${q ? 'Brak pasujących elementów.' : 'Ten folder jest pusty.'}</td></tr>`;
             return;
         }
 
@@ -92,6 +125,7 @@
             const unzip = item.type === 'file' && item.extension === 'zip' ? `<button type="button" class="button" data-unzip="${esc(item.path)}" title="Rozpakuj ZIP"><span class="dashicons dashicons-editor-expand"></span></button>` : '';
             const dimensions = item.isImage && item.width && item.height ? `${esc(item.width)} × ${esc(item.height)} px` : '—';
             return `<tr class="pwe-doc-row" data-row-path="${esc(item.path)}" data-row-type="${esc(item.type)}">
+                <td class="column-select">${item.type === 'file' ? `<input type="checkbox" data-select-file="${esc(item.path)}" aria-label="${esc('Zaznacz plik ' + item.name)}">` : ''}</td>
                 <td>
                     <div class="pwe-doc-name is-draggable" draggable="true" data-drag-path="${esc(item.path)}">
                         ${fileIcon(item)} ${name}
@@ -111,9 +145,15 @@
         }).join('');
 
         bindRows();
+        updateSelection();
     }
 
     function bindRows() {
+        list.querySelectorAll('[data-select-file]').forEach(checkbox => checkbox.addEventListener('change', () => {
+            if (checkbox.checked) state.selected.add(checkbox.dataset.selectFile);
+            else state.selected.delete(checkbox.dataset.selectFile);
+            updateSelection();
+        }));
         list.querySelectorAll('[data-open-dir]').forEach(el => el.addEventListener('click', () => load(el.dataset.openDir)));
         list.querySelectorAll('[data-rename]').forEach(el => el.addEventListener('click', () => renameItem(el.dataset.rename)));
         list.querySelectorAll('[data-delete]').forEach(el => el.addEventListener('click', () => deleteItem(el.dataset.delete, el.dataset.name)));
@@ -201,6 +241,44 @@
         });
     }
 
+    function deleteSelectedFiles() {
+        if (state.loading || state.deleting) return;
+        const files = visibleItems().filter(item => item.type === 'file' && state.selected.has(item.path));
+        if (!files.length) return;
+
+        const names = files.map(item => `<li>${esc(item.name)}</li>`).join('');
+        openDialog('Usuń zaznaczone pliki', `<p>Liczba plików do usunięcia: <strong>${files.length}</strong>.</p><ul class="pwe-doc-delete-list">${names}</ul><p>Tej operacji nie można cofnąć.</p>`, 'Usuń pliki', async () => {
+            state.deleting = true;
+            updateSelection();
+            const buttons = Array.from(dialog.querySelectorAll('button'));
+            buttons.forEach(button => { button.disabled = true; });
+            let deleted = 0;
+            let errors = 0;
+            try {
+                for (const [index, file] of files.entries()) {
+                    showProgress(Math.round((index / files.length) * 100), `Usuwanie ${index + 1}/${files.length}: ${file.name}`);
+                    try {
+                        await request('delete', { path: file.path, filesOnly: '1' });
+                        state.selected.delete(file.path);
+                        deleted++;
+                    } catch (e) {
+                        errors++;
+                        toast(`${file.name}: ${e.message}`, true);
+                    }
+                }
+                const message = `Usunięto ${deleted} z ${files.length} plików.${errors ? ` Błędy: ${errors}.` : ''}`;
+                showProgress(100, message);
+                toast(message, errors > 0);
+                await load();
+            } finally {
+                state.deleting = false;
+                buttons.forEach(button => { button.disabled = false; });
+                updateSelection();
+                hideProgressSoon();
+            }
+        });
+    }
+
     function moveItem(path) {
         openDialog('Przenieś element', `<label>Folder docelowy względem /doc</label><input type="text" id="pwe-doc-dialog-input" value="${esc(state.dir)}" placeholder="np. Logotypy/2027"><p class="description">Puste pole oznacza główny katalog /doc.</p>`, 'Przenieś', async () => {
             const targetDir = document.getElementById('pwe-doc-dialog-input').value.trim();
@@ -256,7 +334,7 @@
     }
     function hideProgressSoon() { setTimeout(() => { progress.hidden = true; progressBar.style.width = '0%'; }, 700); }
 
-    async function uploadFiles(entries) {
+    async function uploadFiles(entries, targetDir = state.dir) {
         if (!entries.length) return;
         progress.hidden = false;
         let done = 0;
@@ -265,7 +343,7 @@
             const relativePath = (entry.relativePath || entry.file.webkitRelativePath || entry.file.name).replace(/^\/+/, '');
             showProgress(Math.round((done / entries.length) * 100), `${done + 1}/${entries.length}: ${relativePath}`);
             try {
-                await request('upload', { dir: state.dir, relativePath }, entry.file);
+                await request('upload', { dir: targetDir, relativePath }, entry.file);
             } catch (e) {
                 errors++;
                 toast(`${relativePath}: ${e.message}`, true);
@@ -283,9 +361,20 @@
     }
 
     async function readDroppedItems(dataTransfer) {
+        // Capture every item before awaiting: the drag data store is only
+        // readable during the synchronous part of the drop event handler.
+        const fallbackFiles = fromFileList(dataTransfer.files);
         const items = Array.from(dataTransfer.items || []);
         const out = [];
-        if (!items.length || !items.some(item => typeof item.webkitGetAsEntry === 'function')) return fromFileList(dataTransfer.files);
+        if (!items.length) return fallbackFiles;
+
+        const roots = items.filter(item => item.kind === 'file').map((item, index) => {
+            const entry = item.webkitGetAsEntry?.() || null;
+            const file = entry ? null : (item.getAsFile?.() || fallbackFiles[index]?.file || null);
+            return { entry, file };
+        });
+
+        if (!roots.some(root => root.entry || root.file)) return fallbackFiles;
 
         async function readEntry(entry, prefix = '') {
             if (entry.isFile) {
@@ -305,9 +394,12 @@
             }
         }
 
-        for (const item of items) {
-            const entry = item.webkitGetAsEntry?.();
-            if (entry) await readEntry(entry, '');
+        for (const root of roots) {
+            if (root.entry) {
+                await readEntry(root.entry, '');
+            } else if (root.file) {
+                out.push({ file: root.file, relativePath: root.file.webkitRelativePath || root.file.name });
+            }
         }
         return out;
     }
@@ -319,11 +411,22 @@
     filesInput.addEventListener('change', () => { uploadFiles(fromFileList(filesInput.files)); filesInput.value = ''; });
     folderInput.addEventListener('change', () => { uploadFiles(fromFileList(folderInput.files)); folderInput.value = ''; });
     filter.addEventListener('input', renderList);
+    deleteSelected.addEventListener('click', deleteSelectedFiles);
+    selectAll.addEventListener('change', () => {
+        if (state.loading || state.deleting) return;
+        state.selected.clear();
+        if (selectAll.checked) {
+            visibleItems().filter(item => item.type === 'file').forEach(item => state.selected.add(item.path));
+        }
+        updateSelection();
+    });
+    dialog.addEventListener('cancel', event => { if (state.deleting) event.preventDefault(); });
 
     ['dragenter','dragover'].forEach(type => dropzone.addEventListener(type, event => { event.preventDefault(); dropzone.classList.add('is-dragover'); }));
     ['dragleave','drop'].forEach(type => dropzone.addEventListener(type, event => { event.preventDefault(); dropzone.classList.remove('is-dragover'); }));
     dropzone.addEventListener('drop', async event => {
-        try { await uploadFiles(await readDroppedItems(event.dataTransfer)); }
+        const targetDir = state.dir;
+        try { await uploadFiles(await readDroppedItems(event.dataTransfer), targetDir); }
         catch (e) { toast(e.message || 'Nie udało się odczytać upuszczonych plików.', true); }
     });
 

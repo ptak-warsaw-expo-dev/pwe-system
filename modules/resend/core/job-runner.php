@@ -162,7 +162,8 @@ final class PWE_System_Resend_Job_Runner
                     (int) ($entry['id'] ?? 0),
                     (string) ($notification['name'] ?? ''),
                     'blocked',
-                    (string) ($result['message'] ?? 'Wysyłka została zablokowana.')
+                    (string) ($result['message'] ?? 'Wysyłka została zablokowana.'),
+                    (int) $form['id']
                 );
                 return;
             }
@@ -206,11 +207,12 @@ final class PWE_System_Resend_Job_Runner
         $result
     ): void {
         $entry_id = (int) ($entry['id'] ?? 0);
+        $form_id = (int) ($entry['form_id'] ?? 0);
         $name = (string) ($notification['name'] ?? '');
 
         if ($result === 'sent') {
             $job['sent'] = (int) ($job['sent'] ?? 0) + 1;
-            PWE_System_Resend_Job::append_log($job, $entry_id, $name, 'sent_to_smtp', 'Przekazano do SMTP.');
+            PWE_System_Resend_Job::append_log($job, $entry_id, $name, 'sent_to_smtp', 'Przekazano do SMTP.', $form_id);
             return;
         }
 
@@ -220,7 +222,7 @@ final class PWE_System_Resend_Job_Runner
         }
 
         $job['failed'] = (int) ($job['failed'] ?? 0) + 1;
-        PWE_System_Resend_Job::append_log($job, $entry_id, $name, 'failed', (string) $result);
+        PWE_System_Resend_Job::append_log($job, $entry_id, $name, 'failed', (string) $result, $form_id);
     }
 
     private static function maybe_send_notification(array $form, array $entry, array $notification)
@@ -268,11 +270,11 @@ final class PWE_System_Resend_Job_Runner
             return ['status' => 'blocked', 'message' => $mail_error->get_error_message()];
         }
 
-        gform_update_meta(
-            $entry_id,
-            PWE_System_Resend_Matcher::sent_meta_key($notification),
-            current_time('mysql')
-        );
+        // gform_update_meta(
+        //     $entry_id,
+        //     PWE_System_Resend_Matcher::sent_meta_key($notification),
+        //     current_time('mysql')
+        // );
 
         return 'sent';
     }

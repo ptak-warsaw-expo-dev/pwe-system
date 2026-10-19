@@ -283,7 +283,14 @@ body.pwe-system-screen #wpbody-content .update-nag {
 
 .pwe-system-module-page code {
     border-radius: 5px;
+    padding: 4px 8px;
+    font-weight: 600;
+    /* background-color: var(--pwe-ink); */
 }
+
+/* .pwe-system-module-page code a {
+    color: #ffffff;
+} */
 
 .pwe-system-message {
     display: flex;
@@ -590,22 +597,25 @@ body.pwe-system-screen #wpbody-content .update-nag {
     border: 1px solid var(--pwe-border-strong);
 }
 
+/* Sukces — wiadomość przekazana do SMTP */
 .pwe-module-resend .pwe-log-status--sent_to_smtp {
-    color: #14532d;
+    color: #166534;
     background: #dcfce7;
     border-color: #86efac;
 }
 
+/* Błąd wysyłki */
 .pwe-module-resend .pwe-log-status--failed {
-    color: #991b1b;
-    background: #fee2e2;
-    border-color: #fecaca;
+    color: #b91c1c;
+    background: #fef2f2;
+    border-color: #fca5a5;
 }
 
+/* Blokada procesu — poważniejszy błąd */
 .pwe-module-resend .pwe-log-status--blocked {
-    color: #92400e;
-    background: #fef3c7;
-    border-color: #fde68a;
+    color: #991b1b;
+    background: #fee2e2;
+    border-color: #f87171;
 }
 
 /* Resend */
@@ -1093,7 +1103,7 @@ body.pwe-system-screen #wpbody-content .pwe-module-replace-content .pwe-module-c
 body.pwe-system-screen #wpbody-content .pwe-module-replace-content .pwe-replace-list,
 body.pwe-system-screen #wpbody-content .pwe-forms-audit .pwe-module-content,
 body.pwe-system-screen #wpbody-content .pwe-forms-audit .pwe-qr-table-wrap {
-    width: 100% !important;
+    width: auto !important;
     max-width: none !important;
     min-width: 0 !important;
 }
@@ -1217,4 +1227,12 @@ body.pwe-system-screen .pwe-forms-audit .pwe-forms-backfill__progress p,
 body.pwe-system-screen .pwe-forms-audit .pwe-forms-backfill__working {
     margin: 0;
     color: var(--pwe-muted);
+}
+
+.pwe-resend-job-actions {
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
 }

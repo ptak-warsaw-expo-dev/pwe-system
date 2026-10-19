@@ -106,6 +106,7 @@ final class PWE_System_Resend_Job
                 'sent'                => 0,
                 'failed'              => 0,
                 'skipped'             => 0,
+                'manually_skipped_entries' => 0,
                 'log'                 => [],
                 'log_total'           => 0,
             ]);
@@ -190,6 +191,137 @@ final class PWE_System_Resend_Job
         $job['blocked_entry_id'] = max(0, $entry_id);
         $job['blocked_notification'] = $notification;
         $job['blocked_at'] = current_time('mysql');
+        $job['blocked_event_id'] = wp_generate_uuid4();
+    }
+
+    
+    public static function can_skip_blocked_entry(array $job): bool
+    {
+        if (
+            ($job['status'] ?? '') !== 'blocked'
+            || ($job['blocked_reason'] ?? '') !== 'delivery'
+            || (int) ($job['blocked_entry_id'] ?? 0) <= 0
+            || empty($job['blocked_event_id'])
+        ) {
+            return false;
+        }
+
+        $message = (string) ($job['blocked_message'] ?? '');
+
+        // Udostępnia pominięcie tylko przy błędzie konkretnego odbiorcy.
+        return (bool) preg_match(
+            '/(?:the following recipients failed|recipient address rejected|user unknown|mailbox unavailable)\s*:?\s*[^\s,;]+@[^\s,;]+/i',
+            $message
+        );
+    }
+
+    public static function skip_blocked_entry(
+        array &$job,
+        int $entry_id,
+        string $event_id
+    ): bool {
+        if (
+            !self::can_skip_blocked_entry($job)
+            || (int) $job['blocked_entry_id'] !== $entry_id
+            || !hash_equals((string) $job['blocked_event_id'], $event_id)
+        ) {
+            return false;
+        }
+
+        $cursor = array_merge(
+            self::empty_cursor(),
+            (array) ($job['cursor'] ?? [])
+        );
+
+        $form_id = (int) (
+            ($job['form_ids'] ?? [])[(int) $cursor['form']] ?? 0
+        );
+
+        $form = PWE_System_Resend_Form_Repository::get($form_id);
+
+        if ($form === null) {
+            return false;
+        }
+
+        $page = PWE_System_Resend_Gravity::get_entries_page(
+            $form_id,
+            !empty($job['include_all_entries']),
+            (int) $cursor['offset'],
+            PWE_System_Resend::PAGE_SIZE,
+            (int) ($job['min_age_days'] ?? PWE_System_Resend::DEFAULT_MIN_AGE_DAYS)
+        );
+
+        if ((string) ($page['error'] ?? '') !== '') {
+            return false;
+        }
+
+        $entry = $page['entries'][(int) $cursor['entry']] ?? null;
+
+        if (
+            !is_array($entry)
+            || (int) ($entry['id'] ?? 0) !== $entry_id
+        ) {
+            return false;
+        }
+
+        $notifications = array_values(
+            PWE_System_Resend_Gravity::get_resend_notifications($form)
+        );
+
+        $remaining = 0;
+
+        foreach (
+            array_slice(
+                $notifications,
+                (int) $cursor['notification']
+            ) as $notification
+        ) {
+            if (
+                PWE_System_Resend_Matcher::is_entry_matching_notification(
+                    $form,
+                    $entry,
+                    $notification
+                )
+                && !PWE_System_Resend_Matcher::is_already_processed(
+                    $entry,
+                    $notification
+                )
+            ) {
+                $remaining++;
+            }
+        }
+
+        if ($remaining < 1) {
+            return false;
+        }
+
+        $message = (string) ($job['blocked_message'] ?? '');
+
+        $job['skipped'] = (int) ($job['skipped'] ?? 0) + $remaining;
+
+        $job['manually_skipped_entries'] =
+            (int) ($job['manually_skipped_entries'] ?? 0) + 1;
+
+        self::append_log(
+            $job,
+            $entry_id,
+            (string) ($job['blocked_notification'] ?? ''),
+            'manual_entry_skip',
+            'Administrator pominął cały wpis (' .
+            $remaining . ' powiadomień). SMTP: ' . $message,
+            $form_id
+        );
+
+        // Przejście do następnego wpisu Gravity Forms.
+        $cursor['entry']++;
+        $cursor['notification'] = 0;
+
+        $job['cursor'] = $cursor;
+
+        self::clear_block($job);
+        $job['status'] = 'running';
+
+        return true;
     }
 
     public static function clear_block(array &$job): void
@@ -199,6 +331,7 @@ final class PWE_System_Resend_Job
             $job['blocked_message'],
             $job['blocked_form_id'],
             $job['blocked_entry_id'],
+            $job['blocked_event_id'],
             $job['blocked_notification'],
             $job['blocked_at'],
             $job['status_before_blocked']
@@ -223,15 +356,18 @@ final class PWE_System_Resend_Job
         int $entry_id,
         string $notification,
         string $status,
-        string $message
+        string $message,
+        int $form_id = 0
     ): void {
         $job['log'][] = [
             'time'         => current_time('mysql'),
+            'form_id'      => $form_id,
             'entry_id'     => $entry_id,
             'notification' => $notification,
             'status'       => $status,
             'message'      => $message,
         ];
+
         $job['log_total'] = (int) ($job['log_total'] ?? 0) + 1;
 
         if (count($job['log']) > 100) {
@@ -248,6 +384,7 @@ final class PWE_System_Resend_Job
             'sent'        => (int) ($job['sent'] ?? 0),
             'failed'      => (int) ($job['failed'] ?? 0),
             'skipped'     => (int) ($job['skipped'] ?? 0),
+            'manually_skipped_entries' => (int) ($job['manually_skipped_entries'] ?? 0),
             'pending'     => $total_known ? max(0, (int) ($job['total'] ?? 0) - $completed) : null,
             'total_known' => $total_known,
             'log_total'   => (int) ($job['log_total'] ?? 0),
@@ -403,6 +540,7 @@ final class PWE_System_Resend_Job
         $job['sent'] = max(0, (int) ($job['sent'] ?? 0));
         $job['failed'] = max(0, (int) ($job['failed'] ?? 0));
         $job['skipped'] = max(0, (int) ($job['skipped'] ?? 0));
+        $job['manually_skipped_entries'] = max(0, (int) ($job['manually_skipped_entries'] ?? 0));
         $completed = self::completed_count($job);
 
         if (!array_key_exists('total', $job)) {

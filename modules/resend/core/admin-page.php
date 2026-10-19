@@ -258,10 +258,11 @@ final class PWE_System_Resend_Admin
         echo '<div class="pwe-resend-stat-row">';
 
         $stat_items = [
-            'sent'    => 'Wysłano',
-            'pending' => 'Pozostało',
-            'failed'  => 'Błędy',
-            'skipped' => 'Pominięto',
+            'sent'                     => 'Wysłano',
+            'pending'                  => 'Pozostało',
+            'failed'                   => 'Błędy',
+            'skipped'                  => 'Pominięto',
+            'manually_skipped_entries' => 'Ręcznie pominięte wpisy',
         ];
 
         foreach ($stat_items as $key => $label) {
@@ -316,10 +317,9 @@ final class PWE_System_Resend_Admin
         if ($status === 'running') {
             PWE_System_Admin_UI::status('p', 'ok', 'dashicons-update', ' Proces aktywny &mdash; trwa wysyłka.');
 
-            echo '<p>';
+            echo '<div class="pwe-resend-job-actions">';
             echo PWE_System_Resend_Actions::action_form('run', 'Wyślij następną partię teraz') . ' ';
             echo PWE_System_Resend_Actions::action_form('pause', 'Wstrzymaj');
-            echo '</p>';
 
             if (isset($_GET['pwe_resend_autorun'])) {
                 $delay_ms  = (int) $job['delay'] * 1000;
@@ -332,10 +332,15 @@ final class PWE_System_Resend_Admin
                     data-nonce-name="_wpnonce"
                     data-nonce-value="' . esc_attr($nonce_val) . '">
                 </div>';
+                echo '</div>';
+
             } else {
                 echo PWE_System_Resend_Actions::action_form('run', 'Uruchom auto-wysyłkę', 'button button-primary');
+                echo '</div>';
                 echo '<p class="pwe-resend-muted pwe-resend-help">Auto-wysyłka odświeża stronę co ' . esc_html($job['delay']) . ' s i wysyła kolejną partię automatycznie.</p>';
             }
+
+
 
             return;
         }
@@ -369,7 +374,52 @@ final class PWE_System_Resend_Admin
             }
 
             echo '<p class="pwe-resend-muted">Odblokuj skrzynkę ręcznie, a następnie wznów proces.</p>';
+            echo '<div class="pwe-resend-job-actions">';
             echo PWE_System_Resend_Actions::action_form('resume', 'Wznów po odblokowaniu', 'button button-primary');
+            if (PWE_System_Resend_Job::can_skip_blocked_entry($job)) {
+
+                echo '<form method="post"
+                    action="' . esc_url(
+                        PWE_System_Resend_Actions::admin_url()
+                    ) . '"
+                    class="pwe-inline-form"
+                    onsubmit="return confirm(
+                        &quot;Pominąć CAŁY wpis Gravity Forms
+                        wraz z pozostałymi powiadomieniami
+                        i kontynuować wysyłkę?&quot;
+                    );">';
+
+                wp_nonce_field('pwe_system_resend_action');
+
+                echo '<input type="hidden"
+                    name="pwe_resend_action"
+                    value="skip_blocked">';
+
+                echo '<input type="hidden"
+                    name="blocked_job_id"
+                    value="' . esc_attr((string) $job['id']) . '">';
+
+                echo '<input type="hidden"
+                    name="blocked_entry_id"
+                    value="' . esc_attr(
+                        (string) $job['blocked_entry_id']
+                    ) . '">';
+
+                echo '<input type="hidden"
+                    name="blocked_event_id"
+                    value="' . esc_attr(
+                        (string) $job['blocked_event_id']
+                    ) . '">';
+
+                echo '<button type="submit"
+                    class="button button-secondary">
+                    Pomiń cały wpis i kontynuuj
+                    </button>';
+
+                echo '</form>';
+            }
+            echo '</div>';
+
             return;
         }
 
@@ -485,8 +535,40 @@ final class PWE_System_Resend_Admin
         echo '<tbody>';
 
         foreach ($log as $row) {
-            $entry_display = !empty($row['entry_id']) ? esc_html($row['entry_id']) : '&mdash;';
-            $status        = (string) ($row['status'] ?? '');
+            $entry_id = absint($row['entry_id'] ?? 0);
+            $form_id  = absint($row['form_id'] ?? 0);
+            $status   = (string) ($row['status'] ?? '');
+
+            // Fallback dla starszych logów bez form_id.
+            if ($entry_id && !$form_id) {
+                $entry = GFAPI::get_entry($entry_id);
+
+                if (!is_wp_error($entry) && !empty($entry['form_id'])) {
+                    $form_id = absint($entry['form_id']);
+                }
+            }
+
+            $entry_display = '&mdash;';
+
+            if ($entry_id) {
+                $entry_display = esc_html((string) $entry_id);
+
+                if ($form_id) {
+                    $entry_url = add_query_arg(
+                        [
+                            'page' => 'gf_entries',
+                            'view' => 'entry',
+                            'id'   => $form_id,
+                            'lid'  => $entry_id,
+                        ],
+                        admin_url('admin.php')
+                    );
+
+                    $entry_display = '<a href="' . esc_url($entry_url) . '" target="_blank" rel="noopener noreferrer">'
+                        . esc_html((string) $entry_id)
+                        . '</a>';
+                }
+            }
 
             echo '<tr>';
             echo '<td class="pwe-resend-muted">' . esc_html($row['time'] ?? '') . '</td>';

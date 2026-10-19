@@ -3363,7 +3363,7 @@ class PWE_Shortcodes {
 
                 'gr2' => 'Pobierz swój identyfikator VIP GOLD i skorzystaj z bezpłatnego wejścia na teren targów, udziału we wszystkich konferencjach branżowych, wejścia do specjalnie przygotowanej strefy VIP ROOM oraz opieki concierge’a.',
 
-                'gr3' => 'Pobierz swój identyfikator VIP GOLD i skorzystaj z bezpłatnego wejścia na teren targów, welcome packu, udziału we wszystkich konferencjach branżowych, wejścia do specjalnie przygotowanej strefy VIP ROOM oraz opieki concierge’a.',
+                'gr3' => 'Pobierz swój identyfikator VIP GOLD i skorzystaj z bezpłatnego wejścia na teren targów, udziału we wszystkich konferencjach branżowych, wejścia do specjalnie przygotowanej strefy VIP ROOM oraz opieki concierge’a.',
 
                 'b2c' => 'Pobierz swój identyfikator VIP GOLD i skorzystaj z bezpłatnego wejścia na teren targów, udziału we wszystkich konferencjach branżowych oraz atrakcjach, szybkiego wejścia Fast Track, wejścia do specjalnie przygotowanej strefy VIP ROOM oraz opieki concierge’a. Zaproszenie umożliwia bezpłatny udział pierwszego dnia targów <strong>([trade_fair_first_day])</strong>.',
 
@@ -3375,7 +3375,7 @@ class PWE_Shortcodes {
 
                 'gr2' => 'Download your VIP GOLD badge and enjoy free access to the trade fair area, participation in all industry conferences, access to the specially prepared VIP ROOM zone and concierge service.',
 
-                'gr3' => 'Download your VIP GOLD badge and enjoy free access to the trade fair area, welcome pack, participation in all industry conferences, access to the specially prepared VIP ROOM zone and concierge service.',
+                'gr3' => 'Download your VIP GOLD pass to enjoy free admission to the trade fair, access to all industry conferences, entry to the exclusive VIP ROOM, and the services of a dedicated concierge.',
 
                 'b2c' => 'Download your VIP GOLD ID and benefit from free entry to the trade fair, participation in all industry conferences and attractions, Fast Track entry, entry to the specially prepared VIP ROOM zone, and concierge care. The invitation allows free participation on the first day of the trade fair <strong>([trade_fair_first_day])</strong>.',
 
