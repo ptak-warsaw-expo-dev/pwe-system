@@ -1226,7 +1226,6 @@ class PWE_Shortcodes {
                 "11" => "noviembre",
                 "12" => "diciembre",
             ],
-
             "fr" => [
                 "01" => "janvier",
                 "02" => "février",
@@ -1241,6 +1240,20 @@ class PWE_Shortcodes {
                 "11" => "novembre",
                 "12" => "décembre",
             ],
+            "nl" => [
+                "01" => "januari",
+                "02" => "februari",
+                "03" => "maart",
+                "04" => "april",
+                "05" => "mei",
+                "06" => "juni",
+                "07" => "juli",
+                "08" => "augustus",
+                "09" => "september",
+                "10" => "oktober",
+                "11" => "november",
+                "12" => "december",
+            ]
         ];
 
         $lang_key = strtoupper($lang);
@@ -1297,6 +1310,7 @@ class PWE_Shortcodes {
                 case "RO":
                 case "ET":
                 case "HU":
+                case "NL":
                 default:
                     return "$start_day $start_month_name";
             }
@@ -1362,6 +1376,13 @@ class PWE_Shortcodes {
                 if ($start_month === $end_month) {
                     return "$start_day-$end_day $start_month_name $year";
                 }
+                return "$start_day $start_month_name - $end_day $end_month_name $year";
+            
+            case "NL":
+                if ($start_month === $end_month) {
+                    return "$start_day-$end_day $start_month_name $year";
+                }
+
                 return "$start_day $start_month_name - $end_day $end_month_name $year";
 
             default:
@@ -2560,6 +2581,7 @@ class PWE_Shortcodes {
             'hu',
             'es',
             'fr',
+            'nl',
         ];
 
         if (!in_array($lang, $supported_languages, true)) {
@@ -2582,6 +2604,7 @@ class PWE_Shortcodes {
             'hu' => 'Hamarosan új dátum érkezik',
             'es' => 'Nueva fecha próximamente',
             'fr' => 'Nouvelle date prochainement',
+            'nl' => 'Nieuwe datum binnenkort',
         ];
 
         $current_time = current_time('timestamp');
@@ -3359,7 +3382,7 @@ class PWE_Shortcodes {
 
         $texts = [
             'pl' => [
-                'gr1' => 'Pobierz swój identyfikator VIP GOLD i skorzystaj z bezpłatnego wejścia na teren targów, szybkiego wejścia Fast Track, udziału we wszystkich konferencjach branżowych oraz opieki concierge’a.',
+                'gr1' => 'Pobierz swój identyfikator VIP GOLD i skorzystaj z bezpłatnego wejścia na teren targów, udziału we wszystkich konferencjach branżowych oraz opieki concierge’a.',
 
                 'gr2' => 'Pobierz swój identyfikator VIP GOLD i skorzystaj z bezpłatnego wejścia na teren targów, udziału we wszystkich konferencjach branżowych, wejścia do specjalnie przygotowanej strefy VIP ROOM oraz opieki concierge’a.',
 
@@ -3371,7 +3394,7 @@ class PWE_Shortcodes {
             ],
 
             'en' => [
-                'gr1' => 'Download your VIP GOLD badge and enjoy free access to the trade fair area, Fast Track entry, participation in all industry conferences and concierge service.',
+                'gr1' => 'Download your VIP GOLD badge and enjoy free access to the trade fair area, participation in all industry conferences and concierge service.',
 
                 'gr2' => 'Download your VIP GOLD badge and enjoy free access to the trade fair area, participation in all industry conferences, access to the specially prepared VIP ROOM zone and concierge service.',
 

@@ -215,7 +215,7 @@ function pwe_get_shortcode_map() {
             $langs[] = $code;
         }
     } else {
-        $langs = ['cs','de','it','lt','lv','ru','sk','uk','et','es','fr','ro','hu'];
+        $langs = ['cs','de','it','lt','lv','ru','sk','uk','et','es','fr','ro','hu','nl'];
     }
 
     // Dynamic fields
@@ -255,6 +255,7 @@ function pwe_fair_name_label($lang) {
         'ro' => 'Târgul {name}',
         'uk' => 'Виставка {name}',
         'ru' => 'Выставка {name}',
+        'nl' => 'De {name} beurs',
     ];
 
     $lang = strtolower(substr(str_replace('_', '-', trim((string) $lang)), 0, 2));
@@ -272,7 +273,7 @@ function pwe_strip_label($name) {
         'Die Messe', 'Messe', 'Veletrh', 'Veľtrh',
         'La feria', 'Feria', 'Mess', 'Le salon', 'Salon',
         'La fiera', 'Fiera', 'Paroda', 'Izstāde',
-        'Târgul', 'Târg', 'Виставка', 'Выставка', 'Vásár',
+        'Târgul', 'Târg', 'Виставка', 'Выставка', 'Vásár', 'De', 'Beurs', 
     ];
 
     usort($labels, static function ($a, $b) {
