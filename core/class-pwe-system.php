@@ -20,6 +20,7 @@ final class PWE_System {
         require_once PWE_SYSTEM_PATH . 'modules/replace-content/replace-content-module.php';
         require_once PWE_SYSTEM_PATH . 'modules/resend/resend-module.php';
         require_once PWE_SYSTEM_PATH . 'modules/tests/tests-module.php';
+        require_once PWE_SYSTEM_PATH . 'modules/images-generator/images-generator.php';
 
         self::sync_capabilities();
         add_action('init', [self::class, 'sync_capabilities'], 99);

@@ -44,7 +44,7 @@ class PWE_System_Updater {
 
         // Token from CAP. Required only for a private repository or to avoid
         // GitHub API rate limits. Public repositories also work without it.
-        $github_key = PWE_System_Functions::get_database_meta_data('github_secret');
+        $github_key = PWE_System_Functions::get_database_meta_data('github_personal_access_token');
         if (is_string($github_key) && trim($github_key) !== '') {
             $this->update_checker->setAuthentication(trim($github_key));
         }
