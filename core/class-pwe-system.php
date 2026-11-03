@@ -13,6 +13,7 @@ final class PWE_System {
         self::$initialized = true;
 
         require_once PWE_SYSTEM_PATH . 'core/class-pwe-system-admin-access.php';
+        require_once PWE_SYSTEM_PATH . 'core/class-pwe-system-admin-role.php';
         require_once PWE_SYSTEM_PATH . 'core/class-pwe-system-admin-ui.php';
         require_once PWE_SYSTEM_PATH . 'core/class-pwe-system-admin.php';
         require_once PWE_SYSTEM_PATH . 'core/class-pwe-system-hooks.php';
