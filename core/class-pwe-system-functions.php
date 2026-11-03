@@ -23,6 +23,7 @@ require_once __DIR__ . '/functions/fairs.php';
 require_once __DIR__ . '/functions/dates.php';
 require_once __DIR__ . '/functions/utilities.php';
 require_once __DIR__ . '/functions/wpbakery.php';
+require_once __DIR__ . '/functions/website-login.php';
 
 /**
  * Shared helper API for PWE System and existing PWE Elements integrations.
@@ -45,6 +46,7 @@ class PWE_System_Functions {
     use PWE_System_Functions_Dates;
     use PWE_System_Functions_Utilities;
     use PWE_System_Functions_WPBakery;
+    use PWE_System_Functions_Website_Login;
 }
 
 // Register aggregated database console diagnostics in the page footer.
