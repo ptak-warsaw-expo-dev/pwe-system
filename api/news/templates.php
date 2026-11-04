@@ -35,7 +35,26 @@ final class PWE_Template_News_API {
         'preview' => ['zapowiedzi', 'Zapowiedzi'],
         'medal-ceremony' => ['ceremonie-medalowe', 'Ceremonie Medalowe'],
     ];
+    private const TEMPLATE_CATEGORIES_EN = [
+        'summary' => ['summary', 'Summary'],
+        'preview' => ['previews', 'Previews'],
+        'medal-ceremony' => ['medal-ceremonies', 'Medal Ceremonies'],
+    ];
     private const MAX_BYTES = 2097152;
+
+    /** PHP 7.4-compatible replacement for array_is_list() (PHP 8.1+). */
+    private static function is_list(array $value): bool {
+        $expected = 0;
+        foreach ($value as $key => $_) {
+            if ($key !== $expected++) return false;
+        }
+        return true;
+    }
+
+    /** PHP 7.4-compatible replacement for str_starts_with() (PHP 8.0+). */
+    private static function starts_with(string $value, string $prefix): bool {
+        return substr($value, 0, strlen($prefix)) === $prefix;
+    }
 
     private static function fail($message, $status = 422) {
         throw new RuntimeException($message, $status);
@@ -57,7 +76,7 @@ final class PWE_Template_News_API {
     }
 
     private static function object($value, $path) {
-        if (!is_array($value) || ($value !== [] && array_is_list($value))) {
+        if (!is_array($value) || ($value !== [] && self::is_list($value))) {
             self::fail($path . ': expected object');
         }
         return $value;
@@ -94,7 +113,7 @@ final class PWE_Template_News_API {
         }
         foreach ($lists as $field) {
             if (!isset($data[$field])) continue;
-            if (!is_array($data[$field]) || !array_is_list($data[$field])) self::fail('data.' . $field . ': expected list');
+            if (!is_array($data[$field]) || !self::is_list($data[$field])) self::fail('data.' . $field . ': expected list');
             if ($field !== 'gallery') {
                 foreach ($data[$field] as $row) self::object($row, 'data.' . $field . '[]');
             }
@@ -130,19 +149,27 @@ final class PWE_Template_News_API {
     }
 
     private static function category($language, $slug, $name) {
-        $term = get_term_by('slug', $slug . '-' . $language, 'category');
-        if (!$term || is_wp_error($term)) $term = get_term_by('slug', $slug, 'category');
-        if (!$term || is_wp_error($term)) {
-            $created = wp_insert_term($name, 'category', ['slug' => $slug]);
-            if (is_wp_error($created)) {
-                $existing = $created->get_error_data('term_exists');
-                if (!$existing) return $created;
-                $id = (int) $existing;
-            } else $id = (int) $created['term_id'];
-        } else $id = (int) $term->term_id;
-        $translated = apply_filters('wpml_object_id', $id, 'category', false, $language);
-        if ($translated) $id = (int) $translated;
-        return $id;
+        // WPML assigns newly created taxonomy terms to the current language.
+        $previous_language = apply_filters('wpml_current_language', null);
+        $switch_language = is_string($previous_language) && $previous_language !== $language;
+        if ($switch_language) do_action('wpml_switch_language', $language);
+        try {
+            $term = get_term_by('slug', $slug . '-' . $language, 'category');
+            if (!$term || is_wp_error($term)) $term = get_term_by('slug', $slug, 'category');
+            if (!$term || is_wp_error($term)) {
+                $created = wp_insert_term($name, 'category', ['slug' => $slug]);
+                if (is_wp_error($created)) {
+                    $existing = $created->get_error_data('term_exists');
+                    if (!$existing) return $created;
+                    $id = (int) $existing;
+                } else $id = (int) $created['term_id'];
+            } else $id = (int) $term->term_id;
+            $translated = apply_filters('wpml_object_id', $id, 'category', false, $language);
+            if ($translated) $id = (int) $translated;
+            return $id;
+        } finally {
+            if ($switch_language) do_action('wpml_switch_language', $previous_language);
+        }
     }
 
     private static function meta($id, $key, $value) {
@@ -203,7 +230,7 @@ final class PWE_Template_News_API {
             if ($action === 'delete') {
                 if (!in_array($template, self::TEMPLATES, true)) self::fail('Unsupported template');
                 $languages = $request['languages'] ?? [];
-                if (array_key_exists('languages', $request) && (!is_array($languages) || !array_is_list($languages) || !$languages)) self::fail('languages: nonempty list required');
+                if (array_key_exists('languages', $request) && (!is_array($languages) || !self::is_list($languages) || !$languages)) self::fail('languages: nonempty list required');
             } else {
                 if (!in_array($template, self::TEMPLATES, true)) self::fail('Unsupported template');
                 if (isset($request['status']) && !in_array($request['status'], ['draft', 'publish'], true)) self::fail('status: draft or publish');
@@ -214,7 +241,7 @@ final class PWE_Template_News_API {
                 $default_language = apply_filters('wpml_default_language', null);
                 $ignored_languages = [];
                 foreach ($request as $field => $data) {
-                    if (!is_string($field) || !str_starts_with($field, 'data_')) continue;
+                    if (!is_string($field) || !self::starts_with($field, 'data_')) continue;
                     $language = substr($field, 5);
                     if (!isset($active[$language])) {
                         $ignored_languages[] = $language;
@@ -325,9 +352,21 @@ final class PWE_Template_News_API {
                     if (is_wp_error($saved) || !$saved) self::fail('Post write failed: ' . (is_wp_error($saved) ? $saved->get_error_message() : 'unknown error'), 500);
                     $current_id = (int) $saved;
                     foreach ($post['meta_input'] as $key => $value) self::meta($current_id, $key, $value);
+                    // Uncode Page Options → Header → Header Type → None
+                    delete_post_meta($current_id, '_uncode_blocks_list');
+                    delete_post_meta($current_id, '_uncode_header_type');
+                    self::meta($current_id, '_uncode_header_type', 'none');
+                    // Uncode Page Options → Show Title → Off
+                    self::meta($current_id, '_uncode_specific_title', 'off');
+                    // Uncode → Show Share → Hide
+                    self::meta($current_id, '_uncode_specific_share', 'off');
                     $warnings = [];
                     $category_ids = [];
-                    foreach ([['news', 'News'], self::TEMPLATE_CATEGORIES[$template]] as [$category_slug, $category_name]) {
+                    // Polish category names stay unchanged; every other language uses English labels.
+                    $template_category = $language === 'pl'
+                        ? self::TEMPLATE_CATEGORIES[$template]
+                        : self::TEMPLATE_CATEGORIES_EN[$template];
+                    foreach ([['news', 'News'], $template_category] as [$category_slug, $category_name]) {
                         $category = self::category($language, $category_slug, $category_name);
                         if (is_wp_error($category)) $warnings[] = $category->get_error_message();
                         else $category_ids[] = $category;
@@ -392,7 +431,16 @@ final class PWE_Template_News_API {
             $status_code = ($error instanceof RuntimeException && $code >= 400 && $code <= 599) ? $code : 500;
             $body = ['status' => 'error', 'message' => $error instanceof RuntimeException ? $error->getMessage() : 'Unexpected synchronization error',
                 'wordpress' => $results, 'failed_language' => $current_language, 'post_id' => $current_id];
-            if (!($error instanceof RuntimeException)) error_log('PWE template news: ' . $error->getMessage());
+            error_log(sprintf(
+                'PWE template news exception: %s | %s in %s:%d | action=%s | slug=%s | language=%s',
+                get_class($error),
+                $error->getMessage(),
+                $error->getFile(),
+                $error->getLine(),
+                isset($action) ? (string) $action : 'unknown',
+                isset($news_slug) ? (string) $news_slug : 'unknown',
+                $current_language === null ? 'none' : (string) $current_language
+            ));
         } finally {
             if ($lock !== null) $wpdb->get_var($wpdb->prepare('SELECT RELEASE_LOCK(%s)', $lock));
         }
