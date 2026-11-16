@@ -50,6 +50,15 @@ function pwe_plugins_info_update_permissions(): array
 }
 
 /**
+ * Keep PWE Multilang 1.0.9 pinned until it is upgraded manually.
+ * This restriction applies to CAP API updates only.
+ */
+function pwe_plugins_info_version_locked(string $slug, ?string $version): bool
+{
+    return $slug === 'pwe-multilang' && $version === '1.0.9';
+}
+
+/**
  * Collect plugin versions, statuses, and available updates.
  */
 function pwe_plugins_info_status(bool $refresh = false): array
@@ -113,7 +122,8 @@ function pwe_plugins_info_status(bool $refresh = false): array
             'version' => $version,
             'new_version' => $hasUpdate ? $newVersion : null,
             'update_available' => $hasUpdate,
-            'update_allowed' => ($updatePermissions[$slug] ?? false) === true,
+            'update_allowed' => ($updatePermissions[$slug] ?? false) === true
+                && !pwe_plugins_info_version_locked($slug, $version),
             'status' => !$exists ? 'missing' : ($enabled ? 'active' : 'inactive'),
             'auto_update' => $auto,
             'auto_update_status' => !$exists ? 'not_installed' : ($auto ? 'enabled' : 'disabled'),
@@ -145,6 +155,91 @@ function pwe_plugins_info_status(bool $refresh = false): array
         'summary' => $summary,
         'plugins' => $plugins,
     ];
+}
+
+/**
+ * Force PUC checks registered by active plugins (without admin nonces).
+ * Only monitored plugin checkers are queried. This does not install or update plugins.
+ */
+function pwe_plugins_info_force_check(): array
+{
+    require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    require_once ABSPATH . 'wp-admin/includes/update.php';
+
+    $monitoredFiles = array_flip(array_values(pwe_plugins_info_monitored()));
+    $installed = get_plugins();
+    $checked = [];
+    $errors = [];
+
+    // PUC registers each update checker as a site_transient_update_plugins filter.
+    // Reuse the already initialized instance so private tokens/configuration remain intact.
+    global $wp_filter;
+    $hook = $wp_filter['site_transient_update_plugins'] ?? null;
+    if ($hook instanceof WP_Hook) {
+        foreach ($hook->callbacks as $callbacks) {
+            foreach ($callbacks as $registration) {
+                $callable = $registration['function'] ?? null;
+                if (!is_array($callable) || count($callable) !== 2 || $callable[1] !== 'injectUpdate') {
+                    continue;
+                }
+                $checker = $callable[0];
+                if (!is_object($checker) || !method_exists($checker, 'checkForUpdates')) {
+                    continue;
+                }
+                $file = isset($checker->pluginFile) ? (string) $checker->pluginFile : '';
+                if (!isset($monitoredFiles[$file], $installed[$file]) || isset($checked[$file])) {
+                    continue;
+                }
+                $checked[$file] = true;
+                try {
+                    $checker->checkForUpdates();
+                } catch (Throwable $e) {
+                    $errors[] = $file;
+                    error_log('PWE CAP PUC check failed (' . $file . '): ' . $e->getMessage());
+                }
+            }
+        }
+    }
+
+    // Expire the native update transient so wp_update_plugins() cannot skip
+    // the explicit request due to its normal background-check interval.
+    delete_site_transient('update_plugins');
+    wp_update_plugins();
+    return ['puc_checked' => count($checked), 'puc_errors' => $errors];
+}
+
+/**
+ * Return refreshed plugin information after running all available update checks.
+ */
+function pwe_plugins_info_check_updates(): array
+{
+    if (is_multisite() && !is_main_site()) {
+        return [403, ['status' => 'error', 'message' => 'Sprawdzanie aktualizacji multisite wymaga witryny głównej.']];
+    }
+
+    // Separate lock from the update lock so a check doesn't overlap a running update.
+    $lockKey = 'pwe_cap_plugin_check_lock';
+    $lockedAt = (int) get_option($lockKey, 0);
+    if ($lockedAt && $lockedAt < time() - 300) {
+        delete_option($lockKey);
+    }
+    if (get_option('pwe_cap_plugin_update_lock', 0)) {
+        return [409, ['status' => 'error', 'message' => 'Trwa aktualizacja wtyczki.']];
+    }
+    if (!add_option($lockKey, time(), '', false)) {
+        return [409, ['status' => 'error', 'message' => 'Sprawdzanie aktualizacji już trwa.']];
+    }
+    try {
+        $result = pwe_plugins_info_force_check();
+        $status = pwe_plugins_info_status(false);
+        $status['check'] = $result;
+        return [200, $status];
+    } catch (Throwable $e) {
+        error_log('PWE CAP check for updates failed: ' . $e->getMessage());
+        return [500, ['status' => 'error', 'message' => 'Nie udało się sprawdzić aktualizacji. Sprawdź logi WordPress.']];
+    } finally {
+        delete_option($lockKey);
+    }
 }
 
 /**
@@ -185,6 +280,15 @@ function pwe_plugins_info_update(string $slug): array
         return [404, ['status' => 'error', 'message' => 'Wtyczka nie jest zainstalowana.']];
     }
 
+    // Reject updates for the pinned version, even if CAP calls this endpoint directly.
+    $installedVersion = (string) (get_plugins()[$file]['Version'] ?? '');
+    if (pwe_plugins_info_version_locked($slug, $installedVersion)) {
+        return [403, [
+            'status' => 'error',
+            'message' => 'PWE Multilang 1.0.9 jest zablokowany przed aktualizacją przez CAP. Zaktualizuj go ręcznie w WordPressie.',
+        ]];
+    }
+
     // Keep the previous activation state; REST updates do not reactivate plugins automatically.
     $wasActive = is_plugin_active($file);
     $wasNetworkActive = is_multisite() && is_plugin_active_for_network($file);
@@ -197,6 +301,9 @@ function pwe_plugins_info_update(string $slug): array
         delete_option($lockKey);
     }
 
+    if (get_option('pwe_cap_plugin_check_lock', 0)) {
+        return [409, ['status' => 'error', 'message' => 'Trwa sprawdzanie aktualizacji.']];
+    }
     if (!add_option($lockKey, time(), '', false)) {
         return [409, ['status' => 'error', 'message' => 'Inna aktualizacja już trwa.']];
     }
@@ -209,6 +316,14 @@ function pwe_plugins_info_update(string $slug): array
         $upgrade = is_object($updates) ? ($updates->response[$file] ?? null) : null;
         $current = (string) (get_plugins()[$file]['Version'] ?? '');
         $target = is_object($upgrade) ? (string) ($upgrade->new_version ?? '') : '';
+
+        // Recheck after refreshing metadata, before invoking the upgrader.
+        if (pwe_plugins_info_version_locked($slug, $current)) {
+            return [403, [
+                'status' => 'error',
+                'message' => 'PWE Multilang 1.0.9 jest zablokowany przed aktualizacją przez CAP. Zaktualizuj go ręcznie w WordPressie.',
+            ]];
+        }
 
         if ($target === '' || !version_compare($target, $current, '>')) {
             return [409, ['status' => 'error', 'message' => 'Brak nowszej wersji dostępnej przez mechanizm WordPress.']];
@@ -305,6 +420,16 @@ add_action('rest_api_init', function () {
         'permission_callback' => 'pwe_plugins_info_rest_permission',
         'callback' => function (WP_REST_Request $request) {
             return rest_ensure_response(pwe_plugins_info_status($request->get_param('refresh') === '1'));
+        },
+    ]);
+
+    // Force update checks for all monitored plugins (PUC and native WordPress).
+    register_rest_route('pwe-system/v1', '/plugins-info/check', [
+        'methods' => 'POST',
+        'permission_callback' => 'pwe_plugins_info_rest_permission',
+        'callback' => function () {
+            list($status, $data) = pwe_plugins_info_check_updates();
+            return new WP_REST_Response($data, $status);
         },
     ]);
 

@@ -2,6 +2,22 @@
 
 declare(strict_types=1);
 
+// Migration bridge: after WordPress loads, use PWE System only when it is active.
+$pwe_bridge_wp_load = dirname(__DIR__, 5) . '/wp-load.php';
+if (is_file($pwe_bridge_wp_load)) {
+    require_once $pwe_bridge_wp_load;
+}
+
+if (defined('PWE_SYSTEM_PATH')) {
+    $pwe_system_api = trailingslashit(PWE_SYSTEM_PATH) . 'api/cap/doc.php';
+    if (is_file($pwe_system_api) && realpath($pwe_system_api) !== realpath(__FILE__)) {
+        require $pwe_system_api;
+        exit;
+    }
+}
+
+// No active PWE System: execute the original legacy endpoint below.
+
 /*
  * PWE CAP - Graphics API
  *
@@ -37,7 +53,7 @@ $root = defined('ABSPATH')
     : rtrim((string) ($_SERVER['DOCUMENT_ROOT'] ?? ''), '/\\') . DIRECTORY_SEPARATOR;
 
 if ($root === DIRECTORY_SEPARATOR || !is_dir($root)) {
-    pwe_system_api_images_response([
+    pwe_images_response([
         'status' => 'error',
         'message' => 'Nie udało się ustalić katalogu WordPress.',
     ], 500);
@@ -72,6 +88,8 @@ $assets = [
 
     '/doc/favicon.png' => [500, 500, 100],
     '/doc/favicon-color.png' => [500, 500, 100],
+    '/doc/favicon.webp' => [500, 500, 100],
+    '/doc/favicon-color.webp' => [500, 500, 100],
 
     '/doc/logo-x-pl.webp' => [null, 100, 100],
     '/doc/logo-x-en.webp' => [null, 100, 100],
@@ -117,13 +135,13 @@ $notificationEmails = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    pwe_system_api_images_response(
-        pwe_system_api_images_status($root, $assets)
+    pwe_images_response(
+        pwe_images_status($root, $assets)
     );
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    pwe_system_api_images_response([
+    pwe_images_response([
         'status' => 'error',
         'message' => 'Niedozwolona metoda.',
     ], 405);
@@ -160,7 +178,7 @@ if (
     $providedKey === '' ||
     !hash_equals($expectedKey, $providedKey)
 ) {
-    pwe_system_api_images_response([
+    pwe_images_response([
         'status' => 'error',
         'message' => 'Brak autoryzacji.',
     ], 401);
@@ -171,17 +189,17 @@ if (
     empty($_POST['paths']) ||
     !is_array($_POST['paths'])
 ) {
-    pwe_system_api_images_response([
+    pwe_images_response([
         'status' => 'error',
         'message' => 'Brak plików lub ścieżek.',
     ], 422);
 }
 
-$files = pwe_system_api_images_normalize_files($_FILES['files']);
+$files = pwe_images_normalize_files($_FILES['files']);
 $paths = array_values($_POST['paths']);
 
 if (count($files) !== count($paths)) {
-    pwe_system_api_images_response([
+    pwe_images_response([
         'status' => 'error',
         'message' => 'Liczba plików i ścieżek nie jest zgodna.',
     ], 422);
@@ -324,7 +342,7 @@ foreach ($files as $index => $file) {
  * Lepiej odrzucić cały zestaw niż zostawić pół aktualizacji.
  */
 if ($errors) {
-    pwe_system_api_images_response([
+    pwe_images_response([
         'status' => 'error',
         'message' => 'Nie zapisano plików. Popraw błędy i spróbuj ponownie.',
         'errors' => $errors,
@@ -344,9 +362,9 @@ foreach ($prepared as $item) {
         !@mkdir($directory, 0755, true) &&
         !is_dir($directory)
     ) {
-        pwe_system_api_images_cleanup_staged($staged);
+        pwe_images_cleanup_staged($staged);
 
-        pwe_system_api_images_response([
+        pwe_images_response([
             'status' => 'error',
             'message' => 'Nie udało się utworzyć katalogu: ' . $directory,
         ], 500);
@@ -357,9 +375,9 @@ foreach ($prepared as $item) {
         bin2hex(random_bytes(6));
 
     if (!move_uploaded_file($item['tmp'], $stage)) {
-        pwe_system_api_images_cleanup_staged($staged);
+        pwe_images_cleanup_staged($staged);
 
-        pwe_system_api_images_response([
+        pwe_images_response([
             'status' => 'error',
             'message' => 'Nie udało się przygotować pliku: ' . $item['path'],
         ], 500);
@@ -390,18 +408,18 @@ foreach ($staged as $item) {
             is_file($item['target']) &&
             !@unlink($item['target'])
         ) {
-            pwe_system_api_images_cleanup_staged($staged);
+            pwe_images_cleanup_staged($staged);
 
-            pwe_system_api_images_response([
+            pwe_images_response([
                 'status' => 'error',
                 'message' => 'Nie udało się podmienić: ' . $item['path'],
             ], 500);
         }
 
         if (!@rename($item['stage'], $item['target'])) {
-            pwe_system_api_images_cleanup_staged($staged);
+            pwe_images_cleanup_staged($staged);
 
-            pwe_system_api_images_response([
+            pwe_images_response([
                 'status' => 'error',
                 'message' => 'Nie udało się zapisać: ' . $item['path'],
             ], 500);
@@ -417,28 +435,28 @@ foreach ($staged as $item) {
     ];
 }
 
-$status = pwe_system_api_images_status($root, $assets);
+$status = pwe_images_status($root, $assets);
 
 $status['uploaded'] = count($uploadedPaths);
 $status['uploaded_files'] = $uploadedPaths;
 $status['uploaded_details'] = $uploadedDetails;
 $status['message'] = 'Grafiki zostały zapisane.';
 
-pwe_system_api_images_send_notification(
+pwe_images_send_notification(
     $notificationEmails,
     $uploadedDetails,
     (string) ($_POST['changed_by_name'] ?? ''),
     (string) ($_POST['changed_by_email'] ?? '')
 );
 
-pwe_system_api_images_response($status);
+pwe_images_response($status);
 
 
 /* ========================================================= */
 /* FUNCTIONS                                                 */
 /* ========================================================= */
 
-function pwe_system_api_images_status(string $root, array $assets): array
+function pwe_images_status(string $root, array $assets): array
 {
     $missing = 0;
     $wrong = 0;
@@ -508,7 +526,7 @@ function pwe_system_api_images_status(string $root, array $assets): array
     ];
 }
 
-function pwe_system_api_images_send_notification(
+function pwe_images_send_notification(
     array $recipients,
     array $uploadedDetails,
     string $changedByName = '',
@@ -605,7 +623,7 @@ function pwe_system_api_images_send_notification(
     );
 }
 
-function pwe_system_api_images_normalize_files(array $files): array
+function pwe_images_normalize_files(array $files): array
 {
     if (!isset($files['name'])) {
         return [];
@@ -631,7 +649,7 @@ function pwe_system_api_images_normalize_files(array $files): array
     return $normalized;
 }
 
-function pwe_system_api_images_cleanup_staged(array $staged): void
+function pwe_images_cleanup_staged(array $staged): void
 {
     foreach ($staged as $item) {
         if (!empty($item['stage']) && is_file($item['stage'])) {
@@ -640,7 +658,7 @@ function pwe_system_api_images_cleanup_staged(array $staged): void
     }
 }
 
-function pwe_system_api_images_response(array $data, int $code = 200): void
+function pwe_images_response(array $data, int $code = 200): void
 {
     http_response_code($code);
 
