@@ -89,7 +89,7 @@ class PWE_Shortcodes {
             'pwe_lang_domain' => 'get_lang_domain',
             'trade_fair_domainadress' => 'show_trade_fair_domainadress',
             'trade_fair_actualyear' => 'show_trade_fair_actualyear',
-            
+
             'trade_fair_rejestracja' => 'show_trade_fair_rejestracja',
             'trade_fair_contact' => 'show_trade_fair_contact',
             'trade_fair_contact_service_name' => 'show_trade_fair_contact_service_name',
@@ -1377,7 +1377,7 @@ class PWE_Shortcodes {
                     return "$start_day-$end_day $start_month_name $year";
                 }
                 return "$start_day $start_month_name - $end_day $end_month_name $year";
-            
+
             case "NL":
                 if ($start_month === $end_month) {
                     return "$start_day-$end_day $start_month_name $year";
@@ -1605,7 +1605,7 @@ class PWE_Shortcodes {
     }
 
     public function display_trade_fair_third_day() {
-        
+
         $day = $this->get_trade_fair_day(2);
 
         $value = !empty($day)
@@ -4120,7 +4120,7 @@ class PWE_Shortcodes {
             * Add language prefix only when the requested language
             * is not the default WPML language.
             */
-            $default_language = apply_filters( 
+            $default_language = apply_filters(
                 'wpml_default_language',
                 null
             );
