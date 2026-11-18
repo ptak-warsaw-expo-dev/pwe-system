@@ -185,6 +185,8 @@ function pwe_get_shortcode_map() {
         'pwe_catalog_id'            => 'catalog_id',
         'pwe_catalog_archive'       => 'catalog_archive',
         'pwe_catalog_id_archive'    => 'catalog_id_archive',
+        'pwe_catalog_type'          => 'catalog_type',
+        'pwe_catalog_numbers'       => 'catalog_numbers',
         'pwe_catalog_featured'      => 'catalog_featured',
         'pwe_category_pl'           => 'category_pl',
         'pwe_category_en'           => 'category_en',
