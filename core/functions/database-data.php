@@ -167,7 +167,9 @@ trait PWE_System_Functions_Database_Data {
                 MAX(CASE WHEN fa.slug = 'fair_kw_new' THEN fa.data END) AS fair_kw_new,
                 MAX(CASE WHEN fa.slug = 'fair_kw_old_arch' THEN fa.data END) AS fair_kw_old_arch,
                 MAX(CASE WHEN fa.slug = 'fair_kw_new_arch' THEN fa.data END) AS fair_kw_new_arch,
+                MAX(CASE WHEN fa.slug = 'fair_kw_exhib_featured' THEN fa.data END) AS fair_kw_exhib_featured,
                 MAX(CASE WHEN fa.slug = 'catalog_type' THEN fa.data END) AS catalog_type,
+                MAX(CASE WHEN fa.slug = 'catalog_numbers' THEN fa.data END) AS catalog_numbers,
                 MAX(CASE WHEN fa.slug = 'fair_entrance' THEN fa.data END) AS fair_entrance,
                 MAX(CASE WHEN fa.slug = 'available_languages' THEN fa.data END) AS available_languages
 
@@ -184,7 +186,9 @@ trait PWE_System_Functions_Database_Data {
                     'fair_kw_new',
                     'fair_kw_old_arch',
                     'fair_kw_new_arch',
+                    'fair_kw_exhib_featured',
                     'catalog_type',
+                    'catalog_numbers',
                     'fair_entrance',
                     'about_title_pl',
                     'about_title_en',

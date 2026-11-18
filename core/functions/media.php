@@ -22,7 +22,7 @@ trait PWE_System_Functions_Media {
      * @param bool $shuffle Whether to randomize the logo order.
      * @return array Exhibitor logo records.
      */
-    public static function exhibitor_logos($count = 16, $shuffle = true) {
+    public static function exhibitor_logos($count = 16, $shuffle = true, $filter = true) {
 
         $catalog_ids_old  = do_shortcode('[trade_fair_catalog]');
         $catalog_ids_new  = do_shortcode('[trade_fair_catalog_id]');
@@ -61,21 +61,25 @@ trait PWE_System_Functions_Media {
                         ?? ''
                     );
 
-                    if ($name === '') continue;
+                    $logo = $item['companyInfo']['logoUrl'] ?? '';
 
-                    $nameKey = mb_strtolower($name);
-                    $logo    = $item['companyInfo']['logoUrl'] ?? '';
+                    if ($filter) {
+                        if ($name === '') continue;
+                        if (empty($logo)) continue;
 
-                    if (empty($logo)) continue;
-                    if (isset($usedNames[$nameKey])) continue;
+                        $nameKey = mb_strtolower($name);
 
-                    $usedNames[$nameKey] = true;
+                        if (isset($usedNames[$nameKey])) continue;
+
+                        $usedNames[$nameKey] = true;
+                    }
 
                     $mapped[] = [
                         'name'  => $name,
                         'stand' => $item['stand']['standNumber'] ?? '',
                         'logo'  => $logo,
-                        'www'   => $item['companyInfo']['website'] ?? ''
+                        'www'   => $item['companyInfo']['website'] ?? '',
+                        'brands' => $item['companyInfo']['brands'] ?? []
                     ];
                 }
             }
@@ -103,15 +107,19 @@ trait PWE_System_Functions_Media {
                 foreach ($data[$catalog_ids_old]['Wystawcy'] as $item) {
 
                     $name = trim($item['Nazwa_wystawcy'] ?? '');
-                    if ($name === '') continue;
 
-                    $nameKey = mb_strtolower($name);
-                    $logo    = $item['URL_logo_wystawcy'] ?? '';
+                    $logo = $item['URL_logo_wystawcy'] ?? '';
 
-                    if (empty($logo)) continue;
-                    if (isset($usedNames[$nameKey])) continue;
+                    if ($filter) {
+                        if ($name === '') continue;
+                        if (empty($logo)) continue;
 
-                    $usedNames[$nameKey] = true;
+                        $nameKey = mb_strtolower($name);
+
+                        if (isset($usedNames[$nameKey])) continue;
+
+                        $usedNames[$nameKey] = true;
+                    }
 
                     $mapped[] = [
                         'name'  => $name,

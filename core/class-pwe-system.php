@@ -18,6 +18,7 @@ final class PWE_System {
         require_once PWE_SYSTEM_PATH . 'core/class-pwe-system-admin.php';
         require_once PWE_SYSTEM_PATH . 'core/class-pwe-system-hooks.php';
         require_once PWE_SYSTEM_PATH . 'modules/doc-manager/class-pwe-system-doc-manager.php';
+        require_once PWE_SYSTEM_PATH . 'modules/domain-qr/class-pwe-system-domain-qr.php';
         require_once PWE_SYSTEM_PATH . 'modules/replace-content/replace-content-module.php';
         require_once PWE_SYSTEM_PATH . 'modules/resend/resend-module.php';
         require_once PWE_SYSTEM_PATH . 'modules/tests/tests-module.php';
@@ -32,7 +33,8 @@ final class PWE_System {
         PWE_System_Tests::init();
         PWE_System_Admin::init();
         PWE_System_Doc_Manager::init();
-
+        PWE_System_Domain_QR::init();
+        
         // Audyt formularzy należy wyłącznie do PWE System. PWE QR Gravity Forms
         // pozostaje źródłem generatora QR używanego przez część kontroli audytu.
         $forms_audit_module = PWE_SYSTEM_PATH . 'modules/forms-audit/pwe-forms-audit-module.php';
