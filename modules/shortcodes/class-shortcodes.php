@@ -32,7 +32,7 @@ class PWE_Shortcodes {
     // ALL SHORTCODES START <------------------------------------------------------------------------------<
 
     private function get_shortcodes_map() {
-        $lang = PWE_LANG;
+        $lang = PWE_System_Functions::lang();
         return [
             'trade_fair_name' => 'show_trade_fair_name', // [trade_fair_name]
             'trade_fair_name_eng' => 'show_trade_fair_name_eng', // [trade_fair_name_eng]
@@ -148,7 +148,7 @@ class PWE_Shortcodes {
     }
 
     private function get_gf_shortcodes_map() {
-        $lang = PWE_LANG;
+        $lang = PWE_System_Functions::lang();
         return [
             'trade_fair_name' => 'show_trade_fair_name', // {trade_fair_name}
             'trade_fair_name_eng' => 'show_trade_fair_name_eng', // {trade_fair_name_eng}
@@ -237,10 +237,10 @@ class PWE_Shortcodes {
     }
 
     private function get_yoast_shortcodes_map() {
-        $lang = PWE_LANG;
+        $lang = PWE_System_Functions::lang();
         return [
             'sc_pwe_trade_fair_year'             => 'show_trade_fair_catalog_year', // %%sc_pwe_trade_fair_year%% || [trade_fair_catalog_year]
-            'sc_pwe_trade_fair_desc'             => $lang === 'pl' ? 'show_trade_fair_desc' : 'show_trade_fair_desc_eng', // %%sc_pwe_trade_fair_desc%% || [trade_fair_desc] && [trade_fair_desc_eng]
+            'sc_pwe_trade_fair_desc' => 'show_yoast_trade_fair_desc',// %%sc_pwe_trade_fair_desc%% || [trade_fair_desc] && [trade_fair_desc_eng]
             'sc_pwe_trade_fair_conference_title' => $lang === 'pl' ? 'show_trade_fair_conference_title' : 'show_trade_fair_conference_title_eng', // %%sc_pwe_trade_fair_conference_title%% || [sc_pwe_trade_fair_conference_title]
             'sc_pwe_trade_fair_full_desc'        => 'sc_pwe_trade_fair_full_desc', // %%sc_pwe_trade_fair_full_desc%% || [trade_fair_full_desc]
             'sc_pwe_text_news'                   => 'sc_pwe_text_news', // %%sc_pwe_text_news%% || [sc_pwe_text_news]
@@ -261,7 +261,7 @@ class PWE_Shortcodes {
     }
 
     private function other_shortcodes_map() {
-        $lang = PWE_LANG;
+        $lang = PWE_System_Functions::lang();
 
         return [
             'pwe_name_pl',
@@ -321,7 +321,7 @@ class PWE_Shortcodes {
     }
 
     private function translates_shortcodes_map() {
-        $lang = PWE_Functions::lang();
+        $lang = PWE_System_Functions::lang();
 
         return [
             'pwe_name_'. $lang,
@@ -380,6 +380,7 @@ class PWE_Shortcodes {
             true
         );
     }
+
 
     private function get_shortcode_description($tag) {
         $tag = strtolower((string) $tag);
@@ -1434,7 +1435,7 @@ class PWE_Shortcodes {
     public function display_trade_fair_datetotimer() {
         list($start_date, $end_date, $pwe_date_start_available, $pwe_date_end_available, $pwe_shortcodes_available) = $this->get_trade_fair_dates();
 
-        $lang = strtolower(PWE_LANG);
+        $lang = PWE_System_Functions::lang();
         $current_time = strtotime("now");
 
         $date = (empty($start_date) || (!empty($end_date) && (strtotime($end_date . " +20 hours")) < $current_time))
@@ -1466,7 +1467,7 @@ class PWE_Shortcodes {
     public function display_trade_fair_enddata() {
         list($start_date, $end_date, $pwe_date_start_available, $pwe_date_end_available, $pwe_shortcodes_available) = $this->get_trade_fair_dates();
 
-        $lang = strtolower(PWE_LANG);
+        $lang = PWE_System_Functions::lang();
         $current_time = strtotime("now");
 
         $date = (empty($start_date) || (!empty($end_date) && (strtotime($end_date . " +20 hours")) < $current_time))
@@ -1498,14 +1499,14 @@ class PWE_Shortcodes {
     public function display_trade_fair_date_custom_format() {
         list($start_date, $end_date, $pwe_date_start_available, $pwe_date_end_available, $pwe_shortcodes_available) = $this->get_trade_fair_dates();
 
-        $lang = strtolower(PWE_LANG);
+        $lang = PWE_System_Functions::lang();
         $new_date_comming_soon = "Nowa data wkrótce / New date comming soon";
 
         $current_time = strtotime("now");
 
         $custom_date = (empty($start_date) || (!empty($end_date) && (strtotime($end_date . " +20 hours")) < $current_time))
             ? $new_date_comming_soon
-            : PWE_Functions::transform_dates($start_date, $end_date, false);
+            : PWE_System_Functions::transform_dates($start_date, $end_date, false);
 
         $option_name = "trade_fair_date_custom_format";
         $placeholder = "14-16|10|2025 (D-D|M|Y)";
@@ -2095,8 +2096,8 @@ class PWE_Shortcodes {
 
 
     private function get_group_contact_default_value($groups_slug, $field = 'email') {
-        $pwe_groups_data = PWE_Functions::get_database_groups_data();
-        $pwe_groups_contacts_data = PWE_Functions::get_database_groups_contacts_data();
+        $pwe_groups_data = PWE_System_Functions::get_database_groups_data();
+        $pwe_groups_contacts_data = PWE_System_Functions::get_database_groups_contacts_data();
 
         $current_domain = $_SERVER['HTTP_HOST'] ?? '';
 
@@ -2359,7 +2360,7 @@ class PWE_Shortcodes {
     }
 
     public function display_trade_fair_group() {
-        $pwe_groups_data = PWE_Functions::get_database_groups_data();
+        $pwe_groups_data = PWE_System_Functions::get_database_groups_data();
 
         foreach ($pwe_groups_data as $group) {
             if ($_SERVER['HTTP_HOST'] == $group->fair_domain) {
@@ -2442,7 +2443,7 @@ class PWE_Shortcodes {
     public function show_trade_fair_datetotimer() {
         list($start_date, $end_date, $pwe_date_start_available, $pwe_date_end_available, $pwe_shortcodes_available) = $this->get_trade_fair_dates();
 
-        $lang = strtolower(PWE_LANG);
+        $lang = PWE_System_Functions::lang();
         $current_time = strtotime("now");
         $new_date_comming_soon = ($lang === "pl") ? "Nowa data wkrótce" : "New date comming soon";
 
@@ -2461,7 +2462,7 @@ class PWE_Shortcodes {
     public function show_trade_fair_enddata() {
         list($start_date, $end_date, $pwe_date_start_available, $pwe_date_end_available, $pwe_shortcodes_available) = $this->get_trade_fair_dates();
 
-        $lang = strtolower(PWE_LANG);
+        $lang = PWE_System_Functions::lang();
         $current_time = strtotime("now");
         $new_date_comming_soon = ($lang === "pl") ? "Nowa data wkrótce" : "New date comming soon";
 
@@ -2478,15 +2479,38 @@ class PWE_Shortcodes {
     }
 
     public function show_trade_fair_date_custom_format() {
-        list($start_date, $end_date, $pwe_date_start_available, $pwe_date_end_available, $pwe_shortcodes_available) = $this->get_trade_fair_dates();
+        list(
+            $start_date,
+            $end_date,
+            $pwe_date_start_available,
+            $pwe_date_end_available,
+            $pwe_shortcodes_available
+        ) = $this->get_trade_fair_dates();
 
-        $lang = strtolower(PWE_LANG);
-        $current_time = strtotime("now");
-        $new_date_comming_soon = ($lang === "pl") ? "Nowa data wkrótce" : "New date comming soon";
+        // Use the same language detection as trade_fair_date_multilang.
+        $lang = class_exists('PWE_System_Functions') && is_callable(['PWE_System_Functions', 'lang'])
+            ? PWE_System_Functions::lang()
+            : (defined('PWE_LANG') ? PWE_LANG : 'en');
 
-        $date = (empty($start_date) || (!empty($end_date) && (strtotime($end_date . " +20 hours")) < $current_time))
-            ? ($pwe_shortcodes_available ? $new_date_comming_soon : get_option('trade_fair_date_custom_format'))
-            :  PWE_Functions::transform_dates($start_date, $end_date, false);
+        $lang = strtolower(trim((string) $lang));
+        $lang = explode('-', str_replace('_', '-', $lang))[0];
+
+        $current_time = strtotime('now');
+
+        $new_date_coming_soon = ($lang === 'pl')
+            ? 'Nowa data wkrótce'
+            : 'New date coming soon';
+
+        $date = (
+            empty($start_date) ||
+            (!empty($end_date) && strtotime($end_date . ' +20 hours') < $current_time)
+        )
+            ? (
+                $pwe_shortcodes_available
+                    ? $new_date_coming_soon
+                    : get_option('trade_fair_date_custom_format')
+            )
+            : PWE_System_Functions::transform_dates($start_date, $end_date, false);
 
         return $date;
     }
@@ -2494,7 +2518,7 @@ class PWE_Shortcodes {
     public function show_trade_fair_date() {
         list($start_date, $end_date, $pwe_date_start_available, $pwe_date_end_available, $pwe_shortcodes_available) = $this->get_trade_fair_dates();
 
-        $lang = strtolower(PWE_LANG);
+        $lang = PWE_System_Functions::lang();
         $current_time = strtotime("now");
         $new_date_comming_soon = ($lang === "pl") ? "Nowa data wkrótce" : "New date comming soon";
 
@@ -2508,7 +2532,7 @@ class PWE_Shortcodes {
     public function show_trade_fair_date_eng() {
         list($start_date, $end_date, $pwe_date_start_available, $pwe_date_end_available, $pwe_shortcodes_available) = $this->get_trade_fair_dates();
 
-        $lang = strtolower(PWE_LANG);
+        $lang = PWE_System_Functions::lang();
         $current_time = strtotime("now");
         $new_date_comming_soon = ($lang === "pl") ? "Nowa data wkrótce" : "New date comming soon";
 
@@ -2548,11 +2572,11 @@ class PWE_Shortcodes {
             // Hardcoded language, e.g. lang="cs"
             $lang = $requested_lang;
         } elseif (
-            class_exists('PWE_Functions') &&
-            is_callable(['PWE_Functions', 'lang'])
+            class_exists('PWE_System_Functions') &&
+            is_callable(['PWE_System_Functions', 'lang'])
         ) {
             // Automatic language detection
-            $lang = PWE_Functions::lang();
+            $lang = PWE_System_Functions::lang();
         } elseif (defined('PWE_LANG') && PWE_LANG) {
             $lang = PWE_LANG;
         } else {
@@ -2658,10 +2682,10 @@ class PWE_Shortcodes {
 
         // Aktualny język strony
         if (
-            class_exists('PWE_Functions') &&
-            is_callable(['PWE_Functions', 'lang'])
+            class_exists('PWE_System_Functions') &&
+            is_callable(['PWE_System_Functions', 'lang'])
         ) {
-            $lang = PWE_Functions::lang();
+            $lang = PWE_System_Functions::lang();
         } elseif (defined('PWE_LANG') && PWE_LANG) {
             $lang = PWE_LANG;
         } else {
@@ -2984,10 +3008,10 @@ class PWE_Shortcodes {
         if ($requested_lang !== '') {
             $lang = $requested_lang;
         } elseif (
-            class_exists('PWE_Functions') &&
-            is_callable(['PWE_Functions', 'lang'])
+            class_exists('PWE_System_Functions') &&
+            is_callable(['PWE_System_Functions', 'lang'])
         ) {
-            $lang = PWE_Functions::lang();
+            $lang = PWE_System_Functions::lang();
         } elseif (defined('PWE_LANG') && PWE_LANG) {
             $lang = PWE_LANG;
         } else {
@@ -3089,7 +3113,7 @@ class PWE_Shortcodes {
     }
 
     public function show_trade_fair_group() {
-        $pwe_groups_data = PWE_Functions::get_database_groups_data();
+        $pwe_groups_data = PWE_System_Functions::get_database_groups_data();
 
         foreach ($pwe_groups_data as $group) {
             if ($_SERVER['HTTP_HOST'] == $group->fair_domain) {
@@ -3412,11 +3436,11 @@ class PWE_Shortcodes {
     }
 
     public function show_trade_fair_exhibitor_generator_header_url() {
-        $lang = PWE_Functions::lang();
+        $lang = PWE_System_Functions::lang();
 
         $lang = ($lang === 'pl') ? 'pl' : 'en';
 
-        $cap_files = PWE_Functions::get_database_fairs_data_files();
+        $cap_files = PWE_System_Functions::get_database_fairs_data_files();
 
         $available = [];
 
@@ -3451,7 +3475,7 @@ class PWE_Shortcodes {
     }
 
     public function show_trade_fair_exhibitor_generator_badge_url() {
-        $cap_files = PWE_Functions::get_database_fairs_data_files();
+        $cap_files = PWE_System_Functions::get_database_fairs_data_files();
 
         $available = null;
 
@@ -3478,12 +3502,12 @@ class PWE_Shortcodes {
     public function sc_pwe_trade_fair_full_desc() {
         $domain = $_SERVER['HTTP_HOST'];
         $shortcodes_active = empty(get_option('pwe_general_options', [])['pwe_dp_shortcodes_unactive']);
-        $lang = strtolower(PWE_LANG);
+        $lang = PWE_System_Functions::lang();
 
         if (!function_exists('get_translated_field')) {
             function get_translated_field($fair, $field_base_name) {
                 // Get the language in the format e.g. "de", "pl"
-                $lang = strtolower(PWE_LANG); // "de"
+                $lang = PWE_System_Functions::lang(); // "de"
 
                 // Check if a specific translation exists (e.g. fair_name_{lang})
                 $field_with_lang = "{$field_base_name}_{$lang}";
@@ -3510,7 +3534,7 @@ class PWE_Shortcodes {
             }
         }
 
-        $translates = PWE_Functions::get_database_translations_data($domain);
+        $translates = PWE_System_Functions::get_database_translations_data($domain);
 
         $shortcode_full_desc = get_pwe_shortcode("pwe_full_desc_$lang", $domain);
         $shortcode_full_desc_available = check_available_pwe_shortcode($shortcodes_active, $shortcode_full_desc);
@@ -3528,7 +3552,7 @@ class PWE_Shortcodes {
     }
 
     public function sc_pwe_text_news() {
-        if (PWE_LANG == "pl") {
+        if (PWE_System_Functions::lang() == "pl") {
             return 'Bądź na bieżąco z wydarzeniami i nowościami związanymi z '. do_shortcode('[trade_fair_name]') .' '. do_shortcode('[trade_fair_catalog_year]') .'.';
         } else {
             return 'Stay up to date with events and news related to '. do_shortcode('[trade_fair_name_eng]') .' '. do_shortcode('[trade_fair_catalog_year]') .'.';
@@ -3536,7 +3560,7 @@ class PWE_Shortcodes {
     }
 
     public function sc_pwe_text_for_visitors() {
-        if (PWE_LANG == "pl") {
+        if (PWE_System_Functions::lang() == "pl") {
             return 'Sprawdź, dlaczego warto odwiedzić '. do_shortcode('[trade_fair_name]') .' '. do_shortcode('[trade_fair_catalog_year]') .' – znajdziesz tu najnowsze trendy, innowacje i inspirujące rozwiązania.';
         } else {
             return 'Check out why you should visit '. do_shortcode('[trade_fair_name_eng]') .' '. do_shortcode('[trade_fair_catalog_year]') .' – discover the latest trends, innovations, and inspiring solutions.';
@@ -3544,7 +3568,7 @@ class PWE_Shortcodes {
     }
 
     public function sc_pwe_text_for_exhibitors() {
-        if (PWE_LANG == "pl") {
+        if (PWE_System_Functions::lang() == "pl") {
             return 'Zdobądź nowych klientów i pokaż swoją markę na '. do_shortcode('[trade_fair_name]') .' '. do_shortcode('[trade_fair_catalog_year]') .'.';
         } else {
             return 'Gain new customers and showcase your brand at '. do_shortcode('[trade_fair_name_eng]') .' '. do_shortcode('[trade_fair_catalog_year]') .'.';
@@ -3552,7 +3576,7 @@ class PWE_Shortcodes {
     }
 
     public function sc_pwe_text_add_calendar() {
-        if (PWE_LANG == "pl") {
+        if (PWE_System_Functions::lang() == "pl") {
             return 'Nie przegap '. do_shortcode('[trade_fair_name]') .' '. do_shortcode('[trade_fair_catalog_year]').'! Dodaj wydarzenie do swojego kalendarza.';
         } else {
             return 'Don\'t miss '. do_shortcode('[trade_fair_name_eng]') .' '. do_shortcode('[trade_fair_catalog_year]').'! Add the event to your calendar.';
@@ -3560,7 +3584,7 @@ class PWE_Shortcodes {
     }
 
     public function sc_pwe_text_gallery() {
-        if (PWE_LANG == "pl") {
+        if (PWE_System_Functions::lang() == "pl") {
             return 'Zobacz galerię '. do_shortcode('[trade_fair_name]') .' – sprawdź jak wyglądają targi z perspektywy obiektywu.';
         } else {
             return 'See the gallery of '. do_shortcode('[trade_fair_name_eng]') .' – check out the fair through the lens of the camera.';
@@ -3568,7 +3592,7 @@ class PWE_Shortcodes {
     }
 
     public function sc_pwe_text_org_info() {
-        if (PWE_LANG == "pl") {
+        if (PWE_System_Functions::lang() == "pl") {
             return 'Wszystkie niezbędne informacje organizacyjne dla wystawców '. do_shortcode('[trade_fair_name]') .' '. do_shortcode('[trade_fair_catalog_year]') .'.';
         } else {
             return 'All necessary organizational information for exhibitors at '. do_shortcode('[trade_fair_name_eng]') .' '. do_shortcode('[trade_fair_catalog_year]') .'.';
@@ -3576,7 +3600,7 @@ class PWE_Shortcodes {
     }
 
     public function sc_pwe_text_exh_catalog() {
-        if (PWE_LANG == "pl") {
+        if (PWE_System_Functions::lang() == "pl") {
             return 'Poznaj firmy i marki obecne na '. do_shortcode('[trade_fair_name]') .' '. do_shortcode('[trade_fair_catalog_year]') .'.';
         } else {
             return 'Get to know the companies and brands present at '. do_shortcode('[trade_fair_name_eng]') .' '. do_shortcode('[trade_fair_catalog_year]') .'.';
@@ -3584,7 +3608,7 @@ class PWE_Shortcodes {
     }
 
     public function sc_pwe_text_events() {
-        if (PWE_LANG == "pl") {
+        if (PWE_System_Functions::lang() == "pl") {
             return 'Sprawdź wydarzenia towarzyszące '. do_shortcode('[trade_fair_name]') .' '. do_shortcode('[trade_fair_catalog_year]') .' – konferencje, prelekcje, spotkania.';
         } else {
             return 'Check out the events accompanying '. do_shortcode('[trade_fair_name_eng]') .' '. do_shortcode('[trade_fair_catalog_year]') .' – conferences, lectures, meetings.';
@@ -3592,7 +3616,7 @@ class PWE_Shortcodes {
     }
 
     public function sc_pwe_text_contact() {
-        if (PWE_LANG == "pl") {
+        if (PWE_System_Functions::lang() == "pl") {
             return 'Skontaktuj się z organizatorami '. do_shortcode('[trade_fair_name]') .' i uzyskaj potrzebne informacje o wydarzeniu.';
         } else {
             return 'Contact the organizers of '. do_shortcode('[trade_fair_name_eng]') .' to get the information you need about the event.';
@@ -3600,7 +3624,7 @@ class PWE_Shortcodes {
     }
 
     public function sc_pwe_text_fair_plan() {
-        if (PWE_LANG == "pl") {
+        if (PWE_System_Functions::lang() == "pl") {
             return 'Zobacz plan stoisk i atrakcji '. do_shortcode('[trade_fair_name]') .' '. do_shortcode('[trade_fair_catalog_year]') .'.';
         } else {
             return 'See the booth and attraction plan for '. do_shortcode('[trade_fair_name_eng]') .' '. do_shortcode('[trade_fair_catalog_year]') .'.';
@@ -3608,7 +3632,7 @@ class PWE_Shortcodes {
     }
 
     public function sc_pwe_text_registration() {
-        if (PWE_LANG == "pl") {
+        if (PWE_System_Functions::lang() == "pl") {
             return 'Zarejestruj się na '. do_shortcode('[trade_fair_name]') .' '. do_shortcode('[trade_fair_catalog_year]') .' i odbierz swój bilet na targi.';
         } else {
             return 'Register for '. do_shortcode('[trade_fair_name_eng]') .' '. do_shortcode('[trade_fair_catalog_year]') .' and get your ticket to the fair.';
@@ -3616,7 +3640,7 @@ class PWE_Shortcodes {
     }
 
     public function sc_pwe_text_promote_yourself() {
-        if (PWE_LANG == "pl") {
+        if (PWE_System_Functions::lang() == "pl") {
             return 'Zwiększ rozpoznawalność swojej marki – wypromuj się na '. do_shortcode('[trade_fair_name]') .' '. do_shortcode('[trade_fair_catalog_year]') .'.';
         } else {
             return 'Increase your brand visibility – promote yourself at '. do_shortcode('[trade_fair_name_eng]') .' '. do_shortcode('[trade_fair_catalog_year]') .'.';
@@ -3624,7 +3648,7 @@ class PWE_Shortcodes {
     }
 
     public function sc_pwe_text_become_an_exhibitor() {
-        if (PWE_LANG == "pl") {
+        if (PWE_System_Functions::lang() == "pl") {
             return 'Dołącz do grona wystawców '. do_shortcode('[trade_fair_name]') .' '. do_shortcode('[trade_fair_catalog_year]') .' i zaprezentuj swoją ofertę.';
         } else {
             return 'Join the exhibitors at '. do_shortcode('[trade_fair_name_eng]') .' '. do_shortcode('[trade_fair_catalog_year]') .' and present your offer.';
@@ -3632,7 +3656,7 @@ class PWE_Shortcodes {
     }
 
     public function sc_pwe_text_store() {
-        if (PWE_LANG == "pl") {
+        if (PWE_System_Functions::lang() == "pl") {
             return 'Zamów bilety lub pakiety promocyjne związane z '. do_shortcode('[trade_fair_name]') .' '. do_shortcode('[trade_fair_catalog_year]') .' w naszym sklepie online.';
         } else {
             return 'Order tickets or promotional packages related to '. do_shortcode('[trade_fair_name_eng]') .' '. do_shortcode('[trade_fair_catalog_year]') .' in our online store.';
@@ -3791,10 +3815,10 @@ class PWE_Shortcodes {
         }
 
         if (
-            class_exists('PWE_Functions') &&
-            is_callable(['PWE_Functions', 'lang'])
+            class_exists('PWE_System_Functions') &&
+            is_callable(['PWE_System_Functions', 'lang'])
         ) {
-            $lang = PWE_Functions::lang();
+            $lang = PWE_System_Functions::lang();
         } elseif (defined('PWE_LANG') && PWE_LANG) {
             $lang = PWE_LANG;
         } else {
@@ -3938,7 +3962,7 @@ class PWE_Shortcodes {
      *
      * Priority:
      * 1. The lang attribute passed to the shortcode.
-     * 2. PWE_Functions::lang().
+     * 2. PWE_System_Functions::lang().
      * 3. The PWE_LANG constant.
      * 4. The current WordPress locale.
      * 5. English.
@@ -3952,10 +3976,10 @@ class PWE_Shortcodes {
         if (!empty($requested_lang)) {
             $lang = $requested_lang;
         } elseif (
-            class_exists('PWE_Functions') &&
-            is_callable(['PWE_Functions', 'lang'])
+            class_exists('PWE_System_Functions') &&
+            is_callable(['PWE_System_Functions', 'lang'])
         ) {
-            $lang = PWE_Functions::lang();
+            $lang = PWE_System_Functions::lang();
         } elseif (defined('PWE_LANG') && PWE_LANG) {
             $lang = PWE_LANG;
         } else {
@@ -4243,10 +4267,10 @@ class PWE_Shortcodes {
 
             // Use the main project language helper when available
             if (
-                class_exists('PWE_Functions') &&
-                is_callable(['PWE_Functions', 'lang'])
+                class_exists('PWE_System_Functions') &&
+                is_callable(['PWE_System_Functions', 'lang'])
             ) {
-                $lang = PWE_Functions::lang();
+                $lang = PWE_System_Functions::lang();
             } elseif (defined('PWE_LANG') && PWE_LANG) {
                 $lang = PWE_LANG;
             } elseif (function_exists('determine_locale')) {
@@ -4319,10 +4343,10 @@ class PWE_Shortcodes {
             }
             // Use the main project language helper when available
             elseif (
-                class_exists('PWE_Functions') &&
-                is_callable(['PWE_Functions', 'lang'])
+                class_exists('PWE_System_Functions') &&
+                is_callable(['PWE_System_Functions', 'lang'])
             ) {
-                $lang = PWE_Functions::lang();
+                $lang = PWE_System_Functions::lang();
             } elseif (defined('PWE_LANG') && PWE_LANG) {
                 $lang = PWE_LANG;
             } elseif (function_exists('determine_locale')) {
@@ -4379,7 +4403,29 @@ class PWE_Shortcodes {
             return $default_header_url;
         }
     }
+    
+    
+    public function show_yoast_trade_fair_desc() {
+        $lang = strtolower(trim((string) PWE_System_Functions::lang()));
+        $lang = substr(str_replace('_', '-', $lang), 0, 2);
 
+        if ($lang === 'pl') {
+            return $this->show_trade_fair_desc();
+        }
+
+        if ($lang === 'en') {
+            return $this->show_trade_fair_desc_eng();
+        }
+
+        $shortcode = 'pwe_desc_' . $lang;
+
+        if (shortcode_exists($shortcode)) {
+            $value = trim((string) do_shortcode('[' . $shortcode . ']'));
+            if ($value !== '') return $value;
+        }
+
+        return $this->show_trade_fair_desc_eng();
+    }
 }
 
 PWE_Shortcodes::init();

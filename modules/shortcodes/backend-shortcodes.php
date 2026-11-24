@@ -4,147 +4,112 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Retrieve fair data for the requested domain.
+ *
+ * Database getters manage their own persistent caches.
+ */
 function get_fair_data($specific_domain = null) {
-    // Stores data so it doesn't need to be fetched every time
-    static $cached_data = null;
+    // Resolve the domain before selecting database records.
+    $current_domain = $specific_domain ?: ($_SERVER['HTTP_HOST'] ?? '');
+
+    if ($current_domain === '') {
+        $current_domain = parse_url(home_url(), PHP_URL_HOST) ?: '';
+    }
+
+    $current_domain = preg_replace(
+        '/^www\./i',
+        '',
+        strtolower(trim((string) $current_domain))
+    );
+
+    if ($current_domain === '') {
+        return null;
+    }
+
+    // Keep a separate request cache for each requested domain.
+    static $cached_domains = [];
+
+    if (!array_key_exists($current_domain, $cached_domains)) {
+        $cached_domains[$current_domain] = null;
+    }
+
+    $cached_data =& $cached_domains[$current_domain];
 
     if ($cached_data === null) {
-        // Get data from pwefunctions.php
-        $pwe_fairs = PWE_Functions::get_database_fairs_data();
-        $pwe_fairs_desc_translations = PWE_Functions::get_database_translations_data();
+        // Fetch records directly by domain, without the calendar date window.
+        $pwe_fairs = PWE_Functions::get_database_fairs_data($current_domain);
 
-        static $console_logged = false;
+        // Cache empty results to avoid repeated processing in this request.
+        if (empty($pwe_fairs) || !is_array($pwe_fairs)) {
+            $cached_data = [];
+            return null;
+        }
 
-        // Check if data is already in global variable
-        if (!empty($pwe_fairs) && is_array($pwe_fairs)) {
-            global $fairs_data;
-            $fairs_data = ["fairs" => []];
+        $pwe_fairs_desc_translations =
+            PWE_Functions::get_database_translations_data($current_domain);
 
-            // Add data about the fair
-            foreach ($pwe_fairs as $fair) {
-                if (!isset($fair->fair_domain) || empty($fair->fair_domain)) {
-                    continue;
-                }
+        global $fairs_data;
+        $fairs_data = ['fairs' => []];
 
-                $domain = $fair->fair_domain;
-
-                // Save data about the fair in the table
-                $fairs_data["fairs"][$domain] = PWE_Functions::generate_fair_data($fair);
+        // Build the base fair records.
+        foreach ($pwe_fairs as $fair) {
+            if (empty($fair->fair_domain)) {
+                continue;
             }
 
-            // Add translations to the fair data
-            foreach ($pwe_fairs_desc_translations as $translation) {
-                if (!isset($translation['fair_domain']) || empty($translation['fair_domain'])) {
-                    continue;
-                }
+            $domain = $fair->fair_domain;
 
-                $domain = $translation['fair_domain'];
+            $fairs_data['fairs'][$domain] =
+                PWE_Functions::generate_fair_data($fair);
+        }
 
-                $translation_data = PWE_Functions::generate_fair_translation_data($translation);
-
-                // Merge data
-                if (isset($fairs_data["fairs"][$domain])) {
-                    $fairs_data["fairs"][$domain] = array_merge(
-                        $fairs_data["fairs"][$domain],
-                        $translation_data
-                    );
-                }
+        // Merge translated fields into the matching fair records.
+        foreach ($pwe_fairs_desc_translations as $translation) {
+            if (empty($translation['fair_domain'])) {
+                continue;
             }
 
-            // $current_user = wp_get_current_user();
-            // if ($current_user && $current_user->user_login === 'Anton') {
-            //     echo '<pre>';
-            //     var_dump($fairs_data["fairs"]['mr.glasstec.pl']);
-            //     echo '</pre>';
-            // }
-        } else {
-            // URL to JSON file
-            $json_file = 'https://mr.glasstec.pl/doc/pwe-data.json';
+            $domain = $translation['fair_domain'];
 
-            $context = stream_context_create([
-                'http' => [
-                    'method'  => 'GET',
-                    'timeout' => 2,
-                    'header'  => [
-                        "User-Agent: Mozilla/5.0\r\n",
-                        "Accept: application/json\r\n"
-                    ],
-                    'ignore_errors' => true
-                ],
-                'ssl' => [
-                    'verify_peer' => true,
-                    'verify_peer_name' => true,
-                ]
-            ]);
-
-            // Getting data from JSON file
-            $json_data = @file_get_contents($json_file, false, $context); // Use @ to ignore PHP warnings on failure
-
-            // Checking if data has been downloaded
-            if ($json_data === false) {
-                if (current_user_can("administrator") && !is_admin()) {
-                    echo '<script>console.error("Failed to fetch data from JSON file: ' . $json_file . '")</script>';
-                }
-                return null;
+            if (!isset($fairs_data['fairs'][$domain])) {
+                continue;
             }
 
-            global $fairs_data;
-            // Decoding JSON data
-            $fairs_data = json_decode($json_data, true);
+            $translation_data =
+                PWE_Functions::generate_fair_translation_data($translation);
 
-            // Checking JSON decoding correctness
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                if (current_user_can("administrator") && !is_admin()) {
-                    echo '<script>console.error("Error decoding JSON: ' . json_last_error_msg() . '")</script>';
-                }
-                return null;
-            }
-
-            // Checking if the data has the correct structure
-            if (!isset($fairs_data['fairs']) || !is_array($fairs_data['fairs'])) {
-                if (current_user_can("administrator") && !is_admin()) {
-                    echo '<script>console.error("Invalid fairs data format in JSON file.")</script>';
-                }
-                return null;
-            }
-
-            if (!$console_logged) {
-                if (current_user_can("administrator") && !is_admin()) {
-                    echo '<script>console.error("Brak danych o targach w globalnej zmiennej (dane CAP DB), dane są pobrane z pwe-data.json")</script>';
-                }
-                $console_logged = true;
-            }
+            $fairs_data['fairs'][$domain] = array_merge(
+                $fairs_data['fairs'][$domain],
+                $translation_data
+            );
         }
 
         $cached_data = [];
 
-        // Transform the data into an associative array for faster access
+        // Normalize domain keys consistently with the lookup domain.
         foreach ($fairs_data['fairs'] as $fair) {
-            if (!isset($fair['domain']) || empty($fair['domain'])) {
+            if (empty($fair['domain'])) {
                 continue;
             }
-            $cached_data[$fair['domain']] = $fair;
+
+            $domain_key = preg_replace(
+                '/^www\./i',
+                '',
+                strtolower(trim((string) $fair['domain']))
+            );
+
+            $cached_data[$domain_key] = $fair;
         }
     }
 
-    // Domain definition
-    if ($specific_domain) {
-        $current_domain = $specific_domain;
-    } else {
-        $host = $_SERVER['HTTP_HOST'] ?? '';
-        if (empty($host)) {
-            // CRON/CLI – weź hosta z ustawień WP
-            $host = parse_url(home_url(), PHP_URL_HOST) ?: '';
-        }
-        $current_domain = $host;
-    }
-
-    // Return data or null if domain does not exist in data
-    return $current_domain && isset($cached_data[$current_domain]) ? $cached_data[$current_domain] : null;
+    return $cached_data[$current_domain] ?? null;
 }
 
+/**
+ * Map shortcode names to fair data fields.
+ */
 function pwe_get_shortcode_map() {
-
     $shortcodes = [
         'pwe_name_pl'               => 'name_pl',
         'pwe_name_en'               => 'name_en',
@@ -204,9 +169,8 @@ function pwe_get_shortcode_map() {
         'pwe_available_languages'   => 'available_languages',
     ];
 
-    // WPML languages
+    // Use active WPML languages when available.
     $languages = apply_filters('wpml_active_languages', null);
-
     $langs = [];
 
     if (!empty($languages) && is_array($languages)) {
@@ -220,10 +184,25 @@ function pwe_get_shortcode_map() {
             $langs[] = $code;
         }
     } else {
-        $langs = ['cs','de','it','lt','lv','ru','sk','uk','et','es','fr','ro','hu','nl'];
+        $langs = [
+            'cs',
+            'de',
+            'it',
+            'lt',
+            'lv',
+            'ru',
+            'sk',
+            'uk',
+            'et',
+            'es',
+            'fr',
+            'ro',
+            'hu',
+            'nl',
+        ];
     }
 
-    // Dynamic fields
+    // Register language-specific field mappings.
     foreach ($langs as $code) {
         $shortcodes["pwe_name_{$code}"] = "name_{$code}";
         $shortcodes["pwe_desc_{$code}"] = "desc_{$code}";
@@ -240,8 +219,9 @@ function pwe_get_shortcode_map() {
 }
 
 /**
- * Language-specific fair name phrase for email templates.
- * The {name} placeholder may appear before or after the fair descriptor.
+ * Return a language-specific fair name template.
+ *
+ * The {name} placeholder may precede or follow the fair descriptor.
  */
 function pwe_fair_name_label($lang) {
     $templates = [
@@ -263,106 +243,180 @@ function pwe_fair_name_label($lang) {
         'nl' => 'De {name} beurs',
     ];
 
-    $lang = strtolower(substr(str_replace('_', '-', trim((string) $lang)), 0, 2));
+    $lang = strtolower(
+        substr(str_replace('_', '-', trim((string) $lang)), 0, 2)
+    );
+
     return $templates[$lang] ?? $templates['en'];
 }
 
 /**
- * Remove a fair descriptor already included at the beginning or end of a name.
- * Exact edge phrases only: do not remove words occurring inside event names.
+ * Remove a fair descriptor from the beginning or end of a name.
+ *
+ * Words occurring inside the event name remain unchanged.
  */
 function pwe_strip_label($name) {
     $name = trim((string) $name);
+
     $labels = [
-        'Trade fairs', 'Trade fair', 'The fair', 'Fair', 'Targi',
-        'Die Messe', 'Messe', 'Veletrh', 'Veľtrh',
-        'La feria', 'Feria', 'Mess', 'Le salon', 'Salon',
-        'La fiera', 'Fiera', 'Paroda', 'Izstāde',
-        'Târgul', 'Târg', 'Виставка', 'Выставка', 'Vásár', 'De', 'Beurs', 
+        'Trade fairs',
+        'Trade fair',
+        'The fair',
+        'Fair',
+        'Targi',
+        'Die Messe',
+        'Messe',
+        'Veletrh',
+        'Veľtrh',
+        'La feria',
+        'Feria',
+        'Mess',
+        'Le salon',
+        'Salon',
+        'La fiera',
+        'Fiera',
+        'Paroda',
+        'Izstāde',
+        'Târgul',
+        'Târg',
+        'Виставка',
+        'Выставка',
+        'Vásár',
+        'De',
+        'Beurs',
     ];
 
     usort($labels, static function ($a, $b) {
         return strlen($b) <=> strlen($a);
     });
+
     $escaped = array_map(static function ($label) {
         return preg_quote($label, '/');
     }, $labels);
+
     $alternatives = implode('|', $escaped);
 
-    // Multiple iterations handle doubled forms such as "Targi Targi Rehabilitacji".
+    // Multiple passes handle repeated descriptors.
     for ($i = 0; $i < 3; $i++) {
-        $updated = preg_replace('/^(?:' . $alternatives . ')(?:\s+|\s*[:\-–]\s*)/iu', '', $name, 1);
+        $updated = preg_replace(
+            '/^(?:' . $alternatives . ')(?:\s+|\s*[:\-–]\s*)/iu',
+            '',
+            $name,
+            1
+        );
+
         if ($updated !== $name) {
             $name = trim($updated);
             continue;
         }
-        $updated = preg_replace('/\s+(?:' . $alternatives . ')$/iu', '', $name, 1);
+
+        $updated = preg_replace(
+            '/\s+(?:' . $alternatives . ')$/iu',
+            '',
+            $name,
+            1
+        );
+
         if ($updated !== $name) {
             $name = trim($updated);
             continue;
         }
+
         break;
     }
+
     return $name;
 }
 
+/**
+ * Register shortcodes backed by fair data.
+ */
 function register_dynamic_shortcodes() {
     $shortcodes = pwe_get_shortcode_map();
 
     foreach ($shortcodes as $shortcode => $field) {
         add_shortcode($shortcode, function ($atts) use ($shortcode, $field) {
-            $atts = shortcode_atts([
-                'domain' => null,
-                'label' => '0',
-            ], $atts, $shortcode);
+            $atts = shortcode_atts(
+                [
+                    'domain' => null,
+                    'label'  => '0',
+                ],
+                $atts,
+                $shortcode
+            );
 
             $fair_data = get_fair_data($atts['domain']);
             $value = $fair_data[$field] ?? '';
 
-            // Existing shortcodes remain unchanged unless explicitly enabled.
-            if (!preg_match('/^pwe_name_([a-z]{2})$/', $shortcode, $matches)
-                || !in_array(strtolower((string) $atts['label']), ['targi_targi', 'true', 'yes'], true)
-                || !is_string($value) || trim($value) === '') {
+            // Add a fair descriptor only when explicitly requested.
+            if (
+                !preg_match('/^pwe_name_([a-z]{2})$/', $shortcode, $matches)
+                || !in_array(
+                    strtolower((string) $atts['label']),
+                    ['targi_targi', 'true', 'yes'],
+                    true
+                )
+                || !is_string($value)
+                || trim($value) === ''
+            ) {
                 return $value;
             }
 
             $name = pwe_strip_label($value);
+
             if ($name === '') {
                 return $value;
             }
 
-            return str_replace('{name}', $name, pwe_fair_name_label($matches[1]));
+            return str_replace(
+                '{name}',
+                $name,
+                pwe_fair_name_label($matches[1])
+            );
         });
     }
 }
 
 add_action('init', 'register_dynamic_shortcodes');
 
-add_filter('gform_replace_merge_tags', 'PWE_GF_shortcodes', 10, 7);
-
-function PWE_GF_shortcodes($text, $form, $entry, $url_encode, $esc_html, $nl2br, $format) {
-
-    // Shortcode list => field in fair data
+/**
+ * Replace Gravity Forms merge tags with fair data.
+ *
+ * Supported syntax:
+ * {pwe_name_pl}
+ * {pwe_name_pl:domain=example.com}
+ */
+function PWE_GF_shortcodes(
+    $text,
+    $form,
+    $entry,
+    $url_encode,
+    $esc_html,
+    $nl2br,
+    $format
+) {
     $shortcode_map = pwe_get_shortcode_map();
 
-    // Searching for tags {pwe_xxx} and {pwe_xxx:domain=yyy}
-    preg_match_all('/\{(pwe_[a-z0-9_]+)(:domain=([^}]+))?\}/i', $text, $matches, PREG_SET_ORDER);
+    preg_match_all(
+        '/\{(pwe_[a-z0-9_]+)(:domain=([^}]+))?\}/i',
+        $text,
+        $matches,
+        PREG_SET_ORDER
+    );
 
     if (!$matches) {
         return $text;
     }
 
     foreach ($matches as $match) {
-
-        $full_tag = $match[0];     // {pwe_instagram:domain=domain.pl}
-        $tag_name = $match[1];     // pwe_instagram
-        $domain   = $match[3] ?? null;
+        $full_tag = $match[0];
+        $tag_name = $match[1];
+        $domain = $match[3] ?? null;
 
         if (!isset($shortcode_map[$tag_name])) {
             continue;
         }
 
-        // Get trade fair data
         $fair_data = get_fair_data($domain);
 
         if (!$fair_data || !is_array($fair_data)) {
@@ -378,3 +432,5 @@ function PWE_GF_shortcodes($text, $form, $entry, $url_encode, $esc_html, $nl2br,
 
     return $text;
 }
+
+add_filter('gform_replace_merge_tags', 'PWE_GF_shortcodes', 10, 7);
