@@ -405,214 +405,375 @@ trait PWE_System_Functions_Database_Data {
     private static $translations_cache = [];
 
     /**
-     * Fetch translated fair records from CAP.
+     * Fetch translated fair records by domain or calendar date window.
+     *
+     * The warsawexpo.eu host and the "all" argument select all fairs.
+     * An explicit domain selects that domain without date restrictions.
+     * No argument selects fairs within the current fair's +/-17-day window.
      */
     public static function get_database_translations_data($fair_domain = null): array {
+        // Resolve the current domain, including cron and CLI requests.
+        $current_domain = $_SERVER['HTTP_HOST'] ?? '';
 
-        // Cache key.
-        $cache_key = $fair_domain ?? 'all';
+        if ($current_domain === '') {
+            $current_domain = parse_url(home_url(), PHP_URL_HOST) ?: '';
+        }
 
-        // STATIC cache.
-        if (!self::$database_cache_force_refresh && isset(self::$translations_cache[$cache_key])) {
-            self::debug_log(__FUNCTION__ . ': STATIC → key=' . $cache_key);
+        $current_domain = preg_replace(
+            '/^www\./i',
+            '',
+            strtolower(trim((string) $current_domain))
+        );
+
+        // Separate complete, domain-specific and calendar-window caches.
+        if ($current_domain === 'warsawexpo.eu' || $fair_domain === 'all') {
+            $cache_key = 'all_fairs';
+        } elseif ($fair_domain !== null) {
+            $cache_key = $fair_domain;
+        } else {
+            $cache_key = 'month:' . $current_domain;
+        }
+
+        // Read the request cache.
+        if (
+            !self::$database_cache_force_refresh
+            && isset(self::$translations_cache[$cache_key])
+        ) {
+            self::debug_log(
+                __FUNCTION__ . ': data from STATIC → key=' . $cache_key
+            );
+
             return self::$translations_cache[$cache_key];
         }
 
-        // Transient.
         $transient_key = 'pwe_translations_' . md5($cache_key);
 
-        // Transient cache: preferred persistent cache before JSON.
-        $cached = self::$database_cache_force_refresh ? false : get_transient($transient_key);
+        // Read the transient before the persistent JSON cache.
+        $cached = self::$database_cache_force_refresh
+            ? false
+            : get_transient($transient_key);
 
         if ($cached !== false) {
             $timeout = get_option('_transient_timeout_' . $transient_key);
-            $time_left_str = ($timeout !== false) ? gmdate('H:i:s', max($timeout - time(), 0)) : 'unknown';
+
+            $time_left_str = $timeout !== false
+                ? gmdate('H:i:s', max($timeout - time(), 0))
+                : 'unknown';
+
             self::$translations_cache[$cache_key] = $cached;
-            self::debug_log(__FUNCTION__ . ': data from TRANSIENT → key=' . $cache_key . ', expires in ' . $time_left_str);
+
+            self::debug_log(
+                __FUNCTION__
+                . ': data from TRANSIENT → key=' . $cache_key
+                . ', expires in ' . $time_left_str
+            );
+
             return $cached;
         }
 
-        // JSON file cache: fallback after transient.
+        // Read the persistent JSON cache.
         if (!self::$database_cache_force_refresh) {
-            $file_cached = self::read_database_json_cache(__FUNCTION__, $cache_key);
+            $file_cached = self::read_database_json_cache(
+                __FUNCTION__,
+                $cache_key
+            );
+
             if ($file_cached['hit']) {
                 $results = $file_cached['data'];
+
                 set_transient($transient_key, $results, 3600);
+
                 self::$translations_cache[$cache_key] = $results;
-                self::debug_log(__FUNCTION__ . ': data from JSON FILE → key=' . $cache_key);
+
+                self::debug_log(
+                    __FUNCTION__ . ': data from JSON FILE → key=' . $cache_key
+                );
+
                 return $results;
             }
         }
 
-
-        // Log transient timeout.
-        $timeout = get_option('_transient_timeout_' . $transient_key);
-        if ($timeout !== false) {
-            $time_left = $timeout - time();
-            $time_left_str = gmdate('H:i:s', max($time_left, 0));
-        } else {
-            $time_left_str = 'unknown';
-        }
-
-
-
-        // Connect DB.
+        // Connect only when the caches do not provide a result.
         $cap_db = self::connect_database();
+
         if (!$cap_db) {
-            if ($cached !== false) {
-                set_transient($transient_key, $cached, 3600);
-                self::debug_log(__FUNCTION__ . ': NO DB connection → using last TRANSIENT and extending 65min → key=' . $cache_key, 'error');
-                self::$translations_cache[$cache_key] = $cached;
-                return $cached;
-            }
-            self::debug_log(__FUNCTION__ . ': NO DB connection and no TRANSIENT → returning empty → key=' . $cache_key, 'error');
+            self::debug_log(
+                __FUNCTION__
+                . ': NO DB connection and no cache → returning empty → key='
+                . $cache_key,
+                'error'
+            );
+
             self::$translations_cache[$cache_key] = [];
+
             return [];
         }
 
-        // Fetch fairs, additional fields and translations independently.
-        // Joining both one-to-many tables multiplies result rows and memory use.
         $start_time = microtime(true);
-        $where = $fair_domain !== null ? ' WHERE f.fair_domain = %s' : '';
 
+        // Build one selection condition shared by all three queries.
+        $scope_sql = '';
+        $scope_params = [];
+
+        if ($current_domain === 'warsawexpo.eu' || $fair_domain === 'all') {
+            // Leave the queries unfiltered by domain or date.
+        } elseif ($fair_domain !== null) {
+            $scope_sql = 'f.fair_domain = %s';
+            $scope_params[] = $fair_domain;
+        } else {
+            $current_fair = $cap_db->get_row(
+                $cap_db->prepare(
+                    "SELECT fair_date_start, fair_date_end
+                    FROM fairs
+                    WHERE fair_domain = %s
+                    LIMIT 1",
+                    $current_domain
+                )
+            );
+
+            // A failed lookup must not trigger an unfiltered query.
+            if ($cap_db->last_error) {
+                self::debug_log(
+                    __FUNCTION__
+                    . ': date lookup SQL error: '
+                    . addslashes($cap_db->last_error),
+                    'error'
+                );
+
+                self::$translations_cache[$cache_key] = [];
+
+                return [];
+            }
+
+            if (
+                $current_fair
+                && !empty($current_fair->fair_date_start)
+                && !empty($current_fair->fair_date_end)
+            ) {
+                $start = date(
+                    'Y/m/d',
+                    strtotime($current_fair->fair_date_start . ' -17 days')
+                );
+
+                $end = date(
+                    'Y/m/d',
+                    strtotime($current_fair->fair_date_end . ' +17 days')
+                );
+
+                $scope_sql = '
+                    f.fair_date_start >= %s
+                    AND f.fair_date_end <= %s
+                ';
+
+                $scope_params[] = $start;
+                $scope_params[] = $end;
+            }
+
+            // Match the fairs getter: missing dates leave queries unfiltered.
+        }
+
+        $where = $scope_sql !== ''
+            ? ' WHERE ' . $scope_sql
+            : '';
+
+        // Fetch base records separately to avoid multiplying joined rows.
         $fairs_sql = "
             SELECT
-                f.id, f.fair_domain,
-                f.fair_name_pl, f.fair_desc_pl, f.fair_short_desc_pl, f.fair_full_desc_pl,
-                f.fair_name_en, f.fair_desc_en, f.fair_short_desc_en, f.fair_full_desc_en
-            FROM fairs f" . $where;
-        $fairs_rows = $fair_domain !== null
-            ? $cap_db->get_results($cap_db->prepare($fairs_sql, $fair_domain))
+                f.id,
+                f.fair_domain,
+                f.fair_name_pl,
+                f.fair_desc_pl,
+                f.fair_short_desc_pl,
+                f.fair_full_desc_pl,
+                f.fair_name_en,
+                f.fair_desc_en,
+                f.fair_short_desc_en,
+                f.fair_full_desc_en
+            FROM fairs f
+        " . $where;
+
+        $fairs_rows = !empty($scope_params)
+            ? $cap_db->get_results(
+                $cap_db->prepare($fairs_sql, ...$scope_params)
+            )
             : $cap_db->get_results($fairs_sql);
 
         if ($cap_db->last_error || !is_array($fairs_rows)) {
-            self::debug_log(__FUNCTION__ . ': fairs SQL error: ' . addslashes($cap_db->last_error), 'error');
-            if ($cached !== false) {
-                set_transient($transient_key, $cached, 3600);
-                self::$translations_cache[$cache_key] = $cached;
-                return $cached;
-            }
+            self::debug_log(
+                __FUNCTION__
+                . ': fairs SQL error: '
+                . addslashes($cap_db->last_error),
+                'error'
+            );
+
             self::$translations_cache[$cache_key] = [];
+
             return [];
         }
 
         $results = [];
+
         foreach ($fairs_rows as $row) {
             $results[$row->id] = [
-                'fair_domain' => $row->fair_domain,
-                'fair_name_pl' => $row->fair_name_pl,
-                'fair_desc_pl' => $row->fair_desc_pl,
+                'fair_domain'        => $row->fair_domain,
+                'fair_name_pl'       => $row->fair_name_pl,
+                'fair_desc_pl'       => $row->fair_desc_pl,
                 'fair_short_desc_pl' => $row->fair_short_desc_pl,
-                'fair_full_desc_pl' => $row->fair_full_desc_pl,
+                'fair_full_desc_pl'  => $row->fair_full_desc_pl,
+                'fair_name_en'       => $row->fair_name_en,
+                'fair_desc_en'       => $row->fair_desc_en,
                 'fair_short_desc_en' => $row->fair_short_desc_en,
-                'fair_name_en' => $row->fair_name_en,
-                'fair_desc_en' => $row->fair_desc_en,
-                'fair_full_desc_en' => $row->fair_full_desc_en,
+                'fair_full_desc_en'  => $row->fair_full_desc_en,
             ];
         }
+
         unset($fairs_rows, $row);
         $cap_db->flush();
 
+        // Fetch additional fields using the same domain or date condition.
         $adds_fields = [
-            'category_pl', 'category_en',
-            'about_title_pl', 'about_title_en',
-            'about_desc_pl', 'about_desc_en',
-            'konf_title_pl', 'konf_title_en',
-            'konf_desc_pl', 'konf_desc_en',
+            'category_pl',
+            'category_en',
+            'about_title_pl',
+            'about_title_en',
+            'about_desc_pl',
+            'about_desc_en',
+            'konf_title_pl',
+            'konf_title_en',
+            'konf_desc_pl',
+            'konf_desc_en',
         ];
-        $placeholders = implode(', ', array_fill(0, count($adds_fields), '%s'));
+
+        $placeholders = implode(
+            ', ',
+            array_fill(0, count($adds_fields), '%s')
+        );
+
         $adds_sql = "
             SELECT fa.fair_id, fa.slug, fa.data
             FROM fair_adds fa
             INNER JOIN fairs f ON f.id = fa.fair_id
-            WHERE fa.slug IN ($placeholders)";
+            WHERE fa.slug IN ($placeholders)
+        ";
+
         $adds_params = $adds_fields;
-        if ($fair_domain !== null) {
-            $adds_sql .= ' AND f.fair_domain = %s';
-            $adds_params[] = $fair_domain;
+
+        if ($scope_sql !== '') {
+            $adds_sql .= ' AND ' . $scope_sql;
+            $adds_params = array_merge($adds_params, $scope_params);
         }
-        $adds_rows = $cap_db->get_results($cap_db->prepare($adds_sql, ...$adds_params));
+
+        $adds_rows = $cap_db->get_results(
+            $cap_db->prepare($adds_sql, ...$adds_params)
+        );
 
         if ($cap_db->last_error || !is_array($adds_rows)) {
-            self::debug_log(__FUNCTION__ . ': adds SQL error: ' . addslashes($cap_db->last_error), 'error');
+            self::debug_log(
+                __FUNCTION__
+                . ': adds SQL error: '
+                . addslashes($cap_db->last_error),
+                'error'
+            );
+
             self::$translations_cache[$cache_key] = [];
+
             return [];
         }
+
         foreach ($adds_rows as $row) {
             if (isset($results[$row->fair_id])) {
                 $results[$row->fair_id][$row->slug] = $row->data;
             }
         }
+
         unset($adds_rows, $row);
         $cap_db->flush();
 
+        // Fetch translations using the same domain or date condition.
         $translations_sql = "
             SELECT t.fair_id, t.language, t.translation
             FROM translations t
-            INNER JOIN fairs f ON f.id = t.fair_id" . $where;
-        $translations_rows = $fair_domain !== null
-            ? $cap_db->get_results($cap_db->prepare($translations_sql, $fair_domain))
+            INNER JOIN fairs f ON f.id = t.fair_id
+        " . $where;
+
+        $translations_rows = !empty($scope_params)
+            ? $cap_db->get_results(
+                $cap_db->prepare($translations_sql, ...$scope_params)
+            )
             : $cap_db->get_results($translations_sql);
 
         if ($cap_db->last_error || !is_array($translations_rows)) {
-            self::debug_log(__FUNCTION__ . ': translations SQL error: ' . addslashes($cap_db->last_error), 'error');
+            self::debug_log(
+                __FUNCTION__
+                . ': translations SQL error: '
+                . addslashes($cap_db->last_error),
+                'error'
+            );
+
             self::$translations_cache[$cache_key] = [];
+
             return [];
         }
 
         $translation_fields = [
-            'fair_name', 'fair_desc', 'fair_short_desc', 'fair_full_desc',
-            'category', 'about_title', 'about_desc', 'konf_title', 'konf_desc',
+            'fair_name',
+            'fair_desc',
+            'fair_short_desc',
+            'fair_full_desc',
+            'category',
+            'about_title',
+            'about_desc',
+            'konf_title',
+            'konf_desc',
         ];
+
         foreach ($translations_rows as $row) {
-            if (!isset($results[$row->fair_id]) || empty($row->translation)) {
+            if (
+                !isset($results[$row->fair_id])
+                || empty($row->translation)
+            ) {
                 continue;
             }
+
             $lang = strtolower((string) $row->language);
             $data = json_decode($row->translation, true);
+
             if (!is_array($data)) {
                 continue;
             }
+
             foreach ($translation_fields as $field) {
                 if (isset($data[$field])) {
-                    $results[$row->fair_id]["{$field}_$lang"] = $data[$field];
+                    $results[$row->fair_id]["{$field}_{$lang}"] = $data[$field];
                 }
             }
         }
+
         unset($translations_rows, $row, $data);
         $cap_db->flush();
 
         $time = round((microtime(true) - $start_time) * 1000, 2);
         $results = array_values($results);
 
-        // WPML languages.
-        $languages = apply_filters('wpml_active_languages', null);
+        // Preserve the original arguments for automatic cron refresh.
+        self::write_database_json_cache(
+            __FUNCTION__,
+            $cache_key,
+            $results,
+            [$fair_domain]
+        );
 
-        $langs = [];
-
-        if (!empty($languages) && is_array($languages)) {
-
-            foreach ($languages as $lang) {
-                $code = $lang['language_code'];
-
-                // Ignore base languages.
-                if (in_array($code, ['pl', 'en'], true)) {
-                    continue;
-                }
-
-                $langs[] = $code;
-            }
-
-        } else {
-            // Fallback only when WPML is not available.
-            $langs = ['cs','de','it','lt','lv','ru','sk','uk'];
-        }
-
-        // Save transient + STATIC cache.
-        self::write_database_json_cache(__FUNCTION__, $cache_key, $results, [$fair_domain]);
         set_transient($transient_key, $results, 3600);
+
         self::$translations_cache[$cache_key] = $results;
-        self::debug_log(__FUNCTION__ . ': data from database DIRECTLY (SQL time ' . $time . 'ms) → key=' . $cache_key . ', host=' . $cap_db->dbhost . ' [' . gethostname() . '] and saved to TRANSIENT.');
+
+        self::debug_log(
+            __FUNCTION__
+            . ': data from database DIRECTLY (SQL time ' . $time . 'ms)'
+            . ' → key=' . $cache_key
+            . ', host=' . $cap_db->dbhost
+            . ' [' . gethostname() . '] and saved to TRANSIENT.'
+        );
 
         return $results;
     }
